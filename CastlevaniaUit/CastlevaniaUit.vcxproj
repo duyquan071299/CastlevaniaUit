@@ -152,7 +152,11 @@
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="GlobalObject.h" />
+    <ClInclude Include="IntroScene.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SpriteFactory.h" />
+    <ClInclude Include="Sprites.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CastlevaniaUit.rc" />
@@ -164,7 +168,11 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GlobalObject.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SpriteFactory.cpp" />
+    <ClCompile Include="Sprites.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

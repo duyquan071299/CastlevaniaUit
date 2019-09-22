@@ -16,6 +16,12 @@
     <Filter Include="Game Components">
       <UniqueIdentifier>{38adddb5-e552-4e07-b5f4-bcb04a75bee5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Graphics">
+      <UniqueIdentifier>{79c71a3e-b695-4c26-8107-1ae31a963743}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Scene">
+      <UniqueIdentifier>{1fef1194-328d-43c6-b6f8-c04a88216624}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -26,6 +32,18 @@
     </ClInclude>
     <ClInclude Include="GlobalObject.h">
       <Filter>Game Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Game Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroScene.h">
+      <Filter>Game Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprites.h">
+      <Filter>Game Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteFactory.h">
+      <Filter>Game Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +68,18 @@
     </ClCompile>
     <ClCompile Include="GlobalObject.cpp">
       <Filter>Game Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Game Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroScene.cpp">
+      <Filter>Game Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprites.cpp">
+      <Filter>Game Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteFactory.cpp">
+      <Filter>Game Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

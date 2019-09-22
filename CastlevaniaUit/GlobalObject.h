@@ -16,3 +16,18 @@
 #define MAX_FRAME_RATE 120
 #define KEYBOARD_BUFFER_SIZE 1024
 
+
+//enum for sprite
+extern enum SpriteType
+{
+	PLAYER,
+	ITEM,
+	WEAPON,
+	GROUND,
+	MAP,
+	FONT,
+	ENEMY,
+	HOLDER,
+	INTROSCENE,
+};
+
