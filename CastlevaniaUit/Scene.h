@@ -1,7 +1,9 @@
 #pragma once
+#include"SimonSprites.h"
 #include"GlobalObject.h"
 class CScene
 {
+public:
 	CScene() {};
 	virtual void Loadresources() {};
 	virtual int isKeyDown(int KeyCode) {};

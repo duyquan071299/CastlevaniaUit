@@ -22,6 +22,15 @@
     <Filter Include="Game Scene">
       <UniqueIdentifier>{1fef1194-328d-43c6-b6f8-c04a88216624}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Object">
+      <UniqueIdentifier>{e187569e-804c-4304-b342-6ba38514efb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Object\Simon">
+      <UniqueIdentifier>{64d53cd9-4629-4b9e-adb0-28405c9078cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Object\Enemy">
+      <UniqueIdentifier>{b1bf217f-deb2-478d-9a94-2011bfa73bec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -43,6 +52,21 @@
       <Filter>Game Graphics</Filter>
     </ClInclude>
     <ClInclude Include="SpriteFactory.h">
+      <Filter>Game Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Simon.h">
+      <Filter>Game Object\Simon</Filter>
+    </ClInclude>
+    <ClInclude Include="SimonSprites.h">
+      <Filter>Game Object\Simon</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>Game Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureFactory.h">
       <Filter>Game Graphics</Filter>
     </ClInclude>
   </ItemGroup>
@@ -79,6 +103,21 @@
       <Filter>Game Graphics</Filter>
     </ClCompile>
     <ClCompile Include="SpriteFactory.cpp">
+      <Filter>Game Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Simon.cpp">
+      <Filter>Game Object\Simon</Filter>
+    </ClCompile>
+    <ClCompile Include="SimonSprites.cpp">
+      <Filter>Game Object\Simon</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>Game Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureFactory.cpp">
       <Filter>Game Graphics</Filter>
     </ClCompile>
   </ItemGroup>

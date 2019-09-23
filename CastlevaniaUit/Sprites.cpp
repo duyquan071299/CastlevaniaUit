@@ -1,6 +1,6 @@
 #include"Sprites.h"
 
-CSprite::CSprite(SpriteType type, int framenum, int columns, LPDIRECT3DTEXTURE9 tex)
+CSprite::CSprite(GraphicType type, int framenum, int columns, LPDIRECT3DTEXTURE9 tex)
 {
 	this->type = type;
 	this->framenum = framenum;

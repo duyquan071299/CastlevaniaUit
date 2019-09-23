@@ -1,8 +1,7 @@
 #include"Game.h"
 
 
-CGame::CGame(HWND hWnd)
-{
+CGame::CGame(HWND hWnd){
 	this->Init(hWnd);
 	this->LoadResources();
 }
@@ -93,8 +92,9 @@ void CGame::Init(HWND hWnd)
 
 
 void CGame::LoadResources() {
-	//update scene here
-	//scene -> update...
+	CTextureFactory::GetInstance()->LoadTextures();
+	CSpriteFactory::GetInstance()->LoadResources();
+	
 }
 void CGame::Run() {
 	MSG msg;
@@ -118,7 +118,8 @@ void CGame::Run() {
 }
 
 void CGame::Update(float dt) {
-
+	//update scene here
+	//scene -> update...
 }
 void CGame::Render() {
 
