@@ -1,5 +1,7 @@
 #include"IntroScene.h"
 
 void CIntroScene::Loadresources() {
-	SimonSprite = CSpriteFactory::GetInstance()->GetSprite(PLAYER, 1);
+	SimonSprite = CSpriteDatabase::GetInstance()->GetSprite(PLAYER);
+
+		
 };

@@ -8,7 +8,7 @@ public:
 	CSimonSprites(SimonState state,  int framenum, int columns)
 	{
 		type = PLAYER;
-		texture = CTextureFactory::GetInstance()->GetTexture(PLAYER);
+		texture = CTextureDatabase::GetInstance()->GetTexture(PLAYER);
 		framenum = framenum;
 		columns = columns;
 		

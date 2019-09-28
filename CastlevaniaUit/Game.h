@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include"GlobalObject.h"
-#include"TextureFactory.h"
-#include"SpriteFactory.h"
+#include"TextureDatabase.h"
+#include"SpriteDatabase.h"
 
 class CGame {
 

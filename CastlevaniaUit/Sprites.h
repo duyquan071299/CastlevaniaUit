@@ -1,6 +1,6 @@
 #pragma once
 #include"GlobalObject.h"
-#include"TextureFactory.h"
+#include"TextureDatabase.h"
 
 class CSprite
 {
@@ -23,3 +23,4 @@ public:
 		return type;
 	}
 };
+typedef CSprite * LPSPRITE;

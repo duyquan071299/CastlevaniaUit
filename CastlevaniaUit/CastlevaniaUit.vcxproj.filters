@@ -13,23 +13,29 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Game Components">
-      <UniqueIdentifier>{38adddb5-e552-4e07-b5f4-bcb04a75bee5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Graphics">
-      <UniqueIdentifier>{79c71a3e-b695-4c26-8107-1ae31a963743}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Scene">
-      <UniqueIdentifier>{1fef1194-328d-43c6-b6f8-c04a88216624}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Object">
+    <Filter Include="GameObjects">
       <UniqueIdentifier>{e187569e-804c-4304-b342-6ba38514efb0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Object\Simon">
+    <Filter Include="GameObjects\Simon">
       <UniqueIdentifier>{64d53cd9-4629-4b9e-adb0-28405c9078cc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Object\Enemy">
+    <Filter Include="GameObjects\Enemy">
       <UniqueIdentifier>{b1bf217f-deb2-478d-9a94-2011bfa73bec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameScene">
+      <UniqueIdentifier>{1fef1194-328d-43c6-b6f8-c04a88216624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork">
+      <UniqueIdentifier>{0a5c57ff-1b3f-4c12-b4e3-b92651ff0303}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Game Components">
+      <UniqueIdentifier>{38adddb5-e552-4e07-b5f4-bcb04a75bee5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\GameControllers">
+      <UniqueIdentifier>{a3a21412-ee29-409d-9188-b20d3f90ca8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameGraphics">
+      <UniqueIdentifier>{79c71a3e-b695-4c26-8107-1ae31a963743}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -37,37 +43,43 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>Game Components</Filter>
+      <Filter>FrameWork\Game Components</Filter>
     </ClInclude>
     <ClInclude Include="GlobalObject.h">
-      <Filter>Game Components</Filter>
+      <Filter>FrameWork\Game Components</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>Game Scene</Filter>
+      <Filter>GameScene</Filter>
     </ClInclude>
     <ClInclude Include="IntroScene.h">
-      <Filter>Game Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Sprites.h">
-      <Filter>Game Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteFactory.h">
-      <Filter>Game Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Game Object</Filter>
+      <Filter>GameScene</Filter>
     </ClInclude>
     <ClInclude Include="Simon.h">
-      <Filter>Game Object\Simon</Filter>
+      <Filter>GameObjects\Simon</Filter>
     </ClInclude>
     <ClInclude Include="SimonSprites.h">
-      <Filter>Game Object\Simon</Filter>
+      <Filter>GameObjects\Simon</Filter>
     </ClInclude>
     <ClInclude Include="Textures.h">
-      <Filter>Game Graphics</Filter>
+      <Filter>GameGraphics</Filter>
     </ClInclude>
-    <ClInclude Include="TextureFactory.h">
-      <Filter>Game Graphics</Filter>
+    <ClInclude Include="Sprites.h">
+      <Filter>GameGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteDatabase.h">
+      <Filter>GameGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureDatabase.h">
+      <Filter>GameGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>FrameWork\Game Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations.h">
+      <Filter>GameGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationDatabase.h">
+      <Filter>GameGraphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -85,40 +97,46 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
-      <Filter>Game Components</Filter>
+      <Filter>FrameWork\Game Components</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>Game Components</Filter>
+      <Filter>FrameWork\Game Components</Filter>
     </ClCompile>
     <ClCompile Include="GlobalObject.cpp">
-      <Filter>Game Components</Filter>
+      <Filter>FrameWork\Game Components</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Game Scene</Filter>
+      <Filter>GameScene</Filter>
     </ClCompile>
     <ClCompile Include="IntroScene.cpp">
-      <Filter>Game Scene</Filter>
+      <Filter>GameScene</Filter>
     </ClCompile>
     <ClCompile Include="Sprites.cpp">
-      <Filter>Game Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteFactory.cpp">
-      <Filter>Game Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Game Object</Filter>
+      <Filter>GameGraphics</Filter>
     </ClCompile>
     <ClCompile Include="Simon.cpp">
-      <Filter>Game Object\Simon</Filter>
+      <Filter>GameObjects\Simon</Filter>
     </ClCompile>
     <ClCompile Include="SimonSprites.cpp">
-      <Filter>Game Object\Simon</Filter>
+      <Filter>GameObjects\Simon</Filter>
     </ClCompile>
     <ClCompile Include="Textures.cpp">
-      <Filter>Game Graphics</Filter>
+      <Filter>GameGraphics</Filter>
     </ClCompile>
-    <ClCompile Include="TextureFactory.cpp">
-      <Filter>Game Graphics</Filter>
+    <ClCompile Include="SpriteDatabase.cpp">
+      <Filter>GameGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureDatabase.cpp">
+      <Filter>GameGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>FrameWork\Game Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations.cpp">
+      <Filter>GameGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationDatabase.cpp">
+      <Filter>GameGraphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

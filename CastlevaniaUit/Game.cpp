@@ -92,8 +92,8 @@ void CGame::Init(HWND hWnd)
 
 
 void CGame::LoadResources() {
-	CTextureFactory::GetInstance()->LoadTextures();
-	CSpriteFactory::GetInstance()->LoadResources();
+	CTextureDatabase::GetInstance()->LoadTextures();
+	CSpriteDatabase::GetInstance()->LoadResources();
 	
 }
 void CGame::Run() {

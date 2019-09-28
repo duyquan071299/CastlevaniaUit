@@ -16,6 +16,11 @@ using namespace std;
 #define MAX_FRAME_RATE 120
 #define KEYBOARD_BUFFER_SIZE 1024
 
+#define CAM_X 0.0f
+#define CAM_Y 0.0f
+
+
+
 
 //directx
 extern HINSTANCE hInstance;										// hInstance của windows hiện tại
