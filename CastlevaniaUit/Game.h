@@ -2,7 +2,7 @@
 #include"GlobalObject.h"
 #include"TextureDatabase.h"
 #include"SpriteDatabase.h"
-
+#include"IntroScene.h"
 class CGame {
 
 private:

@@ -6,8 +6,8 @@ class CScene
 public:
 	CScene() {};
 	virtual void Loadresources() {};
-	virtual int isKeyDown(int KeyCode) {};
-	virtual int isKeyUp(int KeyCode) {};
+	virtual int isKeyDown(int KeyCode) { return 0; };
+	virtual int isKeyUp(int KeyCode) { return 0; };
 	virtual void Render() {};
 	virtual void Update(DWORD dt) {};
 	virtual ~CScene() {};

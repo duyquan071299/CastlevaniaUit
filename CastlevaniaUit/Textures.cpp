@@ -10,7 +10,6 @@ CTextures::CTextures(const char* filePath, D3DCOLOR transparentColor){
 		OutputDebugString("[ERROR] GetImageInfoFromFile failed: %s\n");
 		return;
 	}
-	LPDIRECT3DTEXTURE9 texture;
 
 	result = D3DXCreateTextureFromFileEx(
 		d3ddv,								// Pointer to Direct3D device object

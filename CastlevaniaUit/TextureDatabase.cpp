@@ -10,7 +10,8 @@ void CTextureDatabase::AddTextures(GraphicType type, const char* filePath, D3DCO
 
 void  CTextureDatabase::LoadTextures() {
 	CTextureDatabase* textures = CTextureDatabase::GetInstance();
-	textures->AddTextures(PLAYER, "Textures\\Simon.png", D3DCOLOR_XRGB(255, 255, 255));
+	textures->AddTextures(PLAYER, "Resources\\Textures\\Simon.png", D3DCOLOR_XRGB(255, 255, 255));
+	textures->AddTextures(MAP, "Resources\\Maps\\Scene1_TileSet.png", D3DCOLOR_XRGB(255, 255, 255));
 
 }
 
@@ -21,6 +22,8 @@ LPDIRECT3DTEXTURE9 CTextureDatabase::GetTexture(GraphicType type) {
 		return textures[ITEM];
 	case ENEMY:
 		return textures[ENEMY];
+	case MAP:
+		return textures[MAP];
 	default:
 		return textures[type];
 	}
@@ -29,6 +32,7 @@ LPDIRECT3DTEXTURE9 CTextureDatabase::GetTexture(GraphicType type) {
 
 
 CTextureDatabase *CTextureDatabase::GetInstance() {
-	if (instance == NULL) instance = new CTextureDatabase();
+	if (instance == NULL) 
+		instance = new CTextureDatabase();
 	return instance;
 }

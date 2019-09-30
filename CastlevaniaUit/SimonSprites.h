@@ -9,8 +9,9 @@ public:
 	{
 		type = PLAYER;
 		texture = CTextureDatabase::GetInstance()->GetTexture(PLAYER);
-		framenum = framenum;
-		columns = columns;
+		Framenum = framenum;
+		
+		Columns = columns;
 		
 	}
 };

@@ -94,6 +94,7 @@ void CGame::Init(HWND hWnd)
 void CGame::LoadResources() {
 	CTextureDatabase::GetInstance()->LoadTextures();
 	CSpriteDatabase::GetInstance()->LoadResources();
+	//CSpriteDatabase::GetInstance()->GetSprite(PLAYER)->Draw(100, 100, 0);
 	
 }
 void CGame::Run() {
@@ -107,7 +108,7 @@ void CGame::Run() {
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			if (msg.message == WM_QUIT) done = 1;
-
+			Render();
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
@@ -131,6 +132,9 @@ void CGame::Render() {
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
 		//Render scene here
+		//CSpriteDatabase::GetInstance()->GetSprite(PLAYER)->Draw(100, 100, 255);
+		CIntroScene* intro = new CIntroScene();
+		intro->Loadresources();
 		//scene render.....
 		spriteHandler->End();
 		d3ddv->EndScene();
