@@ -1,113 +1,128 @@
 #include "Map.h"
 
-CMap::CMap(const char* filePath)
+
+CMap::CMap(LPCSTR fileMatrixMap, LPCSTR fileTileSet)
 {
-	LoadMap(filePath);
+	TileWidth = TILE_WIDTH;
+	TileHeight = TILE_HEIGHT;
+	//currentBackground = 0;
+
+	if (fileMatrixMap != "")
+	{
+		AddTileSet(fileMatrixMap, fileTileSet);
+		LoadMatrixBackground(fileMatrixMap);
+	}
+	else
+	{
+		//mapWidth = ViewPort::GetInstance()->GetCameraWidth();
+		//mapHeight = ViewPort::GetInstance()->GetCameraHeight();
+	}
+
+
 }
 
 CMap::~CMap()
 {
-	delete mMap;
-}
-
-void CMap::LoadMap(const char* filePath)
-{
-	mMap = new Tmx::Map();
-	mMap->ParseFile(filePath);
-
-	RECT r;
-	r.left = 0;
-	r.top = 0;
-	r.right = this->GetWidth();
-	r.bottom = this->GetHeight();
-
-	for (size_t i = 0; i < mMap->GetNumTilesets(); i++)
+	if (Matrix)
 	{
-		const Tmx::Tileset *tileset = mMap->GetTileset(i);
-
-		//LPSPRITE sprite = new CSprite(tileset->GetImage()->GetSource().c_str());
-
-		//mListTileset.insert(std::pair<int, LPSPRITE>(i, sprite));
+		for (int i = 0; i < Rows; i++)
+		{
+			delete Matrix[i];
+		}
+		delete Matrix;
+		Matrix = nullptr;
 	}
+
 }
 
-Tmx::Map* CMap::GetMap()
+void CMap::AddTileSet(LPCSTR fileMatrixMap, LPCSTR fileTileSet)
 {
-	return mMap;
+	
+	//listTileSet.push_back(new CSprite(fileTileSet));
+	//listMapData.push_back(fileMatrixMap);
 }
 
-int CMap::GetWidth()
+void CMap::LoadMatrixBackground(LPCSTR fileMatrixMap)
 {
-	return mMap->GetWidth() * mMap->GetTileWidth();
+	ifstream ifs(fileMatrixMap);
+	ifs >> Columns >> Rows;
+	Matrix = new int*[Rows];
+	for (int i = 0; i < Rows; i++) {
+		Matrix[i] = new int[Columns];
+	}	
+	for (int i = 0; i < Rows; i++)
+		for (int j = 0; j < Columns; j++)
+			ifs >> Matrix[i][j];
+
+	MapWidth = Columns* TileWidth;
+	MapHeight = Rows * TileHeight;
 }
 
-int CMap::GetHeight()
-{
-	return mMap->GetHeight() * mMap->GetTileHeight();
-}
 
-int CMap::GetTileWidth()
+void CMap::DrawTileBackground()
 {
-	return mMap->GetTileWidth();
-}
+	RECT tileRect;
+	D3DXVECTOR3 camPos(0,0 ,0);// ViewPort::GetInstance()->GetCameraPos()
 
-int CMap::GetTileHeight()
-{
-	return mMap->GetTileHeight();
+	int cameraWidth = 0; //ViewPort::GetInstance()->GetCameraWidth();
+	int cameraHeight = 0;// ViewPort::GetInstance()->GetCameraHeight();
+
+
+	for (int i = 0; i < Rows; i++)
+		for (int j = 0; j < Columns; j++)
+		{
+			TileSet = new CSprite(MAP, Matrix[i][j] - 1, Columns);
+			TileSet->Settexture(CTextureDatabase::GetInstance()->GetTexture(MAP));
+			TileSet->SetFrameWH(32, 32);
+			TileSet->Draw(j * 32, i * 32);
+		}
+
+
+	/*int colStart = (int)camPos.x / TileWidth;
+	int colEnd = colStart + 16 < Columns - 1 ? colStart + 16 : Columns - 1;
+	int rowStart = (int)(camPos.y) / TileHeight;
+	int rowEnd = rowStart + 15 < Rows - 1 ? rowStart + 15 : Rows - 1;
+
+	if (colStart >= 0 && rowStart >= 0)
+	{
+		for (int i = rowStart; i <= rowEnd; i++)
+		{
+			for (int j = colStart; j <= colEnd; j++)
+			{
+				//tileRect dung de lay ra RECT trong tile set de ve
+				tileRect.left = (Matrix[i][j] % 16) * TileWidth;
+				tileRect.top = (Matrix[i][j] / 16) * TileHeight;
+				tileRect.right = tileRect.left + TileWidth;
+				tileRect.bottom = tileRect.top + TileHeight;
+
+				//cast pos to int-type to avoid tearing CMap
+				//listTileSet[currentBackground]->SetCenter(D3DXVECTOR3(0, 0, 0));
+				//listTileSet[currentBackground]->Draw(D3DXVECTOR3(j * tileWidth, i * tileHeight, 0), tileRect);
+			}
+		}
+	}*/
+
 }
 
 void CMap::Draw()
 {
-	for (size_t i = 0; i < mMap->GetNumTileLayers(); i++)
-	{
-		const Tmx::TileLayer *layer = mMap->GetTileLayer(i);
+	DrawTileBackground();
 
-		if (!layer->IsVisible())
-		{
-			continue;
-		}
+	//vector<LPGAMEOBJECT> mapObjects = grid->GetListMapObjectInViewPort();
 
-		RECT sourceRECT;
+	//for (int i = 0; i < mapObjects.size(); i++)
+	//{
+		//mapObjects[i]->Render();
+	//}
+}
 
-		int tileWidth = mMap->GetTileWidth();
-		int tileHeight = mMap->GetTileHeight();
+void CMap::Update(DWORD dt)
+{
+	//Update animation here
+	//vector<LPGAMEOBJECT> mapObjects = grid->GetListMapObjectInViewPort();
 
-		for (size_t m = 0; m < layer->GetHeight(); m++)
-		{
-			for (size_t n = 0; n < layer->GetWidth(); n++)
-			{
-				int tilesetIndex = layer->GetTileTilesetIndex(n, m);
-
-				if (tilesetIndex != -1)
-				{
-					const Tmx::Tileset *tileSet = mMap->GetTileset(tilesetIndex);
-
-					int tileSetWidth = tileSet->GetImage()->GetWidth() / tileWidth;
-					int tileSetHeight = tileSet->GetImage()->GetHeight() / tileHeight;
-
-					//LPSPRITE sprite = mListTileset[layer->GetTileTilesetIndex(n, m)];
-
-					//tile index
-					int tileID = layer->GetTileId(n, m);
-
-					int y = tileID / tileSetWidth;
-					int x = tileID - y * tileSetWidth;
-
-					sourceRECT.top = y * tileHeight;
-					sourceRECT.bottom = sourceRECT.top + tileHeight;
-					sourceRECT.left = x * tileWidth;
-					sourceRECT.right = sourceRECT.left + tileWidth;
-
-					//tru tilewidth/2 va tileheight/2 vi Sprite ve o vi tri giua hinh anh cho nen doi hinh de cho
-					//dung toa do (0,0) cua the gioi thuc la (0,0) neu khong thi se la (-tilewidth/2, -tileheigth/2);
-					D3DXVECTOR3 position(n * tileWidth + tileWidth / 2, m * tileHeight + tileHeight / 2, 0);
-
-					//sprite->SetWidth(tileWidth);
-					//sprite->SetHeight(tileHeight);
-
-					//sprite->Draw(position, sourceRECT, D3DXVECTOR2());
-				}
-			}
-		}
-	}
+	//for (int i = 0; i < mapObjects.size(); i++)
+	//{
+		//mapObjects[i]->Update(dt);
+	//}
 }

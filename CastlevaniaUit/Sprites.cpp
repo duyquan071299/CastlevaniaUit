@@ -10,7 +10,7 @@ CSprite::CSprite(GraphicType type, int framenum, int columns)
 
 void CSprite::Draw(float x, float y, int alpha)
 {
-	D3DXVECTOR3 position(x - CAM_X, y - CAM_Y, 0);
+	D3DXVECTOR3 position(x + CAM_X, y + CAM_Y, 0);
 	D3DXVECTOR3 center(Framew / 2, Frameh / 2, 0);
 	RECT rect;
 	rect.left = (Framenum % Columns) * Framew;

@@ -10,8 +10,8 @@ void CTextureDatabase::AddTextures(GraphicType type, const char* filePath, D3DCO
 
 void  CTextureDatabase::LoadTextures() {
 	CTextureDatabase* textures = CTextureDatabase::GetInstance();
-	textures->AddTextures(PLAYER, "Resources\\Textures\\Simon.png", D3DCOLOR_XRGB(255, 255, 255));
-	textures->AddTextures(MAP, "Resources\\Maps\\Scene1_TileSet.png", D3DCOLOR_XRGB(255, 255, 255));
+	textures->AddTextures(PLAYER, "Resources\\Textures\\Simon.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->AddTextures(MAP, "Resources\\Maps\\Scene1_TileSet.png", D3DCOLOR_XRGB(0, 0, 0));
 
 }
 
