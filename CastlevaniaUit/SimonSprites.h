@@ -10,7 +10,7 @@ public:
 		type = PLAYER;
 		texture = CTextureDatabase::GetInstance()->GetTexture(PLAYER);
 		Framenum = framenum;
-		
+	
 		Columns = columns;
 		
 	}

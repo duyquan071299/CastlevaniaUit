@@ -81,8 +81,20 @@
     <ClInclude Include="AnimationDatabase.h">
       <Filter>GameGraphics</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
+    <ClInclude Include="ViewPort.h">
       <Filter>FrameWork\Game Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>GameGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="MapDatabase.h">
+      <Filter>GameGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScene.h">
+      <Filter>GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>FrameWork\GameControllers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -141,8 +153,20 @@
     <ClCompile Include="AnimationDatabase.cpp">
       <Filter>GameGraphics</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
+    <ClCompile Include="ViewPort.cpp">
       <Filter>FrameWork\Game Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>GameGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="MapDatabase.cpp">
+      <Filter>GameGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScene.cpp">
+      <Filter>GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>FrameWork\GameControllers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,11 +1,10 @@
 #include"Animations.h"
 
-void CAnimation::Add(GraphicType type,DWORD time)
+void CAnimation::Add(GraphicType type,int index,DWORD time)
 {
 	int t = time;
 	if (time == 0) t = this->defaultTime;
-
-	LPSPRITE sprite = CSpriteDatabase::GetInstance()->GetSprite(type);
+	LPSPRITE sprite = CSpriteDatabase::GetInstance()->GetSprite(type,index);
 	LPANIMATION_FRAME frame = new CAnimationFrame(sprite, t);
 	frames.push_back(frame);
 }

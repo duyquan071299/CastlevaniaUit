@@ -1,7 +1,10 @@
 ﻿#pragma once
 #include"GlobalObject.h"
 #include"TextureDatabase.h"
+#include"SceneManager.h"
 #include"SpriteDatabase.h"
+#include"IntroScene.h"
+#include"PlayScene.h"
 #include"IntroScene.h"
 class CGame {
 
@@ -22,6 +25,7 @@ public:
 	void Update(float dt);			
 	void Render();					
 	void ProcessKeyboard();
+	~CGame(){}
 
 
 

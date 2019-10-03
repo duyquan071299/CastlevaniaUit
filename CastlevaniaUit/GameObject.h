@@ -1,5 +1,5 @@
 #pragma once
-
+#include"AnimationDatabase.h"
 class CGameObject
 {
 public:
@@ -19,7 +19,7 @@ public:
 
 	//DWORD dt;
 
-	//static vector<LPANIMATION> animations;
+	
 
 public:
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }

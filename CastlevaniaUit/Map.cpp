@@ -71,7 +71,7 @@ void CMap::DrawTileBackground()
 	for (int i = 0; i < Rows; i++)
 		for (int j = 0; j < Columns; j++)
 		{
-			TileSet = new CSprite(MAP, Matrix[i][j] - 1, Columns);
+			TileSet = new CSprite(MAP, Matrix[i][j] - 1, 49);
 			TileSet->Settexture(CTextureDatabase::GetInstance()->GetTexture(MAP));
 			TileSet->SetFrameWH(32, 32);
 			TileSet->Draw(j * 32, i * 32);

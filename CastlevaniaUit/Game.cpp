@@ -94,6 +94,7 @@ void CGame::Init(HWND hWnd)
 void CGame::LoadResources() {
 	CTextureDatabase::GetInstance()->LoadTextures();
 	CSpriteDatabase::GetInstance()->LoadResources();
+	CSceneManager::GetInstance()->LoadScene(new CIntroScene);
 	//CSpriteDatabase::GetInstance()->GetSprite(PLAYER)->Draw(100, 100, 0);
 	
 }
@@ -108,11 +109,12 @@ void CGame::Run() {
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			if (msg.message == WM_QUIT) done = 1;
-			Render();
+		
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-
+		else
+			Render();
 	}
 
 	return;
@@ -133,8 +135,7 @@ void CGame::Render() {
 
 		//Render scene here
 		//CSpriteDatabase::GetInstance()->GetSprite(PLAYER)->Draw(100, 100, 255);
-		CIntroScene* intro = new CIntroScene();
-		intro->Loadresources();
+		CSceneManager::GetInstance()->GetCurrentScene()->Loadresources();
 		//scene render.....
 		spriteHandler->End();
 		d3ddv->EndScene();
@@ -185,13 +186,11 @@ void CGame::ProcessKeyboard() {
 		int KeyState = keyEvents[i].dwData;
 		if ((KeyState & 0x80) > 0)
 		{
-
+			CSceneManager::GetInstance()->GetCurrentScene()->OnKeyDown(KeyCode);
 		}
-			//keyHandler->OnKeyDown(KeyCode);
 		else
 		{
-		
+			CSceneManager::GetInstance()->GetCurrentScene()->OnKeyUp(KeyCode);
 		}
-			//keyHandler->OnKeyUp(KeyCode);
 	}
 }
