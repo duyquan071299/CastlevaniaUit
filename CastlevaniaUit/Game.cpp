@@ -90,14 +90,14 @@ void CGame::Init(HWND hWnd)
 
 }
 
-
 void CGame::LoadResources() {
 	CTextureDatabase::GetInstance()->LoadTextures();
 	CSpriteDatabase::GetInstance()->LoadResources();
-	CSceneManager::GetInstance()->LoadScene(new CIntroScene);
+	CSceneManager::GetInstance()->LoadScene(new CPlayScene);
 	//CSpriteDatabase::GetInstance()->GetSprite(PLAYER)->Draw(100, 100, 0);
 	
 }
+
 void CGame::Run() {
 	MSG msg;
 	int done = 0;
@@ -113,8 +113,20 @@ void CGame::Run() {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		else
+		DWORD now = GetTickCount();
+		DWORD dt = now - frameStart;
+
+		if(dt>=tickPerFrame)
+		{
+			frameStart = now;
+			ProcessKeyboard();
 			Render();
+		}
+		else
+		{
+			Sleep(tickPerFrame - dt);
+		}
+			
 	}
 
 	return;
@@ -124,6 +136,7 @@ void CGame::Update(float dt) {
 	//update scene here
 	//scene -> update...
 }
+
 void CGame::Render() {
 
 	if (d3ddv->BeginScene())
@@ -135,7 +148,7 @@ void CGame::Render() {
 
 		//Render scene here
 		//CSpriteDatabase::GetInstance()->GetSprite(PLAYER)->Draw(100, 100, 255);
-		CSceneManager::GetInstance()->GetCurrentScene()->Loadresources();
+		CSceneManager::GetInstance()->GetCurrentScene()->Render();
 		//scene render.....
 		spriteHandler->End();
 		d3ddv->EndScene();
@@ -145,6 +158,7 @@ void CGame::Render() {
 	d3ddv->Present(NULL, NULL, NULL, NULL);
 
 }
+
 void CGame::ProcessKeyboard() {
 	HRESULT hr;
 
@@ -169,7 +183,9 @@ void CGame::ProcessKeyboard() {
 		}
 	}
 
-	//keyHandler->KeyState((BYTE *)&keyStates);
+
+
+	keyHandler->KeyState((BYTE *)&keyStates);
 	// Collect all buffered events
 	DWORD dwElements = KEYBOARD_BUFFER_SIZE;
 	hr = didv->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), keyEvents, &dwElements, 0);
@@ -193,4 +209,10 @@ void CGame::ProcessKeyboard() {
 			CSceneManager::GetInstance()->GetCurrentScene()->OnKeyUp(KeyCode);
 		}
 	}
+}
+
+
+int CGame::IsKeyDown(int keyCode)
+{
+	return (keyStates[keyCode] & 0x80) > 0;
 }

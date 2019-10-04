@@ -1,5 +1,6 @@
 #include"Simon.h"
 CSimon * CSimon::instance = NULL;
+
 CSimon::CSimon() {
 	//LEFT ANIMATION
 	LPANIMATION ani = new CAnimation(100);
@@ -16,33 +17,35 @@ CSimon::CSimon() {
 	ani->Add(PLAYER, 4);
 	animations[SITTING_LEFT] = ani;
 
-	ani = new CAnimation(100);
+	ani = new CAnimation(180);
 	ani->Add(PLAYER, 5);
 	ani->Add(PLAYER, 6);
 	ani->Add(PLAYER, 7);
 	animations[ATTACKING_STAND_LEFT] = ani;
 	//RIGHT ANIMATION
 	ani = new CAnimation(100);
-	ani->Add(PLAYER, 31);
+	ani->Add(PLAYER, 8);
 	animations[STANDING_RIGHT] = ani;
 
-	ani = new CAnimation(100);
-	ani->Add(PLAYER, 30);
-	ani->Add(PLAYER, 29);
-	ani->Add(PLAYER, 28);
+	ani = new CAnimation(180);
+	ani->Add(PLAYER, 9);
+	ani->Add(PLAYER, 10);
+	ani->Add(PLAYER, 11);
 	animations[WALKING_RIGHT] = ani;
 
 	ani = new CAnimation(100);
-	ani->Add(PLAYER, 27);
+	ani->Add(PLAYER, 12);
 	animations[SITTING_RIGHT] = ani;
 
-	ani = new CAnimation(100);
-	ani->Add(PLAYER, 26);
-	ani->Add(PLAYER, 25);
-	ani->Add(PLAYER, 24);
+	ani = new CAnimation(180);
+	ani->Add(PLAYER, 13);
+	ani->Add(PLAYER, 14);
+	ani->Add(PLAYER, 15);
 	animations[ATTACKING_STAND_RIGHT] = ani;
 
+	currentanimation= animations[STANDING_RIGHT];
 }
+
 
 CSimon::~CSimon()
 {
@@ -62,5 +65,33 @@ CSimon* CSimon:: GetInstance()
 
 void CSimon::Render()
 {
+	currentanimation->Render(x,y);
+}
 
+void CSimon::OnKeyDown(int keyCode)
+{
+
+
+	if (keyCode == DIK_RIGHT)
+	{
+		currentanimation = animations[WALKING_RIGHT];
+	}
+	else if (keyCode == DIK_LEFT)
+	{
+		currentanimation = animations[WALKING_LEFT];
+	}
+	else if (keyCode == DIK_DOWN)
+	{
+		currentanimation = animations[SITTING_RIGHT];
+	}
+	else if (keyCode == DIK_X)
+	{
+		currentanimation = animations[ATTACKING_STAND_RIGHT];
+	}
+}
+void CSimon::OnKeyUp(int keyCode) {
+	if (keyCode == DIK_X)
+	{
+		currentanimation = animations[WALKING_RIGHT];
+	}
 }

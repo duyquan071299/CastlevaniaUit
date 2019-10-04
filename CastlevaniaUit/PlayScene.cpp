@@ -10,7 +10,7 @@ void CPlayScene::Loadresources(int level) {
 
 void CPlayScene::OnKeyDown(int KeyCode)
 {
-
+	Simon->OnKeyDown(KeyCode);
 }
 void  CPlayScene::OnKeyUp(int KeyCode)
 {
@@ -19,6 +19,8 @@ void  CPlayScene::OnKeyUp(int KeyCode)
 
 void CPlayScene::Render()
 {
+	Loadresources(0);
 	CurrentMap->DrawTileBackground();
-	
+	Simon->Render();
 }
+

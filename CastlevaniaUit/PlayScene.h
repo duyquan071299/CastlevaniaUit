@@ -13,7 +13,7 @@ public:
 	void Loadresources(int level);
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
-	void Render() {};
+	void Render();
 	void Update(DWORD dt) {};
 
 };

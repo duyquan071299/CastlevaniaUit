@@ -15,8 +15,6 @@ private:
 	DIDEVICEOBJECTDATA keyEvents[KEYBOARD_BUFFER_SIZE];		// Buffered keyboard data
 	
 
-	
-
 public:
 	CGame(HWND hWnd);				
 	void Init(HWND hWnd);			
@@ -25,6 +23,7 @@ public:
 	void Update(float dt);			
 	void Render();					
 	void ProcessKeyboard();
+	int IsKeyDown();
 	~CGame(){}
 
 
