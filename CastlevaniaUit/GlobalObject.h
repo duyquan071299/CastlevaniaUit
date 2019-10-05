@@ -15,7 +15,7 @@ using namespace std;
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0,0 )
 #define MAX_FRAME_RATE 120
 #define KEYBOARD_BUFFER_SIZE 1024
-
+#define SIMON_RUNNING_SPEED 0.095f
 #define CAM_X 0.0f
 #define CAM_Y 0.0f
 

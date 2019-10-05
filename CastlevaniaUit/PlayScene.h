@@ -14,6 +14,7 @@ public:
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
 	void Render();
-	void Update(DWORD dt) {};
+	void Update(DWORD dt);
+	unordered_map<int, bool> keys;
 
 };

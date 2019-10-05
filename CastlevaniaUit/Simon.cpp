@@ -1,4 +1,5 @@
 #include"Simon.h"
+#include"SimonStateStanding.h"
 CSimon * CSimon::instance = NULL;
 
 CSimon::CSimon() {
@@ -43,7 +44,8 @@ CSimon::CSimon() {
 	ani->Add(PLAYER, 15);
 	animations[ATTACKING_STAND_RIGHT] = ani;
 
-	currentanimation= animations[STANDING_RIGHT];
+	//currentanimation= animations[STANDING_RIGHT];
+	ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 }
 
 
@@ -54,6 +56,9 @@ CSimon::~CSimon()
 		if (it->second) delete it->second;
 		animations.erase(it);
 	}
+	if (currentstate != nullptr)
+		delete currentstate;
+	currentstate = nullptr;
 }
 
 CSimon* CSimon:: GetInstance()
@@ -70,28 +75,28 @@ void CSimon::Render()
 
 void CSimon::OnKeyDown(int keyCode)
 {
-
-
-	if (keyCode == DIK_RIGHT)
-	{
-		currentanimation = animations[WALKING_RIGHT];
-	}
-	else if (keyCode == DIK_LEFT)
-	{
-		currentanimation = animations[WALKING_LEFT];
-	}
-	else if (keyCode == DIK_DOWN)
-	{
-		currentanimation = animations[SITTING_RIGHT];
-	}
-	else if (keyCode == DIK_X)
-	{
-		currentanimation = animations[ATTACKING_STAND_RIGHT];
-	}
+	
 }
-void CSimon::OnKeyUp(int keyCode) {
-	if (keyCode == DIK_X)
-	{
-		currentanimation = animations[WALKING_RIGHT];
-	}
+void CSimon::OnKeyUp(int keyCode)
+{
+	
+}
+
+void CSimon::Update(DWORD dt)
+{
+	
+}
+
+
+
+void CSimon::HandleKeyboard(unordered_map<int, bool> keys)
+{
+	currentstate->HandleKeyboard(keys);
+}
+
+void CSimon::ChangeState(CSimonState* State) {
+	delete currentstate;
+	currentstate = State;
+	StateName = State->GetStateName();
+	currentanimation = animations[StateName];
 }

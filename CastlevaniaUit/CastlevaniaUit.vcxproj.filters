@@ -96,6 +96,18 @@
     <ClInclude Include="SceneManager.h">
       <Filter>FrameWork\GameControllers</Filter>
     </ClInclude>
+    <ClInclude Include="SimonState.h">
+      <Filter>GameObjects\Simon</Filter>
+    </ClInclude>
+    <ClInclude Include="SimonStateStanding.h">
+      <Filter>GameObjects\Simon</Filter>
+    </ClInclude>
+    <ClInclude Include="SimonStateWalking.h">
+      <Filter>GameObjects\Simon</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerData.h">
+      <Filter>GameObjects\Simon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CastlevaniaUit.rc">
@@ -167,6 +179,18 @@
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>FrameWork\GameControllers</Filter>
+    </ClCompile>
+    <ClCompile Include="SimonState.cpp">
+      <Filter>GameObjects\Simon</Filter>
+    </ClCompile>
+    <ClCompile Include="SimonStateStanding.cpp">
+      <Filter>GameObjects\Simon</Filter>
+    </ClCompile>
+    <ClCompile Include="SimonStateWalking.cpp">
+      <Filter>GameObjects\Simon</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerData.cpp">
+      <Filter>GameObjects\Simon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

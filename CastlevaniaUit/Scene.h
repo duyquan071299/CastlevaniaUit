@@ -1,5 +1,4 @@
 #pragma once
-#include"SimonSprites.h"
 #include"GlobalObject.h"
 class CScene
 {

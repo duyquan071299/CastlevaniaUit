@@ -120,6 +120,7 @@ void CGame::Run() {
 		{
 			frameStart = now;
 			ProcessKeyboard();
+			Update(dt);
 			Render();
 		}
 		else
@@ -132,9 +133,9 @@ void CGame::Run() {
 	return;
 }
 
-void CGame::Update(float dt) {
+void CGame::Update(DWORD dt) {
 	//update scene here
-	//scene -> update...
+	CSceneManager::GetInstance()->GetCurrentScene()->Update(dt);
 }
 
 void CGame::Render() {
@@ -185,7 +186,7 @@ void CGame::ProcessKeyboard() {
 
 
 
-	keyHandler->KeyState((BYTE *)&keyStates);
+	//->KeyState((BYTE *)&keyStates);
 	// Collect all buffered events
 	DWORD dwElements = KEYBOARD_BUFFER_SIZE;
 	hr = didv->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), keyEvents, &dwElements, 0);
@@ -212,7 +213,7 @@ void CGame::ProcessKeyboard() {
 }
 
 
-int CGame::IsKeyDown(int keyCode)
-{
-	return (keyStates[keyCode] & 0x80) > 0;
-}
+//int CGame::IsKeyDown(int keyCode)
+//{
+//	return (keyStates[keyCode] & 0x80) > 0;
+//}

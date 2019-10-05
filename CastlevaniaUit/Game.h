@@ -20,10 +20,10 @@ public:
 	void Init(HWND hWnd);			
 	void LoadResources();
 	void Run();						
-	void Update(float dt);			
+	void Update(DWORD dt);			
 	void Render();					
 	void ProcessKeyboard();
-	int IsKeyDown();
+	//int IsKeyDown();
 	~CGame(){}
 
 

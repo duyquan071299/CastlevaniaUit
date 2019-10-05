@@ -10,17 +10,27 @@ void CPlayScene::Loadresources(int level) {
 
 void CPlayScene::OnKeyDown(int KeyCode)
 {
+	keys[KeyCode] = true;
 	Simon->OnKeyDown(KeyCode);
 }
 void  CPlayScene::OnKeyUp(int KeyCode)
 {
-	
+	keys[KeyCode] = false;
+	Simon->OnKeyUp(KeyCode);
 }
 
 void CPlayScene::Render()
 {
-	Loadresources(0);
+	
 	CurrentMap->DrawTileBackground();
 	Simon->Render();
+}
+
+void CPlayScene::Update(DWORD dt)
+{
+	Loadresources(0);
+	Simon->HandleKeyboard(keys);
+	Simon->x += Simon->vx*dt;
+
 }
 
