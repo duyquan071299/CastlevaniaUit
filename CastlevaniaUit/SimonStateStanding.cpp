@@ -5,7 +5,7 @@ void CSimonStateStanding::Update(DWORD dt)
 }
 void CSimonStateStanding::HandleKeyboard(unordered_map<int, bool> keyCode)
 {
-	if (keyCode[DIK_RIGHT] )
+	if (keyCode[DIK_RIGHT])
 	{
 		CSimon::GetInstance()->ChangeState(new CSimonStateWalking(WALKING_RIGHT));
 
@@ -29,6 +29,5 @@ void CSimonStateStanding::Enter()
 	CSimon::GetInstance()->vx = 0;
 	CSimon::GetInstance()->vy = 0;
 	CSimon::GetInstance()->SetStateName(STANDING);
-
 
 }

@@ -108,6 +108,12 @@
     <ClInclude Include="PlayerData.h">
       <Filter>GameObjects\Simon</Filter>
     </ClInclude>
+    <ClInclude Include="SimonStateJumping.h">
+      <Filter>GameObjects\Simon</Filter>
+    </ClInclude>
+    <ClInclude Include="SimonStateSitting.h">
+      <Filter>GameObjects\Simon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CastlevaniaUit.rc">
@@ -190,6 +196,12 @@
       <Filter>GameObjects\Simon</Filter>
     </ClCompile>
     <ClCompile Include="PlayerData.cpp">
+      <Filter>GameObjects\Simon</Filter>
+    </ClCompile>
+    <ClCompile Include="SimonStateJumping.cpp">
+      <Filter>GameObjects\Simon</Filter>
+    </ClCompile>
+    <ClCompile Include="SimonStateSitting.cpp">
       <Filter>GameObjects\Simon</Filter>
     </ClCompile>
   </ItemGroup>

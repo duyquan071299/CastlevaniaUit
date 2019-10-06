@@ -24,7 +24,10 @@ public:
 	{
 		StateName = Name;
 	}
-
+	void SetCurrentAnimation(SimonState Name)
+	{
+		currentanimation = animations[Name];
+	}
 	void Update(DWORD dt);
 	void HandleKeyboard(unordered_map<int, bool> keys);
 	void OnKeyDown(int keyCode);

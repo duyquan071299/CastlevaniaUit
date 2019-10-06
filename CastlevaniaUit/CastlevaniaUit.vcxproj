@@ -167,6 +167,8 @@
     <ClInclude Include="Simon.h" />
     <ClInclude Include="SimonSprites.h" />
     <ClInclude Include="SimonState.h" />
+    <ClInclude Include="SimonStateJumping.h" />
+    <ClInclude Include="SimonStateSitting.h" />
     <ClInclude Include="SimonStateStanding.h" />
     <ClInclude Include="SimonStateWalking.h" />
     <ClInclude Include="SpriteDatabase.h" />
@@ -199,6 +201,8 @@
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="SimonSprites.cpp" />
     <ClCompile Include="SimonState.cpp" />
+    <ClCompile Include="SimonStateJumping.cpp" />
+    <ClCompile Include="SimonStateSitting.cpp" />
     <ClCompile Include="SimonStateStanding.cpp" />
     <ClCompile Include="SimonStateWalking.cpp" />
     <ClCompile Include="SpriteDatabase.cpp" />

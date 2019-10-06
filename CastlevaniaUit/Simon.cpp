@@ -8,7 +8,8 @@ CSimon::CSimon() {
 	ani->Add(PLAYER,0);
 	animations[STANDING_LEFT] = ani;
 
-	ani = new CAnimation(100);
+	ani = new CAnimation(180);
+	ani->Add(PLAYER, 0);
 	ani->Add(PLAYER, 1);
 	ani->Add(PLAYER, 2);
 	ani->Add(PLAYER, 3);
@@ -29,6 +30,7 @@ CSimon::CSimon() {
 	animations[STANDING_RIGHT] = ani;
 
 	ani = new CAnimation(180);
+	ani->Add(PLAYER, 8);
 	ani->Add(PLAYER, 9);
 	ani->Add(PLAYER, 10);
 	ani->Add(PLAYER, 11);
@@ -43,6 +45,7 @@ CSimon::CSimon() {
 	ani->Add(PLAYER, 14);
 	ani->Add(PLAYER, 15);
 	animations[ATTACKING_STAND_RIGHT] = ani;
+	this->y = 225;
 
 	//currentanimation= animations[STANDING_RIGHT];
 	ChangeState(new CSimonStateStanding(STANDING_RIGHT));
