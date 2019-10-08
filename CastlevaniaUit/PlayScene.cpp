@@ -30,7 +30,9 @@ void CPlayScene::Update(DWORD dt)
 {
 	Loadresources(0);
 	Simon->HandleKeyboard(keys);
-	Simon->x += Simon->vx*dt;
+
+	Simon->Update(dt);
+
 
 }
 

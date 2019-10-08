@@ -16,9 +16,10 @@ using namespace std;
 #define MAX_FRAME_RATE 120
 #define KEYBOARD_BUFFER_SIZE 1024
 #define SIMON_RUNNING_SPEED 0.095f
+#define SIMON_JUMPING_SPEED 0.58f
 #define CAM_X 0.0f
 #define CAM_Y 0.0f
-
+#define GAME_GRAVITY 0.002f
 
 
 
@@ -64,6 +65,7 @@ extern enum SimonState
 	ATTACKING_STAND_RIGHT,
 	ATTACKING_SIT_LEFT,
 	ATTACKING_SIT_RIGHT,
+	FALLING_RIGHT,
 	ACTIVE,
 	DEAD,
 	INJURED

@@ -19,6 +19,7 @@ public:
 	~CSimon();
 	LPANIMATION getCurrentAnimation() { return currentanimation; }
 	//CSimonState* getCurrentState() { return currentstate; }
+	bool IsStanding = true, IsSitting=false, IsMoving=false, IsAttacking=false, IsJumping=false;
 	void ChangeState(CSimonState* State);
 	void SetStateName(SimonState Name)
 	{

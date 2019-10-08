@@ -1,4 +1,5 @@
-﻿  SimonStateJumping.cpp
-  SimonStateSitting.cpp
-  Generating Code...
+﻿  Simon.cpp
+  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+d:\castlevaniauit\castlevaniauit\globalobject.h(46): warning C4091: 'extern ': ignored on left of 'GraphicType' when no variable is declared
+d:\castlevaniauit\castlevaniauit\globalobject.h(72): warning C4091: 'extern ': ignored on left of 'SimonState' when no variable is declared
   CastlevaniaUit.vcxproj -> D:\CastlevaniaUit\Debug\CastlevaniaUit.exe

@@ -24,16 +24,17 @@ void CAnimation::Render(float x, float y, int alpha)
 		{
 			currentFrame++;
 			lastFrameTime = now;
+			isLastFrame = false;
 			if (currentFrame == frames.size())
 			{
 				currentFrame = 0;
 				isLastFrame = true;
+
 			}
 			else
 			{
 				t += now - lastFrameTime;
 				isLastFrame = false;
-
 			}
 		}
 
