@@ -1,11 +1,18 @@
 #include"SimonStateWalking.h"
-
+#include"SimonStateSitting.h"
 
 void CSimonStateWalking::Update(DWORD dt) {};
 void CSimonStateWalking::HandleKeyboard(unordered_map<int, bool> keyCode)
 {
+	if (keyCode[DIK_DOWN])
+	{
+		if (CSimon::GetInstance()->vx > 0)
+			CSimon::GetInstance()->ChangeState(new CSimonStateSitting(SITTING_RIGHT));
+		else
+			CSimon::GetInstance()->ChangeState(new CSimonStateSitting(SITTING_LEFT));
 
-	if (keyCode[DIK_RIGHT])
+	}
+	else if (keyCode[DIK_RIGHT])
 	{
 		if (keyCode[DIK_LEFT])
 		{
@@ -13,9 +20,7 @@ void CSimonStateWalking::HandleKeyboard(unordered_map<int, bool> keyCode)
 				CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 			else
 				CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_LEFT));
-			CSimon::GetInstance()->vx = 0;
-			CSimon::GetInstance()->IsStanding = true;
-			CSimon::GetInstance()->IsMoving = false;
+	
 			return;
 		}
 			
@@ -32,16 +37,18 @@ void CSimonStateWalking::HandleKeyboard(unordered_map<int, bool> keyCode)
 	}
 	else
 	{
-		if(CSimon::GetInstance()->vx >0)
+		if (CSimon::GetInstance()->vx > 0)
 			CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 		else
 			CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_LEFT));
-		CSimon::GetInstance()->vx = 0;
-		CSimon::GetInstance()->IsStanding = true;
-		CSimon::GetInstance()->IsMoving = false;
-
 	}
 };
 
-void CSimonStateWalking::Exit() {};
-void CSimonStateWalking::Enter() {};
+void CSimonStateWalking::Exit() {
+	CSimon::GetInstance()->IsMoving = false;
+};
+void CSimonStateWalking::Enter() 
+{
+	CSimon::GetInstance()->IsMoving = true;
+	CSimon::GetInstance()->IsOnAir = false;
+};

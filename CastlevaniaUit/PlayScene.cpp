@@ -3,6 +3,7 @@
 void CPlayScene::Loadresources(int level) {
 	//SimonSpr = CSpriteDatabase::GetInstance()->GetSprite(PLAYER, 0);
 	Simon = CSimon::GetInstance();
+	Simon->Respawn();
 	CurrentMap = new CMap("Resources\\Maps\\scene1.txt", "Resources\\Maps\\Scene_1.png");
 	//CurrentMap->DrawTileBackground();
 	//SimonSprite->Draw(80, 230);
@@ -28,9 +29,7 @@ void CPlayScene::Render()
 
 void CPlayScene::Update(DWORD dt)
 {
-	Loadresources(0);
 	Simon->HandleKeyboard(keys);
-
 	Simon->Update(dt);
 
 

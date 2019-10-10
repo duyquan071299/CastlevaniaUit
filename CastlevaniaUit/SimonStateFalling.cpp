@@ -9,9 +9,10 @@ void CSimonStateFalling::Update(DWORD dt)
 void CSimonStateFalling::HandleKeyboard(unordered_map<int, bool> keyCode)
 {
 	//CSimon::GetInstance()->vy = -SIMON_JUMPING_SPEED;
-	if (CSimon::GetInstance()->y>=200)
+	if (CSimon::GetInstance()->y>=225)
 	{
-		CSimon::GetInstance()->IsJumping = false;
+		
+		
 		CSimon::GetInstance()->vx = 0;
 		if (CSimon::GetInstance()->nx >= 0)
 			CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_RIGHT));
@@ -23,12 +24,14 @@ void CSimonStateFalling::HandleKeyboard(unordered_map<int, bool> keyCode)
 
 void CSimonStateFalling::Exit()
 {
-
+	CSimon::GetInstance()->IsFalling = false;
+	CSimon::GetInstance()->IsJumping = false;
+	CSimon::GetInstance()->IsOnAir = false;
 }
 void CSimonStateFalling::Enter()
 {
-	CSimon::GetInstance()->vx = 0;
-	CSimon::GetInstance()->vy = 0;
-	CSimon::GetInstance()->SetStateName(STANDING);
+	CSimon::GetInstance()->IsFalling = true;
+
+
 
 }

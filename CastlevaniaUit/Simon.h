@@ -19,7 +19,7 @@ public:
 	~CSimon();
 	LPANIMATION getCurrentAnimation() { return currentanimation; }
 	//CSimonState* getCurrentState() { return currentstate; }
-	bool IsStanding = true, IsSitting=false, IsMoving=false, IsAttacking=false, IsJumping=false;
+	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false;
 	void ChangeState(CSimonState* State);
 	void SetStateName(SimonState Name)
 	{
@@ -30,6 +30,7 @@ public:
 		currentanimation = animations[Name];
 	}
 	void Update(DWORD dt);
+	void Respawn();
 	void HandleKeyboard(unordered_map<int, bool> keys);
 	void OnKeyDown(int keyCode);
 	void OnKeyUp(int keyCode);

@@ -11,14 +11,21 @@ void CSimonStateSitting::HandleKeyboard(unordered_map<int, bool> keyCode)
 			CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 		else
 			CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_LEFT));
-		CSimon::GetInstance()->vx = 0;
-		CSimon::GetInstance()->IsStanding = true;
-		CSimon::GetInstance()->IsSitting = false;
+		
+		
+		
 
 	}
 	
 
 };
 
-void CSimonStateSitting::Exit() {};
-void CSimonStateSitting::Enter() {};
+void CSimonStateSitting::Exit() {
+	CSimon::GetInstance()->IsSitting = false;
+};
+void CSimonStateSitting::Enter() 
+{
+	CSimon::GetInstance()->vx = 0;
+	CSimon::GetInstance()->IsSitting = true;
+	CSimon::GetInstance()->IsOnAir = false;
+};

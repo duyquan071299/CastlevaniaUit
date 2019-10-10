@@ -6,8 +6,7 @@ class CSimonStateStanding :public CSimonState
 {
 public: 
 	CSimonStateStanding() {};
-	CSimonStateStanding(SimonState Name) { 
-		
+	CSimonStateStanding(SimonState Name) {
 		StateName = Name;
 	}
 	void Update(DWORD dt);

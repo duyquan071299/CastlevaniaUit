@@ -12,6 +12,7 @@ void CSimonStateJumping::HandleKeyboard(unordered_map<int, bool> keyCode)
 	//CSimon::GetInstance()->vx = 0;
 	if (CSimon::GetInstance()->vy > 0)
 	{
+		CSimon::GetInstance()->IsFalling = true;
 		if(CSimon::GetInstance()->nx>=0)
 			CSimon::GetInstance()->ChangeState(new CSimonStateFalling(SITTING_RIGHT));
 		else
@@ -28,8 +29,6 @@ void CSimonStateJumping::Exit()
 }
 void CSimonStateJumping::Enter()
 {
-	CSimon::GetInstance()->vx = 0;
-	CSimon::GetInstance()->vy = 0;
-	CSimon::GetInstance()->SetStateName(STANDING);
+	CSimon::GetInstance()->IsOnAir = true;
 
 }

@@ -9,7 +9,7 @@ private:
 	CSimon* Simon;
 	CMap* CurrentMap;
 public:
-	CPlayScene() {};
+	CPlayScene() { Loadresources(0); };
 	void Loadresources(int level);
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);

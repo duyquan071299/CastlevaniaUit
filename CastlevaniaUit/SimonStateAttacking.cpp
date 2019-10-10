@@ -8,13 +8,9 @@ void CSimonStateAttacking::Update(DWORD dt)
 }
 void CSimonStateAttacking::HandleKeyboard(unordered_map<int, bool> keyCode)
 {
-	//CSimon::GetInstance()->vy = -SIMON_JUMPING_SPEED;
-	//CSimon::GetInstance()->vx = 0;
 	if (CSimon::GetInstance()->getCurrentAnimation()->IsLastFrame() == true)
 	{
-		CSimon::GetInstance()->IsAttacking = false;
-		CSimon::GetInstance()->getCurrentAnimation()->SetIsLastFrame(false);
-		//CSimon::GetInstance()->getCurrentAnimation()
+		
 		if (CSimon::GetInstance()->nx >= 0)
 			CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 		else
@@ -22,18 +18,17 @@ void CSimonStateAttacking::HandleKeyboard(unordered_map<int, bool> keyCode)
 	}
 	
 
-
-
 }
 
 void CSimonStateAttacking::Exit()
 {
-
+	CSimon::GetInstance()->IsAttacking = false;
+	CSimon::GetInstance()->getCurrentAnimation()->SetIsLastFrame(false);
 }
 void CSimonStateAttacking::Enter()
 {
-	CSimon::GetInstance()->vx = 0;
-	CSimon::GetInstance()->vy = 0;
-	CSimon::GetInstance()->SetStateName(STANDING);
+	if(CSimon::GetInstance()->IsOnAir==false)
+		CSimon::GetInstance()->vx = 0;
+	CSimon::GetInstance()->IsAttacking = true;
 
 }

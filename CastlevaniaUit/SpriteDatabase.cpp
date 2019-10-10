@@ -15,6 +15,10 @@ void CSpriteDatabase::LoadResources()
 	sprites->AddSprite(new CSimonSprites(ATTACKING_STAND_LEFT, 5, 8));
 	sprites->AddSprite(new CSimonSprites(ATTACKING_STAND_LEFT, 6, 8));
 	sprites->AddSprite(new CSimonSprites(ATTACKING_STAND_LEFT, 7, 8));
+	sprites->AddSprite(new CSimonSprites(ATTACKING_SIT_LEFT, 15, 8));
+	sprites->AddSprite(new CSimonSprites(ATTACKING_SIT_LEFT, 16, 8));
+	sprites->AddSprite(new CSimonSprites(ATTACKING_SIT_LEFT, 17, 8));
+
 	//Simon state right
 	sprites->AddSprite(new CSimonSprites(STANDING_RIGHT, 31, 8));
 	sprites->AddSprite(new CSimonSprites(WALKING_RIGHT, 30, 8));
@@ -24,6 +28,9 @@ void CSpriteDatabase::LoadResources()
 	sprites->AddSprite(new CSimonSprites(ATTACKING_STAND_RIGHT, 26, 8));
 	sprites->AddSprite(new CSimonSprites(ATTACKING_STAND_RIGHT, 25, 8));
 	sprites->AddSprite(new CSimonSprites(ATTACKING_STAND_RIGHT, 24, 8));
+	sprites->AddSprite(new CSimonSprites(ATTACKING_SIT_RIGHT, 32, 8));
+	sprites->AddSprite(new CSimonSprites(ATTACKING_SIT_RIGHT, 47, 8));
+	sprites->AddSprite(new CSimonSprites(ATTACKING_SIT_RIGHT, 46, 8));
 
 }
 
