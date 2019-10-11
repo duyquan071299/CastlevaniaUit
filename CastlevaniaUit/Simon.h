@@ -1,10 +1,11 @@
 #pragma once
 #include"GameObject.h"
-
 #include"SimonSprites.h"
 #include"SimonState.h"
+#include"Whip.h"
 
 class CSimonState;
+class Whip;
 class CSimon :public CGameObject
 {
 private:
@@ -19,6 +20,7 @@ public:
 	~CSimon();
 	LPANIMATION getCurrentAnimation() { return currentanimation; }
 	//CSimonState* getCurrentState() { return currentstate; }
+	CWhip* whip;
 	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false;
 	void ChangeState(CSimonState* State);
 	void SetStateName(SimonState Name)

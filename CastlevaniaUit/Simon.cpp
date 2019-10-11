@@ -22,14 +22,14 @@ CSimon::CSimon() {
 	ani->Add(PLAYER, 4);
 	animations[SITTING_LEFT] = ani;
 
-	ani = new CAnimation(195);
+	ani = new CAnimation(100);
 	ani->Add(PLAYER, 0,10);
 	ani->Add(PLAYER, 5);
 	ani->Add(PLAYER, 6);
 	ani->Add(PLAYER, 7);
 	animations[ATTACKING_STAND_LEFT] = ani;
 
-	ani = new CAnimation(195);
+	ani = new CAnimation(100);
 	ani->Add(PLAYER, 4, 10);
 	ani->Add(PLAYER, 8);
 	ani->Add(PLAYER, 9);
@@ -52,14 +52,14 @@ CSimon::CSimon() {
 	ani->Add(PLAYER, 15);
 	animations[SITTING_RIGHT] = ani;
 
-	ani = new CAnimation(150);
+	ani = new CAnimation(100);
 	ani->Add(PLAYER, 11,10);
 	ani->Add(PLAYER, 16);
 	ani->Add(PLAYER, 17);
 	ani->Add(PLAYER, 18);
 	animations[ATTACKING_STAND_RIGHT] = ani;
 
-	ani = new CAnimation(150);
+	ani = new CAnimation(100);
 	ani->Add(PLAYER, 15, 10);
 	ani->Add(PLAYER, 19);
 	ani->Add(PLAYER, 20);
@@ -99,7 +99,10 @@ CSimon* CSimon:: GetInstance()
 
 void CSimon::Render()
 {
+	if (whip != nullptr)
+		whip->Render();
 	currentanimation->Render(x,y);
+	
 }
 
 void CSimon::OnKeyDown(int keyCode)
@@ -128,6 +131,8 @@ void CSimon::OnKeyDown(int keyCode)
 	case DIK_Z:
 		if ((IsStanding|| IsMoving|| IsOnAir) && !IsAttacking )
 		{
+			whip = new CWhip();
+			IsSitting = false;
 			if (nx > 0)
 			{
 				ChangeState(new CSimonStateAttacking(ATTACKING_STAND_RIGHT));
@@ -140,15 +145,19 @@ void CSimon::OnKeyDown(int keyCode)
 		}
 		else if (IsSitting && !IsAttacking)
 		{
+			whip = new CWhip();
+			
 			if (nx > 0)
 			{
 				ChangeState(new CSimonStateAttacking(ATTACKING_SIT_RIGHT));
+				
 			}
 			else
 			{
 				ChangeState(new CSimonStateAttacking(ATTACKING_SIT_LEFT));
 
 			}
+			IsSitting = true;
 		}
 		
 		break;
@@ -171,6 +180,7 @@ void CSimon::Update(DWORD dt)
 		vy = 0;
 		y = 225;
 	}
+	currentstate->Update(dt);
 
 }
 

@@ -22,15 +22,15 @@ void  CPlayScene::OnKeyUp(int KeyCode)
 
 void CPlayScene::Render()
 {
-	
 	CurrentMap->DrawTileBackground();
 	Simon->Render();
 }
 
 void CPlayScene::Update(DWORD dt)
 {
-	Simon->HandleKeyboard(keys);
 	Simon->Update(dt);
+	Simon->HandleKeyboard(keys);
+	
 
 
 }

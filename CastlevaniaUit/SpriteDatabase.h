@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Sprites.h"
 #include"SimonSprites.h"
+#include"WeaponSprite.h"
 class CSpriteDatabase
 {
 private:

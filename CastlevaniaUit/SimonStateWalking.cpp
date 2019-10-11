@@ -14,13 +14,13 @@ void CSimonStateWalking::HandleKeyboard(unordered_map<int, bool> keyCode)
 	}
 	else if (keyCode[DIK_RIGHT])
 	{
+		CSimon::GetInstance()->nx = 1;
 		if (keyCode[DIK_LEFT])
 		{
 			if(CSimon::GetInstance()->nx>0)
 				CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 			else
 				CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_LEFT));
-	
 			return;
 		}
 			
@@ -29,7 +29,7 @@ void CSimonStateWalking::HandleKeyboard(unordered_map<int, bool> keyCode)
 	}
 	else if (keyCode[DIK_LEFT])
 	{
-		
+		CSimon::GetInstance()->nx = -1;
 		//CSimon::GetInstance()->SetStateName(WALKING_LEFT);
 		CSimon::GetInstance()->SetCurrentAnimation(WALKING_LEFT);
 		CSimon::GetInstance()->vx = -SIMON_RUNNING_SPEED;

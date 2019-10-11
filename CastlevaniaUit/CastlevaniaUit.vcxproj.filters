@@ -37,6 +37,9 @@
     <Filter Include="GameGraphics">
       <UniqueIdentifier>{79c71a3e-b695-4c26-8107-1ae31a963743}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Weapon">
+      <UniqueIdentifier>{32af12a9-a1ad-440b-b619-5bbb40bcce34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -119,6 +122,15 @@
     </ClInclude>
     <ClInclude Include="SimonStateAttacking.h">
       <Filter>GameObjects\Simon</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Whip.h">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponSprite.h">
+      <Filter>GameObjects\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +227,15 @@
     </ClCompile>
     <ClCompile Include="SimonStateAttacking.cpp">
       <Filter>GameObjects\Simon</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Whip.cpp">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponSprite.cpp">
+      <Filter>GameObjects\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

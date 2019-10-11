@@ -31,6 +31,29 @@ void CSpriteDatabase::LoadResources()
 	sprites->AddSprite(new CSimonSprites(ATTACKING_SIT_RIGHT, 32, 8));
 	sprites->AddSprite(new CSimonSprites(ATTACKING_SIT_RIGHT, 47, 8));
 	sprites->AddSprite(new CSimonSprites(ATTACKING_SIT_RIGHT, 46, 8));
+	
+	//Weapon whip left
+	sprites->AddSprite(new CWeaponSprite(WHIP_1_LEFT, 0, 4));
+	sprites->AddSprite(new CWeaponSprite(WHIP_1_LEFT, 1, 4));
+	sprites->AddSprite(new CWeaponSprite(WHIP_1_LEFT, 2, 4));
+	sprites->AddSprite(new CWeaponSprite(WHIP_1_LEFT, 3, 4));
+	sprites->AddSprite(new CWeaponSprite(WHIP_2_LEFT, 4, 4));
+	sprites->AddSprite(new CWeaponSprite(WHIP_2_LEFT, 5, 4));
+	sprites->AddSprite(new CWeaponSprite(WHIP_2_LEFT, 6, 4));
+	sprites->AddSprite(new CWeaponSprite(WHIP_3_LEFT, 8, 4));
+	sprites->AddSprite(new CWeaponSprite(WHIP_3_LEFT, 9, 4));
+	sprites->AddSprite(new CWeaponSprite(WHIP_3_LEFT, 10, 4));
+	//Weapon whip right
+	sprites->AddSprite(new CWeaponSprite(WHIP_1_RIGHT, 15, 4));
+	sprites->AddSprite(new CWeaponSprite(WHIP_1_RIGHT, 14, 4));
+	sprites->AddSprite(new CWeaponSprite(WHIP_1_RIGHT, 13, 4));
+	sprites->AddSprite(new CWeaponSprite(WHIP_2_RIGHT, 19, 4));
+	sprites->AddSprite(new CWeaponSprite(WHIP_2_RIGHT, 18, 4));
+	sprites->AddSprite(new CWeaponSprite(WHIP_2_RIGHT, 17, 4));
+	sprites->AddSprite(new CWeaponSprite(WHIP_3_RIGHT, 23, 4));
+	sprites->AddSprite(new CWeaponSprite(WHIP_3_RIGHT,22, 4));
+	sprites->AddSprite(new CWeaponSprite(WHIP_3_RIGHT, 21, 4));
+
 
 }
 

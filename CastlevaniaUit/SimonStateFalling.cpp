@@ -11,8 +11,6 @@ void CSimonStateFalling::HandleKeyboard(unordered_map<int, bool> keyCode)
 	//CSimon::GetInstance()->vy = -SIMON_JUMPING_SPEED;
 	if (CSimon::GetInstance()->y>=225)
 	{
-		
-		
 		CSimon::GetInstance()->vx = 0;
 		if (CSimon::GetInstance()->nx >= 0)
 			CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_RIGHT));

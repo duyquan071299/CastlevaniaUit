@@ -27,6 +27,7 @@ public:
 	void Render(float x, float y, int alpha = 255);
 	void SetIsLastFrame(bool lastfr) { isLastFrame = lastfr; }
 	bool IsLastFrame() { return isLastFrame; }
+	int GetCurrentFrame() { return currentFrame; }
 };
 
 typedef CAnimation *LPANIMATION;

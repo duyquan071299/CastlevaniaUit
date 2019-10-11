@@ -11,9 +11,6 @@ void CSimonStateSitting::HandleKeyboard(unordered_map<int, bool> keyCode)
 			CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 		else
 			CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_LEFT));
-		
-		
-		
 
 	}
 	

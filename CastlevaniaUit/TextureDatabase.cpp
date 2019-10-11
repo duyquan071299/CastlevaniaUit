@@ -12,13 +12,13 @@ void  CTextureDatabase::LoadTextures() {
 	CTextureDatabase* textures = CTextureDatabase::GetInstance();
 	textures->AddTextures(PLAYER, "Resources\\Textures\\Simon.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->AddTextures(MAP, "Resources\\Maps\\Scene1_TileSet.png", D3DCOLOR_XRGB(0, 0, 0));
-
+	textures->AddTextures(WEAPON, "Resources\\Textures\\whip_1.png", D3DCOLOR_XRGB(255, 0, 255));
 }
 
 LPDIRECT3DTEXTURE9 CTextureDatabase::GetTexture(GraphicType type) {
 	switch (type)
 	{
-	case HOLDER: case ITEM: case WEAPON:
+	case HOLDER: case ITEM:
 		return textures[ITEM];
 	case ENEMY:
 		return textures[ENEMY];

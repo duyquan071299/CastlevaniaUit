@@ -71,3 +71,15 @@ extern enum SimonState
 	INJURED
 };
 
+extern enum ItemType
+{
+	WHIP_1_RIGHT,
+	WHIP_2_RIGHT,
+	WHIP_3_RIGHT,
+	WHIP_1_LEFT,
+	WHIP_2_LEFT,
+	WHIP_3_LEFT,
+
+
+};
+

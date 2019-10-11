@@ -178,6 +178,9 @@
     <ClInclude Include="TextureDatabase.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="ViewPort.h" />
+    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="WeaponSprite.h" />
+    <ClInclude Include="Whip.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CastlevaniaUit.rc" />
@@ -214,6 +217,9 @@
     <ClCompile Include="TextureDatabase.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="ViewPort.cpp" />
+    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="WeaponSprite.cpp" />
+    <ClCompile Include="Whip.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

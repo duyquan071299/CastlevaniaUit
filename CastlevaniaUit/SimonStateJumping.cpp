@@ -18,8 +18,6 @@ void CSimonStateJumping::HandleKeyboard(unordered_map<int, bool> keyCode)
 		else
 			CSimon::GetInstance()->ChangeState(new CSimonStateFalling(SITTING_LEFT));
 	}
-
-
 	
 }
 

@@ -7,8 +7,8 @@ class CSprite
 protected:
 	GraphicType type;
 	int Framenum;
-	int Framew = 60;
-	int Frameh = 66;
+	int Framew=60;
+	int Frameh=66;
 	int Columns;
 	LPDIRECT3DTEXTURE9 texture;
 public:
