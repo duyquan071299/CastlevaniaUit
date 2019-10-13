@@ -18,6 +18,10 @@ CMap::CMap(LPCSTR fileMatrixMap, LPCSTR fileTileSet)
 		//mapHeight = ViewPort::GetInstance()->GetCameraHeight();
 	}
 
+	rect.right = MapWidth;
+	rect.bottom = MapHeight;
+	rect.top = 0;
+	rect.left = 0;
 
 }
 
@@ -61,23 +65,38 @@ void CMap::LoadMatrixBackground(LPCSTR fileMatrixMap)
 
 void CMap::DrawTileBackground()
 {
-	RECT tileRect;
-	D3DXVECTOR3 camPos(0,0 ,0);// ViewPort::GetInstance()->GetCameraPos()
+	//RECT tileRect;
+	//D3DXVECTOR2 trans = D3DXVECTOR2(SCREEN_WIDTH / 2 - CCamera::GetInstance()->GetPosition().x,
+	//	SCREEN_HEIGHT / 2 - CCamera::GetInstance()->GetPosition().y);
+	
+		for (int i = 0; i < Rows; i++)
+			for (int j = 0; j < Columns; j++)
+			{
 
-	int cameraWidth = 0; //ViewPort::GetInstance()->GetCameraWidth();
-	int cameraHeight = 0;// ViewPort::GetInstance()->GetCameraHeight();
+				//D3DXVECTOR3 position(j * TileWidth + TileWidth / 2, i * TileHeight + tileHeight / 2, 0);
+
+				RECT objRECT;
+				objRECT.left = j*32;	
+				objRECT.top =  i*32;
+				objRECT.right = objRECT.left+TileWidth;
+				objRECT.bottom = objRECT.top+TileHeight;
+
+				//neu nam ngoai camera thi khong Draw
+				if (!isContain(objRECT, CCamera::GetInstance()->GetBound()))
+					continue;
+				TileSet = new CSprite(MAP, Matrix[i][j] - 1, 49);
+				TileSet->Settexture(CTextureDatabase::GetInstance()->GetTexture(MAP));
+				TileSet->SetFrameWH(32, 32);
+				TileSet->Draw((float)j * 32, (float)i * 32);
+				
+			
+				
 
 
-	for (int i = 0; i < Rows; i++)
-		for (int j = 0; j < Columns; j++)
-		{
-			TileSet = new CSprite(MAP, Matrix[i][j] - 1, 49);
-			TileSet->Settexture(CTextureDatabase::GetInstance()->GetTexture(MAP));
-			TileSet->SetFrameWH(32, 32);
-			TileSet->Draw(j * 32, i * 32);
-		}
+				
+			}
 
-
+	
 	/*int colStart = (int)camPos.x / TileWidth;
 	int colEnd = colStart + 16 < Columns - 1 ? colStart + 16 : Columns - 1;
 	int rowStart = (int)(camPos.y) / TileHeight;
@@ -125,4 +144,15 @@ void CMap::Update(DWORD dt)
 	//{
 		//mapObjects[i]->Update(dt);
 	//}
+	
+}
+
+bool CMap::isContain(RECT rect1, RECT rect2)
+{
+	if (rect1.left > rect2.right || rect1.right < rect2.left || rect1.top > rect2.bottom || rect1.bottom < rect2.top)
+	{
+		return false;
+	}
+
+	return true;
 }

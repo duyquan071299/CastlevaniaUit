@@ -1,7 +1,7 @@
 #pragma once
 #include"GlobalObject.h"
 #include"TextureDatabase.h"
-
+#include"Camera.h"
 class CSprite
 {
 protected:

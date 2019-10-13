@@ -8,7 +8,6 @@ CWhip::CWhip()
 	ani->Add(WEAPON, 1);
 	ani->Add(WEAPON, 2);
 	animations[WHIP_1_LEFT] = ani;
-
 	ani = new CAnimation(100);
 	ani->Add(WEAPON, 3, 10);
 	ani->Add(WEAPON,10);

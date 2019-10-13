@@ -101,7 +101,7 @@ void CSimon::Render()
 {
 	if (whip != nullptr)
 		whip->Render();
-	currentanimation->Render(x,y);
+	currentanimation->Render(x ,y );
 	
 }
 

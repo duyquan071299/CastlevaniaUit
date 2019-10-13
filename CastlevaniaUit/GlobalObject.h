@@ -10,7 +10,7 @@ using namespace std;
 // Program values
 #define WINDOW_CLASS_NAME "CastleVaniaUIT"
 #define MAIN_WINDOW_TITLE "CastleVaniaUIT"
-#define SCREEN_WIDTH 1536
+#define SCREEN_WIDTH 512
 #define SCREEN_HEIGHT 365
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0,0 )
 #define MAX_FRAME_RATE 120

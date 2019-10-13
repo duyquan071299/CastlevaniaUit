@@ -1,5 +1,6 @@
 #pragma once
 #include"AnimationDatabase.h"
+
 class CGameObject
 {
 public:

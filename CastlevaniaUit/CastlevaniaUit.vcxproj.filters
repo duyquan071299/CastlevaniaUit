@@ -84,9 +84,6 @@
     <ClInclude Include="AnimationDatabase.h">
       <Filter>GameGraphics</Filter>
     </ClInclude>
-    <ClInclude Include="ViewPort.h">
-      <Filter>FrameWork\Game Components</Filter>
-    </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>GameGraphics</Filter>
     </ClInclude>
@@ -131,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="WeaponSprite.h">
       <Filter>GameObjects\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>FrameWork\Game Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -189,9 +189,6 @@
     <ClCompile Include="AnimationDatabase.cpp">
       <Filter>GameGraphics</Filter>
     </ClCompile>
-    <ClCompile Include="ViewPort.cpp">
-      <Filter>FrameWork\Game Components</Filter>
-    </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>GameGraphics</Filter>
     </ClCompile>
@@ -236,6 +233,9 @@
     </ClCompile>
     <ClCompile Include="WeaponSprite.cpp">
       <Filter>GameObjects\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>FrameWork\Game Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -177,7 +177,7 @@
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="TextureDatabase.h" />
     <ClInclude Include="Textures.h" />
-    <ClInclude Include="ViewPort.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WeaponSprite.h" />
     <ClInclude Include="Whip.h" />
@@ -216,7 +216,7 @@
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="TextureDatabase.cpp" />
     <ClCompile Include="Textures.cpp" />
-    <ClCompile Include="ViewPort.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WeaponSprite.cpp" />
     <ClCompile Include="Whip.cpp" />
