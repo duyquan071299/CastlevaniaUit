@@ -2,6 +2,7 @@
 #include "Sprites.h"
 #include"SimonSprites.h"
 #include"WeaponSprite.h"
+#include"CandleSprite.h"
 class CSpriteDatabase
 {
 private:

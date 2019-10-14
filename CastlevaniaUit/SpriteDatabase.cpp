@@ -54,6 +54,11 @@ void CSpriteDatabase::LoadResources()
 	sprites->AddSprite(new CWeaponSprite(WHIP_3_RIGHT,22, 4));
 	sprites->AddSprite(new CWeaponSprite(WHIP_3_RIGHT, 21, 4));
 
+	//Large Candle
+	sprites->AddSprite(new CCandleSprite(LARGE_CANDLE, 0, 3));
+	sprites->AddSprite(new CCandleSprite(LARGE_CANDLE, 1, 3));
+
+
 
 }
 

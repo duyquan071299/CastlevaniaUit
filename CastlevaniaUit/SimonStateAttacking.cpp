@@ -4,7 +4,7 @@ void CSimonStateAttacking::Update(DWORD dt)
 {
 	if (CSimon::GetInstance()->nx >= 0)
 	{
-		CSimon::GetInstance()->whip->ChangeWeaponState(WHIP_1_RIGHT);
+		CSimon::GetInstance()->whip->ChangeWeaponState(CSimon::GetInstance()->nx);
 		if (CSimon::GetInstance()->IsSitting == true)
 		{
 			CSimon::GetInstance()->whip->x = CSimon::GetInstance()->x - 23.4f;
@@ -19,7 +19,7 @@ void CSimonStateAttacking::Update(DWORD dt)
 	}
 	else
 	{
-		CSimon::GetInstance()->whip->ChangeWeaponState(WHIP_1_LEFT);
+		CSimon::GetInstance()->whip->ChangeWeaponState(CSimon::GetInstance()->nx);
 		if (CSimon::GetInstance()->IsSitting == true)
 		{
 			CSimon::GetInstance()->whip->x = CSimon::GetInstance()->x - 76.4f;

@@ -5,7 +5,7 @@ void CPlayScene::Loadresources(int level) {
 	
 	Simon = CSimon::GetInstance();
 	Simon->Respawn();
-	CurrentMap = new CMap("Resources\\Maps\\scene1.txt", "Resources\\Maps\\Scene_1.png");
+	CurrentMap = new CMap("Resources\\Maps\\scene1.txt", "Resources\\Maps\\Scene_1.png", "Resources\\Maps\\Scene1_Object.txt");
 	CCamera::GetInstance()->SetWH(SCREEN_WIDTH, SCREEN_HEIGHT);
 	CCamera::GetInstance()->SetPosition(SCREEN_WIDTH / 2,
 		SCREEN_HEIGHT / 2);
@@ -28,7 +28,7 @@ void  CPlayScene::OnKeyUp(int KeyCode)
 
 void CPlayScene::Render()
 {
-	CurrentMap->DrawTileBackground();
+	CurrentMap->Draw();
 	Simon->Render();
 	//CCamera::GetInstance()->SetPosition(CCamera::GetInstance()->GetPosition() + D3DXVECTOR3(10, 0, 0));
 

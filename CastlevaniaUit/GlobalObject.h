@@ -42,6 +42,7 @@ extern enum GraphicType
 	FONT,
 	ENEMY,
 	HOLDER,
+	CANDLE,
 	INTROSCENE,
 };
 
@@ -79,6 +80,8 @@ extern enum ItemType
 	WHIP_1_LEFT,
 	WHIP_2_LEFT,
 	WHIP_3_LEFT,
+	SMALL_CANDLE,
+	LARGE_CANDLE,
 
 
 };

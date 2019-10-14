@@ -1,7 +1,7 @@
 #include "Map.h"
 
 
-CMap::CMap(LPCSTR fileMatrixMap, LPCSTR fileTileSet)
+CMap::CMap(LPCSTR fileMatrixMap, LPCSTR fileTileSet, LPCSTR fileItemMap)
 {
 	TileWidth = TILE_WIDTH;
 	TileHeight = TILE_HEIGHT;
@@ -11,17 +11,15 @@ CMap::CMap(LPCSTR fileMatrixMap, LPCSTR fileTileSet)
 	{
 		AddTileSet(fileMatrixMap, fileTileSet);
 		LoadMatrixBackground(fileMatrixMap);
+		
 	}
 	else
 	{
 		//mapWidth = ViewPort::GetInstance()->GetCameraWidth();
 		//mapHeight = ViewPort::GetInstance()->GetCameraHeight();
 	}
-
-	rect.right = MapWidth;
-	rect.bottom = MapHeight;
-	rect.top = 0;
-	rect.left = 0;
+	 this->listObject = LoadMapObject(fileItemMap);
+	
 
 }
 
@@ -123,9 +121,18 @@ void CMap::DrawTileBackground()
 
 }
 
+void CMap::DrawObject()
+{
+	for (int i = 0; i < listObject.size(); i++)
+	{
+		listObject[i]->Render();
+	}
+}
+
 void CMap::Draw()
 {
 	DrawTileBackground();
+	DrawObject();
 
 	//vector<LPGAMEOBJECT> mapObjects = grid->GetListMapObjectInViewPort();
 
@@ -156,3 +163,27 @@ bool CMap::isContain(RECT rect1, RECT rect2)
 
 	return true;
 }
+vector<LPGAMEOBJECT> CMap::LoadMapObject(LPCSTR fileItemMap)
+{
+	int type, x, y;
+	vector<LPGAMEOBJECT> listObject;
+	ifstream ifs(fileItemMap);
+	if (ifs.is_open()) {
+		while (ifs.good()) {
+			ifs >> type >> x >> y;
+			switch (type)
+			{
+			case 1:
+			{
+				CLargeCandle* LargeCandle = new CLargeCandle();
+				LargeCandle->SetPosition(x, y);
+				listObject.push_back(LargeCandle);
+				break;
+			}
+			}
+		}
+		ifs.close();
+	}
+	return listObject;
+}
+

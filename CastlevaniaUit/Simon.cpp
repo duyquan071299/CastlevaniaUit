@@ -132,6 +132,7 @@ void CSimon::OnKeyDown(int keyCode)
 		if ((IsStanding|| IsMoving|| IsOnAir) && !IsAttacking )
 		{
 			whip = new CWhip();
+			whip->SetType(WhipLevel);
 			IsSitting = false;
 			if (nx > 0)
 			{
@@ -161,6 +162,13 @@ void CSimon::OnKeyDown(int keyCode)
 		}
 		
 		break;
+	case DIK_M:
+		WhipLevel += 1;
+		if (WhipLevel > 3)
+			WhipLevel = 1;
+		
+		
+
 	}
 }
 

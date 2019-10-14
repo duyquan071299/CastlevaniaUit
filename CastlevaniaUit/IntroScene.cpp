@@ -3,7 +3,7 @@
 void CIntroScene::Loadresources() {
 	SimonSprite = CSpriteDatabase::GetInstance()->GetSprite(PLAYER,0);
 	
-	CurrentMap = new CMap("Resources\\Maps\\scene1.txt", "Resources\\Maps\\Scene_1.png");
+	CurrentMap = new CMap("Resources\\Maps\\scene1.txt", "Resources\\Maps\\Scene_1.png", "Resources\\Maps\\Scene1_Object.txt");
 	CurrentMap->DrawTileBackground();
 	SimonSprite->Draw(80, 230);
 		

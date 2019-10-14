@@ -21,6 +21,7 @@ public:
 	LPANIMATION getCurrentAnimation() { return currentanimation; }
 	//CSimonState* getCurrentState() { return currentstate; }
 	CWhip* whip;
+	int WhipLevel = 1;
 	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false;
 	void ChangeState(CSimonState* State);
 	void SetStateName(SimonState Name)

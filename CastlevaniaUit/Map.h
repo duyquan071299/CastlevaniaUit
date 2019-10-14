@@ -5,6 +5,7 @@
 #include <string.h>
 #include "Sprites.h"
 #include"Camera.h"
+#include"LargeCandle.h"
 
 #define TILE_WIDTH 32
 #define TILE_HEIGHT 32
@@ -21,7 +22,7 @@ private:
 	LPSPRITE TileSet;
 	vector<LPSPRITE> listTileSet;
 	vector<LPCSTR> listMapData;
-	
+	vector<LPGAMEOBJECT> listObject;
 
 
 
@@ -33,11 +34,13 @@ private:
 public:
 	void DrawTileBackground();
 	RECT rect;
-	CMap(LPCSTR fileMatrixMap, LPCSTR fileTileSet);
+	CMap(LPCSTR fileMatrixMap, LPCSTR fileTileSet, LPCSTR fileItemMap);
 
 	~CMap();
 
 	void AddTileSet(LPCSTR fileMatrixMap, LPCSTR fileTileSet);
+	void DrawObject();
+	vector<LPGAMEOBJECT> LoadMapObject(LPCSTR fileItemMap);
 
 	//void SetCurrentBackground(int currentBackground);
 
