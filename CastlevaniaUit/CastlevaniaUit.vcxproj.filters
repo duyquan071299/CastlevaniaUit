@@ -147,6 +147,9 @@
     <ClInclude Include="CandleSprite.h">
       <Filter>GameObjects\MapObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>GameObjects\MapObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CastlevaniaUit.rc">
@@ -262,6 +265,9 @@
       <Filter>GameObjects\MapObjects</Filter>
     </ClCompile>
     <ClCompile Include="CandleSprite.cpp">
+      <Filter>GameObjects\MapObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
       <Filter>GameObjects\MapObjects</Filter>
     </ClCompile>
   </ItemGroup>

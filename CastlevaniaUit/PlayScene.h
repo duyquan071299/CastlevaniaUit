@@ -8,6 +8,7 @@ class CPlayScene : public CScene
 private:
 	CSimon* Simon;
 	CMap* CurrentMap;
+	vector<LPGAMEOBJECT> listObject;
 public:
 	CPlayScene() { Loadresources(0); };
 	void Loadresources(int level);

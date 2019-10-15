@@ -5,8 +5,7 @@ void CSimonStateSitting::Update(DWORD dt) {};
 void CSimonStateSitting::HandleKeyboard(unordered_map<int, bool> keyCode)
 {
 	if (!keyCode[DIK_DOWN] || keyCode[DIK_UP])
-	{
-		
+	{	
 		if (CSimon::GetInstance()->nx > 0)
 			CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 		else
@@ -18,7 +17,7 @@ void CSimonStateSitting::HandleKeyboard(unordered_map<int, bool> keyCode)
 };
 
 void CSimonStateSitting::Exit() {
-	CSimon::GetInstance()->IsSitting = false;
+	//CSimon::GetInstance()->IsSitting = false;
 };
 void CSimonStateSitting::Enter() 
 {

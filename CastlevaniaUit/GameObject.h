@@ -1,5 +1,27 @@
 #pragma once
 #include"AnimationDatabase.h"
+#include <algorithm>
+
+class CGameObject;
+typedef CGameObject * LPGAMEOBJECT;
+
+struct CCollisionEvent;
+typedef CCollisionEvent * LPCOLLISIONEVENT;
+struct CCollisionEvent
+{
+	LPGAMEOBJECT obj;
+	float t, nx, ny;
+	CCollisionEvent(float t, float nx, float ny, LPGAMEOBJECT obj = NULL) { this->t = t; this->nx = nx; this->ny = ny; this->obj = obj; }
+
+	static bool compare(const LPCOLLISIONEVENT &a, LPCOLLISIONEVENT &b)
+	{
+		return a->t < b->t;
+	}
+};
+
+
+
+
 
 class CGameObject
 {
@@ -13,12 +35,12 @@ public:
 
 	float vx;
 	float vy;
-
+	ItemType type;
 	int nx;
 
 	//int state;
 
-	//DWORD dt;
+	DWORD dt;
 
 	
 
@@ -30,28 +52,38 @@ public:
 
 	//int GetState() { return this->state; }
 
-	//void RenderBoundingBox();
+	void RenderBoundingBox();
 
-	//LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
-	//void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
-	/*void FilterCollision(
+	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
+	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
+	void FilterCollision(
 		vector<LPCOLLISIONEVENT> &coEvents,
 		vector<LPCOLLISIONEVENT> &coEventsResult,
 		float &min_tx,
 		float &min_ty,
 		float &nx,
-		float &ny);*/
+		float &ny);
 
 	//static void AddAnimation(int aniId);
 
 	//CGameObject();
 
-	//virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
-	//virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
+	virtual void GetBoundingBox(float &x, float &y, float &framew, float &frameh) = 0;
+	RECT GetBBox()
+	{
+		float x,y,width, height;
+		GetBoundingBox(x, y, width, height);
+		RECT Bbox;
+		Bbox.left = (long)x;
+		Bbox.top = (long)y;
+		Bbox.right = (long)(x + width);
+		Bbox.bottom = (long)(y + height);
+		return  Bbox;
+	}
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;
 	//virtual void SetState(int state) { this->state = state; }
 
 
 	//~CGameObject();
 };
-typedef CGameObject *LPGAMEOBJECT;

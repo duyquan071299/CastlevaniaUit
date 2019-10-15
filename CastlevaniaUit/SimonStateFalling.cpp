@@ -9,7 +9,7 @@ void CSimonStateFalling::Update(DWORD dt)
 void CSimonStateFalling::HandleKeyboard(unordered_map<int, bool> keyCode)
 {
 	//CSimon::GetInstance()->vy = -SIMON_JUMPING_SPEED;
-	if (CSimon::GetInstance()->y>=225)
+	if (CSimon::GetInstance()->vy==0)
 	{
 		CSimon::GetInstance()->vx = 0;
 		if (CSimon::GetInstance()->nx >= 0)

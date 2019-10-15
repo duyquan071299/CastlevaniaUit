@@ -8,8 +8,6 @@ void CSimonStateJumping::Update(DWORD dt)
 }
 void CSimonStateJumping::HandleKeyboard(unordered_map<int, bool> keyCode)
 {
-	//CSimon::GetInstance()->vy = -SIMON_JUMPING_SPEED;
-	//CSimon::GetInstance()->vx = 0;
 	if (CSimon::GetInstance()->vy > 0)
 	{
 		CSimon::GetInstance()->IsFalling = true;

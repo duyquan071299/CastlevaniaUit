@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="AnimationDatabase.h" />
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="Brick.h" />
     <ClInclude Include="CandleSprite.h" />
     <ClInclude Include="Dagger.h" />
     <ClInclude Include="Candle.h" />
@@ -196,6 +197,7 @@
   <ItemGroup>
     <ClCompile Include="AnimationDatabase.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="Brick.cpp" />
     <ClCompile Include="CandleSprite.cpp" />
     <ClCompile Include="Dagger.cpp" />
     <ClCompile Include="Candle.cpp" />

@@ -5,6 +5,7 @@
 #include <string.h>
 #include "Sprites.h"
 #include"Camera.h"
+#include"Brick.h"
 #include"LargeCandle.h"
 
 #define TILE_WIDTH 32
@@ -43,7 +44,10 @@ public:
 	vector<LPGAMEOBJECT> LoadMapObject(LPCSTR fileItemMap);
 
 	//void SetCurrentBackground(int currentBackground);
-
+	vector<LPGAMEOBJECT> GetListObject()
+	{
+		return listObject;
+	}
 	void Draw();
 
 	int GetMapWidth() { return this->MapWidth; }

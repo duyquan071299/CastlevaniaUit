@@ -6,7 +6,7 @@ void CSimonStateWalking::HandleKeyboard(unordered_map<int, bool> keyCode)
 {
 	if (keyCode[DIK_DOWN])
 	{
-		if (CSimon::GetInstance()->vx > 0)
+		if (CSimon::GetInstance()->nx > 0)
 			CSimon::GetInstance()->ChangeState(new CSimonStateSitting(SITTING_RIGHT));
 		else
 			CSimon::GetInstance()->ChangeState(new CSimonStateSitting(SITTING_LEFT));

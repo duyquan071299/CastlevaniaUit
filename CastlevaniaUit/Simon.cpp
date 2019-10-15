@@ -71,7 +71,7 @@ CSimon::CSimon() {
 
 void CSimon::Respawn()
 {
-	this->y = 225;
+	this->y = 200;
 	//currentanimation= animations[STANDING_RIGHT];
 	ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 	nx = 1;
@@ -102,6 +102,7 @@ void CSimon::Render()
 	if (whip != nullptr)
 		whip->Render();
 	currentanimation->Render(x ,y );
+	RenderBoundingBox();
 	
 }
 
@@ -147,6 +148,7 @@ void CSimon::OnKeyDown(int keyCode)
 		else if (IsSitting && !IsAttacking)
 		{
 			whip = new CWhip();
+			whip->SetType(WhipLevel);
 			
 			if (nx > 0)
 			{
@@ -177,9 +179,108 @@ void CSimon::OnKeyUp(int keyCode)
 	
 }
 
-void CSimon::Update(DWORD dt)
+void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	y += vy * dt;
+	// Calculate dx, dy 
+	CGameObject::Update(dt);
+
+	// Simple fall down
+	vy += GAME_GRAVITY * dt;
+
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	coEvents.clear();
+
+	// turn off collision when die 
+	//if (currentstate->GetStateName() != MARIO_STATE_DIE)
+		CalcPotentialCollisions(coObjects, coEvents);
+
+	// reset untouchable timer if untouchable time has passed
+	/*if (GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
+	{
+		untouchable_start = 0;
+		untouchable = 0;
+	}*/
+
+	// No collision occured, proceed normally
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
+	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+		// block 
+		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+		y += min_ty * dy + ny * 0.4f;
+
+		if (nx != 0) vx = 0;
+		if (ny != 0) vy = 0;
+
+		// Collision logic with Goombas
+		//for (UINT i = 0; i < coEventsResult.size(); i++)
+		//{
+		//	LPCOLLISIONEVENT e = coEventsResult[i];
+
+		//	if (dynamic_cast<CGoomba *>(e->obj))
+		//	{
+		//		CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
+
+		//		 jump on top >> kill Goomba and deflect a bit 
+		//		if (e->ny < 0)
+		//		{
+		//			if (goomba->GetState() != GOOMBA_STATE_DIE)
+		//			{
+		//				goomba->SetState(GOOMBA_STATE_DIE);
+		//				vy = -MARIO_JUMP_DEFLECT_SPEED;
+		//			}
+		//		}
+		//		else if (e->nx != 0)
+		//		{
+		//			/*if (untouchable==0)
+		//			{
+		//				if (goomba->GetState()!=GOOMBA_STATE_DIE)
+		//				{
+		//					if (level > MARIO_LEVEL_SMALL)
+		//					{
+		//						level = MARIO_LEVEL_SMALL;
+		//						StartUntouchable();
+		//					}
+		//					else
+		//						SetState(MARIO_STATE_DIE);
+		//				}
+		//			}*/
+		//		}
+		//	}
+		//}
+	}
+
+	// clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+	if (whip != nullptr)
+		whip->Update(dt, coObjects);
+	currentstate->Update(dt);
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*y += vy * dt;
 	x += vx * dt;
 	vy += GAME_GRAVITY * dt;
 	if (y > 225)
@@ -188,7 +289,7 @@ void CSimon::Update(DWORD dt)
 		vy = 0;
 		y = 225;
 	}
-	currentstate->Update(dt);
+	currentstate->Update(dt);*/
 
 }
 
@@ -206,4 +307,23 @@ void CSimon::ChangeState(CSimonState* State) {
 	currentstate->Enter();
 	StateName = State->GetStateName();
 	currentanimation = animations[StateName];
+}
+
+void CSimon::GetBoundingBox(float &x, float &y, float &framew, float &frameh)
+{
+	if (nx > 0)
+	{
+		x = this->x + 16;
+		y = this->y + 4;
+		framew = 32;
+		frameh = 60;
+	}
+	else
+	{
+		x = this->x+12;
+		y = this->y+4;
+		framew = 32;
+		frameh = 60;
+	}
+	
 }

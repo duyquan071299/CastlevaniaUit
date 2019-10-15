@@ -1,16 +1,14 @@
 #include"PlayScene.h"
 
 void CPlayScene::Loadresources(int level) {
-	//SimonSpr = CSpriteDatabase::GetInstance()->GetSprite(PLAYER, 0);
 	
 	Simon = CSimon::GetInstance();
 	Simon->Respawn();
 	CurrentMap = new CMap("Resources\\Maps\\scene1.txt", "Resources\\Maps\\Scene_1.png", "Resources\\Maps\\Scene1_Object.txt");
-	CCamera::GetInstance()->SetWH(SCREEN_WIDTH, SCREEN_HEIGHT);
-	CCamera::GetInstance()->SetPosition(SCREEN_WIDTH / 2,
+	CCamera::GetInstance()->SetWH(512, SCREEN_HEIGHT);
+	CCamera::GetInstance()->SetPosition(512 / 2,
 		SCREEN_HEIGHT / 2);
-	//CurrentMap->DrawTileBackground();
-	//SimonSprite->Draw(80, 230);
+	this->listObject = CurrentMap->GetListObject();
 };
 
 void CPlayScene::OnKeyDown(int KeyCode)
@@ -36,10 +34,23 @@ void CPlayScene::Render()
 
 void CPlayScene::Update(DWORD dt)
 {
-	CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 +40, 0);
-
+	CCamera::GetInstance()->SetPosition(Simon->x - 512 / 2 +40, 0);
 	CCamera::GetInstance()->Update(CurrentMap->GetMapWidth());
-	Simon->Update(dt);
+	//listObject.push_back
+
+	vector<LPGAMEOBJECT> coObjects;
+	for (int i = 0; i < listObject.size(); i++)
+	{
+		coObjects.push_back(listObject[i]);
+	}
+
+	for (int i = 0; i < listObject.size(); i++)
+	{
+		listObject[i]->Update(dt, &coObjects);
+	}
+
+
+	Simon->Update(dt, &coObjects);
 	Simon->HandleKeyboard(keys);
 	CurrentMap->Update(dt);
 	

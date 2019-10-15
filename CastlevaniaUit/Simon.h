@@ -32,11 +32,14 @@ public:
 	{
 		currentanimation = animations[Name];
 	}
-	void Update(DWORD dt);
+	//void Update(DWORD dt);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	void Respawn();
 	void HandleKeyboard(unordered_map<int, bool> keys);
 	void OnKeyDown(int keyCode);
 	void OnKeyUp(int keyCode);
 	static CSimon* GetInstance();
 	void Render();
+
+	virtual void GetBoundingBox(float &x, float &y, float &framew, float &frameh);
 };

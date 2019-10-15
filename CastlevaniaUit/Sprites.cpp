@@ -12,7 +12,6 @@ void CSprite::Draw(float x, float y, int alpha)
 {
 	
 	D3DXVECTOR3 position(floor(x- CCamera::GetInstance()->x), floor(y- CCamera::GetInstance()->y), 0);
-	//D3DXVECTOR3 center(Framew / 2, Frameh / 2, 0);
 	RECT rect;
 	rect.left = (Framenum % Columns) * Framew;
 	rect.top = (Framenum / Columns) * Frameh;

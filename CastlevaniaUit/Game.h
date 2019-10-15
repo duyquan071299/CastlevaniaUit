@@ -23,6 +23,11 @@ public:
 	void Update(DWORD dt);			
 	void Render();					
 	void ProcessKeyboard();
+	static void SweptAABB(
+		float ml, float mt, float mr, float mb,
+		float dx, float dy,
+		float sl, float st, float sr, float sb,
+		float &t, float &nx, float &ny);
 	//int IsKeyDown();
 	~CGame(){}
 

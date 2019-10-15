@@ -48,13 +48,30 @@ CWhip::CWhip()
 	animation = animations[WHIP_2_RIGHT];
 	x = 100;
 }
-void CWhip::Update(DWORD dt)
+void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	if (animation->GetCurrentFrame() == 3)
+	{
+		for (UINT i = 0; i < coObjects->size(); i++)
+		{
+
+			if (isContain(GetBBox(), coObjects->at(i)->GetBBox()))
+			{
+				if (coObjects->at(i)->type == LARGE_CANDLE)
+				{
+					coObjects->at(i)->y -= 16;
+				}
+			}
+
+				
+		}
+	}
 
 }
 void CWhip::Render()
 {
 	animation->Render(x,y);
+	RenderBoundingBox();
 }
 
 void CWhip::ChangeWeaponState(int nx)
@@ -90,4 +107,24 @@ void CWhip::ChangeWeaponState(int nx)
 		}
 	}
 	
+}
+
+void CWhip::GetBoundingBox(float &x, float &y, float &framew, float &frameh)
+{
+	if (nx >= 0)
+	{
+		x = this->x + 80;
+		y = this->y + 16;
+		framew = 50;
+		frameh = 16;
+	}
+	else
+	{
+		x = this->x+30;
+		y = this->y + 16;
+		framew = 50;
+		frameh = 16;
+
+	}
+
 }

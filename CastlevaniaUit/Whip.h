@@ -14,8 +14,9 @@ public:
 	int GetType() {
 		return this->WhipType;
 	}
-	void Update(DWORD dt);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	void Render();
 	void ChangeWeaponState(int nx);
+	virtual void GetBoundingBox(float &x, float &y, float &framew, float &frameh);
 
 };

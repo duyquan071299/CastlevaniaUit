@@ -82,10 +82,12 @@ void CMap::DrawTileBackground()
 				//neu nam ngoai camera thi khong Draw
 				if (!isContain(objRECT, CCamera::GetInstance()->GetBound()))
 					continue;
-				TileSet = new CSprite(MAP, Matrix[i][j] - 1, 49);
-				TileSet->Settexture(CTextureDatabase::GetInstance()->GetTexture(MAP));
-				TileSet->SetFrameWH(32, 32);
-				TileSet->Draw((float)j * 32, (float)i * 32);
+			
+					TileSet = new CSprite(MAP, Matrix[i][j] - 1, 49);
+					TileSet->Settexture(CTextureDatabase::GetInstance()->GetTexture(MAP));
+					TileSet->SetFrameWH(32, 32);
+					TileSet->Draw((float)j * 32, (float)i * 32);
+				
 				
 			
 				
@@ -95,29 +97,7 @@ void CMap::DrawTileBackground()
 			}
 
 	
-	/*int colStart = (int)camPos.x / TileWidth;
-	int colEnd = colStart + 16 < Columns - 1 ? colStart + 16 : Columns - 1;
-	int rowStart = (int)(camPos.y) / TileHeight;
-	int rowEnd = rowStart + 15 < Rows - 1 ? rowStart + 15 : Rows - 1;
 
-	if (colStart >= 0 && rowStart >= 0)
-	{
-		for (int i = rowStart; i <= rowEnd; i++)
-		{
-			for (int j = colStart; j <= colEnd; j++)
-			{
-				//tileRect dung de lay ra RECT trong tile set de ve
-				tileRect.left = (Matrix[i][j] % 16) * TileWidth;
-				tileRect.top = (Matrix[i][j] / 16) * TileHeight;
-				tileRect.right = tileRect.left + TileWidth;
-				tileRect.bottom = tileRect.top + TileHeight;
-
-				//cast pos to int-type to avoid tearing CMap
-				//listTileSet[currentBackground]->SetCenter(D3DXVECTOR3(0, 0, 0));
-				//listTileSet[currentBackground]->Draw(D3DXVECTOR3(j * tileWidth, i * tileHeight, 0), tileRect);
-			}
-		}
-	}*/
 
 }
 
@@ -125,6 +105,13 @@ void CMap::DrawObject()
 {
 	for (int i = 0; i < listObject.size(); i++)
 	{
+		RECT objRECT;
+		objRECT.left = listObject[i]->x;
+		objRECT.top = listObject[i]->y;
+		objRECT.right = objRECT.left + TileWidth;
+		objRECT.bottom = objRECT.top + TileHeight;
+		if (!isContain(objRECT, CCamera::GetInstance()->GetBound()))
+			continue;
 		listObject[i]->Render();
 	}
 }
@@ -180,10 +167,31 @@ vector<LPGAMEOBJECT> CMap::LoadMapObject(LPCSTR fileItemMap)
 				listObject.push_back(LargeCandle);
 				break;
 			}
+			case 2:
+			{
+
+			}
 			}
 		}
 		ifs.close();
 	}
+		for (int j = 0; j < Columns; j++)
+		{
+			if (Matrix[9][j] == 49)
+			{
+				CBrick* brick = new CBrick();
+				brick->x = (float)j * 32;
+				brick->y = (float)9 * 32;
+				brick->SetSprite(new CSprite(MAP, Matrix[9][j] - 1, 49));
+				brick->GetSprite()->SetFrameWH(32, 32);
+				brick->GetSprite()->Settexture(CTextureDatabase::GetInstance()->GetTexture(MAP));
+				listObject.push_back(brick);
+
+			}
+		}
+
+
+
 	return listObject;
 }
 

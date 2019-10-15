@@ -10,7 +10,7 @@ using namespace std;
 // Program values
 #define WINDOW_CLASS_NAME "CastleVaniaUIT"
 #define MAIN_WINDOW_TITLE "CastleVaniaUIT"
-#define SCREEN_WIDTH 512
+#define SCREEN_WIDTH 1368
 #define SCREEN_HEIGHT 365
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0,0 )
 #define MAX_FRAME_RATE 120
@@ -32,7 +32,7 @@ extern LPDIRECT3DSURFACE9 backBuffer;
 
 
 //enum for sprite
-extern enum GraphicType
+enum GraphicType
 {
 	PLAYER,
 	ITEM,
@@ -44,10 +44,11 @@ extern enum GraphicType
 	HOLDER,
 	CANDLE,
 	INTROSCENE,
+	BBOX
 };
 
 
-extern enum SimonState
+enum SimonState
 {
 	WALKING,
 	WALKING_LEFT,
@@ -72,7 +73,7 @@ extern enum SimonState
 	INJURED
 };
 
-extern enum ItemType
+enum ItemType
 {
 	WHIP_1_RIGHT,
 	WHIP_2_RIGHT,
@@ -82,6 +83,7 @@ extern enum ItemType
 	WHIP_3_LEFT,
 	SMALL_CANDLE,
 	LARGE_CANDLE,
+	BRICK,
 
 
 };

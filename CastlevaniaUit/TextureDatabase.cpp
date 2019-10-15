@@ -14,6 +14,7 @@ void  CTextureDatabase::LoadTextures() {
 	textures->AddTextures(MAP, "Resources\\Maps\\Scene1_TileSet.png", D3DCOLOR_XRGB(0, 0, 0));
 	textures->AddTextures(WEAPON, "Resources\\Textures\\whip_1.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->AddTextures(CANDLE, "Resources\\Textures\\Candle.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->AddTextures(BBOX, "Resources\\Textures\\bbox.png", D3DCOLOR_XRGB(0, 0, 0));
 }
 
 LPDIRECT3DTEXTURE9 CTextureDatabase::GetTexture(GraphicType type) {
