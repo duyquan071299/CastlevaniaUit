@@ -43,6 +43,9 @@
     <Filter Include="GameObjects\MapObjects">
       <UniqueIdentifier>{cee63ad9-1831-4606-b4c1-25a90fc06386}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Item">
+      <UniqueIdentifier>{c0bf54c4-5991-4ff5-a594-d0d6adb57e21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -138,9 +141,6 @@
     <ClInclude Include="Dagger.h">
       <Filter>GameObjects\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="Candle.h">
-      <Filter>GameObjects\MapObjects</Filter>
-    </ClInclude>
     <ClInclude Include="LargeCandle.h">
       <Filter>GameObjects\MapObjects</Filter>
     </ClInclude>
@@ -148,6 +148,15 @@
       <Filter>GameObjects\MapObjects</Filter>
     </ClInclude>
     <ClInclude Include="Brick.h">
+      <Filter>GameObjects\MapObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>GameObjects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemSprite.h">
+      <Filter>GameObjects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectSprite.h">
       <Filter>GameObjects\MapObjects</Filter>
     </ClInclude>
   </ItemGroup>
@@ -258,9 +267,6 @@
     <ClCompile Include="Dagger.cpp">
       <Filter>GameObjects\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="Candle.cpp">
-      <Filter>GameObjects\MapObjects</Filter>
-    </ClCompile>
     <ClCompile Include="LargeCandle.cpp">
       <Filter>GameObjects\MapObjects</Filter>
     </ClCompile>
@@ -269,6 +275,9 @@
     </ClCompile>
     <ClCompile Include="Brick.cpp">
       <Filter>GameObjects\MapObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>GameObjects\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

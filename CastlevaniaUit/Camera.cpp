@@ -16,12 +16,6 @@ CCamera::CCamera()
 }
 
 
-//
-//void CCamera::SetPosition(D3DXVECTOR3 pos)
-//{
-//	this->Position = pos;
-//}
-
 RECT CCamera::GetBound()
 {
 	RECT bound;

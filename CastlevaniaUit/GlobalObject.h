@@ -4,19 +4,22 @@
 #include <dinput.h>
 #include <WinUser.h>
 #include <unordered_map>
+#include <fstream>
+#include<string>
 
 
 using namespace std;
 // Program values
 #define WINDOW_CLASS_NAME "CastleVaniaUIT"
 #define MAIN_WINDOW_TITLE "CastleVaniaUIT"
-#define SCREEN_WIDTH 1368
+#define SCREEN_WIDTH 512
 #define SCREEN_HEIGHT 365
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0,0 )
 #define MAX_FRAME_RATE 120
 #define KEYBOARD_BUFFER_SIZE 1024
 #define SIMON_RUNNING_SPEED 0.095f
 #define SIMON_JUMPING_SPEED 0.58f
+#define DAGGER_SPEED 0.04f
 #define CAM_X 0.0f
 #define CAM_Y 0.0f
 #define GAME_GRAVITY 0.002f
@@ -31,6 +34,7 @@ extern LPDIRECT3DDEVICE9 d3ddv;								// Device directX hiện tại (nhằm đ
 extern LPDIRECT3DSURFACE9 backBuffer;
 
 
+
 //enum for sprite
 enum GraphicType
 {
@@ -41,11 +45,12 @@ enum GraphicType
 	MAP,
 	FONT,
 	ENEMY,
-	HOLDER,
+	BBOX,
 	CANDLE,
 	INTROSCENE,
-	BBOX
-};
+	EFFECT,
+	
+};	
 
 
 enum SimonState
@@ -84,7 +89,30 @@ enum ItemType
 	SMALL_CANDLE,
 	LARGE_CANDLE,
 	BRICK,
+	HOLDER,
+	DAGGER_LEFT,
+	DAGGER_RIGHT,
 
 
 };
 
+enum HolderType
+{
+	HEART,
+	LARGE_HEART,
+	MONEY_1,
+	MONEY_2,
+	MONEY_3,
+	WHIP,
+	DAGGER,
+	WATCH,
+	CROSS,
+	HOLYWATER,
+	CHICKEN,
+};
+
+enum EffectType
+{
+	FIRE,
+	DESTROYED,
+};

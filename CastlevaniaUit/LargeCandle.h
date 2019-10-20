@@ -1,15 +1,18 @@
 #pragma once
 #include"GameObject.h"
+#include"Item.h"
 
 class CLargeCandle:public CGameObject
 {
 	LPANIMATION animation;
+	CItem * Holder;
 	
 public:
-	CLargeCandle();
+	CLargeCandle(int x,int y,HolderType type);
 	~CLargeCandle(){}
-	void Update(DWORD dt);
+	CItem * GetHolder() { return Holder; }
+	void ChangeAnimation();
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	void Render();
-	
 	virtual void GetBoundingBox(float &x, float &y, float &framew, float &frameh);
 };

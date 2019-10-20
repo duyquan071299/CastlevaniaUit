@@ -1,10 +1,13 @@
 #pragma once
 #include"Weapon.h"
+#include"LargeCandle.h"
 
 class CWhip : public CWeapon
 {
 	unordered_map<ItemType, LPANIMATION> animations;
 	int WhipType = 1;
+	int WhipWidth;
+
 public:
 	CWhip();
 	//~CWhip();

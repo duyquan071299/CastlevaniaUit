@@ -3,6 +3,8 @@
 #include"SimonSprites.h"
 #include"WeaponSprite.h"
 #include"CandleSprite.h"
+#include"ItemSprite.h"
+#include"EffectSprite.h"
 class CSpriteDatabase
 {
 private:

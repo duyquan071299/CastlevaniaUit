@@ -3,6 +3,8 @@
 #include"SimonSprites.h"
 #include"SimonState.h"
 #include"Whip.h"
+#include"Item.h"
+#include"Dagger.h"
 
 class CSimonState;
 class Whip;
@@ -14,15 +16,17 @@ private:
 	LPANIMATION currentanimation;
 	CSimonState* currentstate;
 	SimonState StateName;
+	int Heart;
+
 
 public:
 	CSimon();
 	~CSimon();
 	LPANIMATION getCurrentAnimation() { return currentanimation; }
-	//CSimonState* getCurrentState() { return currentstate; }
 	CWhip* whip;
+	CWeapon* SecondWeapon;
 	int WhipLevel = 1;
-	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false;
+	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false,isThrowing=false,isHitting=false;
 	void ChangeState(CSimonState* State);
 	void SetStateName(SimonState Name)
 	{
@@ -32,13 +36,26 @@ public:
 	{
 		currentanimation = animations[Name];
 	}
-	//void Update(DWORD dt);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	void Respawn();
 	void HandleKeyboard(unordered_map<int, bool> keys);
 	void OnKeyDown(int keyCode);
 	void OnKeyUp(int keyCode);
+	bool isContain(RECT rect1, RECT rect2)
+	{
+		if (rect1.left > rect2.right || rect1.right < rect2.left || rect1.top > rect2.bottom || rect1.bottom < rect2.top)
+		{
+			return false;
+		}
+
+		return true;
+	}
 	static CSimon* GetInstance();
+	void ChangeSecondWeapon(CWeapon* type)
+	{
+		delete SecondWeapon;
+		SecondWeapon = type;
+	}
 	void Render();
 
 	virtual void GetBoundingBox(float &x, float &y, float &framew, float &frameh);

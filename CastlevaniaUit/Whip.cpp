@@ -1,4 +1,12 @@
 #include"Whip.h"
+#define WHIP_1_WIDTH 50
+#define WHIP_2_WIDTH 50
+#define WHIP_3_WIDTH 80
+#define WHIP_HEIGHT 16
+#define WHIP_BBOX_POS_X_RIGHT 80
+#define WHIP_BBOX_POS_X_LEFT 30
+#define WHIP_3_BBOX_POS_X 0
+#define WHIP_BBOX_POS_Y 16
 
 CWhip::CWhip()
 {
@@ -41,12 +49,8 @@ CWhip::CWhip()
 	ani->Add(WEAPON, 18);
 	animations[WHIP_3_RIGHT] = ani;
 
-
-
-
-
-	animation = animations[WHIP_2_RIGHT];
-	x = 100;
+	animation = animations[WHIP_1_RIGHT];
+	
 }
 void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -57,13 +61,11 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 			if (isContain(GetBBox(), coObjects->at(i)->GetBBox()))
 			{
-				if (coObjects->at(i)->type == LARGE_CANDLE)
+				if (dynamic_cast<CLargeCandle *>(coObjects->at(i)))
 				{
-					coObjects->at(i)->y -= 16;
+					dynamic_cast<CLargeCandle *>(coObjects->at(i))->ChangeAnimation();
 				}
 			}
-
-				
 		}
 	}
 
@@ -73,7 +75,6 @@ void CWhip::Render()
 	animation->Render(x,y);
 	RenderBoundingBox();
 }
-
 void CWhip::ChangeWeaponState(int nx)
 {
 	if (nx > 0)
@@ -81,14 +82,18 @@ void CWhip::ChangeWeaponState(int nx)
 		if (WhipType == 1)
 		{
 			animation = animations[WHIP_1_RIGHT];
+			WhipWidth = WHIP_1_WIDTH;
 		}
 		else if (WhipType == 2)
 		{
 			animation = animations[WHIP_2_RIGHT];
+			WhipWidth = WHIP_2_WIDTH;
+
 		}
 		else
 		{
 			animation = animations[WHIP_3_RIGHT];
+			WhipWidth = WHIP_3_WIDTH;
 		}
 	}
 	else
@@ -96,35 +101,35 @@ void CWhip::ChangeWeaponState(int nx)
 		if (WhipType == 1)
 		{
 			animation = animations[WHIP_1_LEFT];
+			WhipWidth = WHIP_1_WIDTH;
 		}
 		else if (WhipType == 2)
 		{
 			animation = animations[WHIP_2_LEFT];
+			WhipWidth = WHIP_2_WIDTH;
+
 		}
 		else
 		{
 			animation = animations[WHIP_3_LEFT];
+			WhipWidth = WHIP_3_WIDTH;
 		}
 	}
 	
 }
-
 void CWhip::GetBoundingBox(float &x, float &y, float &framew, float &frameh)
 {
+	framew = WhipWidth;
+	frameh = WHIP_HEIGHT;
+	y = this->y + WHIP_BBOX_POS_Y;
 	if (nx >= 0)
-	{
-		x = this->x + 80;
-		y = this->y + 16;
-		framew = 50;
-		frameh = 16;
-	}
+		x = this->x + WHIP_BBOX_POS_X_RIGHT;
 	else
 	{
-		x = this->x+30;
-		y = this->y + 16;
-		framew = 50;
-		frameh = 16;
-
+		if (WhipType == 3)
+			x = this->x + WHIP_3_BBOX_POS_X;
+		else
+			x = this->x + WHIP_BBOX_POS_X_LEFT;
 	}
 
 }

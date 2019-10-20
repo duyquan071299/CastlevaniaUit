@@ -20,6 +20,8 @@ void CSimonStateStanding::HandleKeyboard(unordered_map<int, bool> keyCode)
 	}
 	else if (keyCode[DIK_DOWN]&& !keyCode[DIK_UP])
 	{
+		
+	
 		if (CSimon::GetInstance()->nx> 0)
 			CSimon::GetInstance()->ChangeState(new CSimonStateSitting(SITTING_RIGHT));
 		else

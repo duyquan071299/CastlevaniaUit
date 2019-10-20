@@ -11,6 +11,7 @@ void CAnimation::Add(GraphicType type,int index,DWORD time)
 
 void CAnimation::Render(float x, float y, int alpha)
 {
+	
 	DWORD now = GetTickCount();
 	if (currentFrame == -1)
 	{
@@ -39,6 +40,5 @@ void CAnimation::Render(float x, float y, int alpha)
 		}
 
 	}
-
 	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
 }

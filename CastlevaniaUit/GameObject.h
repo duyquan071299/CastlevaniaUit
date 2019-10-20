@@ -36,13 +36,15 @@ public:
 	float vx;
 	float vy;
 	ItemType type;
+	bool IsDead;
+	bool isColiable;
+	
 	int nx;
 
 	//int state;
 
 	DWORD dt;
 
-	
 
 public:
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
@@ -67,6 +69,7 @@ public:
 	//static void AddAnimation(int aniId);
 
 	//CGameObject();
+
 
 	virtual void GetBoundingBox(float &x, float &y, float &framew, float &frameh) = 0;
 	RECT GetBBox()

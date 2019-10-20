@@ -156,11 +156,13 @@
     <ClInclude Include="Brick.h" />
     <ClInclude Include="CandleSprite.h" />
     <ClInclude Include="Dagger.h" />
-    <ClInclude Include="Candle.h" />
+    <ClInclude Include="EffectSprite.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GlobalObject.h" />
     <ClInclude Include="IntroScene.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemSprite.h" />
     <ClInclude Include="LargeCandle.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapDatabase.h" />
@@ -200,11 +202,11 @@
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="CandleSprite.cpp" />
     <ClCompile Include="Dagger.cpp" />
-    <ClCompile Include="Candle.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GlobalObject.cpp" />
     <ClCompile Include="IntroScene.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="LargeCandle.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Map.cpp" />

@@ -130,7 +130,7 @@ void CSimon::OnKeyDown(int keyCode)
 		}
 		break;
 	case DIK_Z:
-		if ((IsStanding|| IsMoving|| IsOnAir) && !IsAttacking )
+		if ((IsStanding|| IsMoving|| IsOnAir) && !IsAttacking&&!isThrowing )
 		{
 			whip = new CWhip();
 			whip->SetType(WhipLevel);
@@ -164,10 +164,6 @@ void CSimon::OnKeyDown(int keyCode)
 		}
 		
 		break;
-	case DIK_M:
-		WhipLevel += 1;
-		if (WhipLevel > 3)
-			WhipLevel = 1;
 		
 		
 
@@ -183,9 +179,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
-
+	
 	// Simple fall down
 	vy += GAME_GRAVITY * dt;
+
+
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -208,6 +206,30 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		x += dx;
 		y += dy;
+		for (UINT i = 0; i < coObjects->size(); i++)
+		{
+			if (isContain(this->GetBBox(), coObjects->at(i)->GetBBox())&&!dynamic_cast<CDagger*>(coObjects->at(i)))
+			{
+				for (UINT i = 0; i < coObjects->size(); i++)
+					if (dynamic_cast<CItem *>(coObjects->at(i)))
+					{
+						CItem *Item = dynamic_cast<CItem *>(coObjects->at(i));
+						if (Item->GetHolderType() == LARGE_HEART)
+							this->Heart += 5;
+						else if (Item->GetHolderType() == WHIP)
+							this->WhipLevel += 1;
+						else if (Item->GetHolderType() == DAGGER)
+						{
+							if (this->SecondWeapon == nullptr)
+								this->SecondWeapon = new CDagger();
+							else
+								ChangeSecondWeapon(new CDagger());
+						}
+						Item->IsDead = true;
+					}
+			}
+		}
+	
 	}
 	else
 	{
@@ -221,7 +243,35 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
+		
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CItem *>(e->obj))
+			{
+					
+					CItem *Item = dynamic_cast<CItem *>(e->obj);
+					if (Item->IsDead == true)
+						continue;
+					if (Item->GetHolderType() == LARGE_HEART)
+						this->Heart += 5;
+					else if (Item->GetHolderType() == WHIP)
+						this->WhipLevel += 1;
+					else if (Item->GetHolderType() == DAGGER)
+					{
+						if (this->SecondWeapon == nullptr)
+							this->SecondWeapon = new CDagger();
+						else
+							ChangeSecondWeapon(new CDagger());
+					}
+					Item->IsDead = true;
 
+			
+			}
+			
+			
+
+		}
 		// Collision logic with Goombas
 		//for (UINT i = 0; i < coEventsResult.size(); i++)
 		//{

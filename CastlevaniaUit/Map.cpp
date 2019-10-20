@@ -88,10 +88,7 @@ void CMap::DrawTileBackground()
 					TileSet->SetFrameWH(32, 32);
 					TileSet->Draw((float)j * 32, (float)i * 32);
 				
-				
 			
-				
-
 
 				
 			}
@@ -112,14 +109,15 @@ void CMap::DrawObject()
 		objRECT.bottom = objRECT.top + TileHeight;
 		if (!isContain(objRECT, CCamera::GetInstance()->GetBound()))
 			continue;
-		listObject[i]->Render();
+		if (listObject[i]->IsDead == false)
+			listObject[i]->Render();
 	}
 }
 
 void CMap::Draw()
 {
 	DrawTileBackground();
-	DrawObject();
+	//DrawObject();
 
 	//vector<LPGAMEOBJECT> mapObjects = grid->GetListMapObjectInViewPort();
 
@@ -134,9 +132,9 @@ void CMap::Update(DWORD dt)
 	//Update animation here
 	//vector<LPGAMEOBJECT> mapObjects = grid->GetListMapObjectInViewPort();
 
-	//for (int i = 0; i < mapObjects.size(); i++)
+	//for (int i = 0; i < listObject.size(); i++)
 	//{
-		//mapObjects[i]->Update(dt);
+	//	listObject[i]->Update(dt);
 	//}
 	
 }
@@ -152,19 +150,19 @@ bool CMap::isContain(RECT rect1, RECT rect2)
 }
 vector<LPGAMEOBJECT> CMap::LoadMapObject(LPCSTR fileItemMap)
 {
-	int type, x, y;
+	int type, x, y, holder;
 	vector<LPGAMEOBJECT> listObject;
 	ifstream ifs(fileItemMap);
 	if (ifs.is_open()) {
 		while (ifs.good()) {
-			ifs >> type >> x >> y;
+			ifs >> type >> x >> y>>holder;
 			switch (type)
 			{
 			case 1:
 			{
-				CLargeCandle* LargeCandle = new CLargeCandle();
-				LargeCandle->SetPosition(x, y);
+				CLargeCandle* LargeCandle = new CLargeCandle(x, y, static_cast<HolderType>(holder));
 				listObject.push_back(LargeCandle);
+
 				break;
 			}
 			case 2:

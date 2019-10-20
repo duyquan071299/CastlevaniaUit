@@ -14,12 +14,12 @@ public:
 	static CCamera* GetInstance();
 	float x, y;
 	CCamera();
-	//void SetPosition();
+
 	void SetPosition(float x, float y) {
 		this->x = x;
 		this->y = y;
 	}
-	//void SetPosition(D3DXVECTOR3 pos);
+
 	void SetWH(int width, int height)
 	{
 		this->Width = width;
@@ -40,9 +40,8 @@ public:
 			this->x = (float)MapWidth - this->Width+16;
 		}
 	}
-	//D3DXVECTOR3 GetPosition() { return Position; }
+	
 	RECT GetBound();
 
-	/*void Update(RECT MapRect);
-	void ConvertPosInViewPort(float& x, float& y);*/
+
 };

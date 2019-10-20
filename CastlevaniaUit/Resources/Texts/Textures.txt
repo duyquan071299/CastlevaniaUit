@@ -1,0 +1,7 @@
+0 Resources\\Textures\\Simon.png
+4 Resources\\Maps\\Scene1_TileSet.png
+2 Resources\\Textures\\Weapon.png
+8 Resources\\Textures\\Candle.png
+7 Resources\\Textures\\bbox.png
+1 Resources\\Textures\\Item.png
+10 Resources\\Textures\\Effect.png

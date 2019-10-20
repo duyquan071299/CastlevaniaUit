@@ -18,5 +18,7 @@ void CSprite::Draw(float x, float y, int alpha)
 	rect.right = rect.left + Framew;
 	rect.bottom = rect.top + Frameh;
 	spriteHandler->Draw(texture, &rect, NULL, &position, D3DCOLOR_ARGB(alpha, 255, 255, 255));
-}
 
+
+	
+}

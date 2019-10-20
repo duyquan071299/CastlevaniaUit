@@ -10,12 +10,15 @@ protected:
 	int Framew=60;
 	int Frameh=66;
 	int Columns;
+
 	LPDIRECT3DTEXTURE9 texture;
 public:
+
 	CSprite() {};
 	CSprite(GraphicType type, int framenum, int columns);
 
 	void Draw(float x, float y, int alpha = 255);
+
 
 	GraphicType getType()
 	{
