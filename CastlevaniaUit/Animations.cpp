@@ -9,9 +9,8 @@ void CAnimation::Add(GraphicType type,int index,DWORD time)
 	frames.push_back(frame);
 }
 
-void CAnimation::Render(float x, float y, int alpha)
+void CAnimation::Render(float x, float y,  D3DCOLOR color)
 {
-	
 	DWORD now = GetTickCount();
 	if (currentFrame == -1)
 	{
@@ -34,11 +33,11 @@ void CAnimation::Render(float x, float y, int alpha)
 			}
 			else
 			{
-				t += now - lastFrameTime;
+				//t += now - lastFrameTime;
 				isLastFrame = false;
 			}
 		}
 
 	}
-	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
+	frames[currentFrame]->GetSprite()->Draw(x, y, color);
 }

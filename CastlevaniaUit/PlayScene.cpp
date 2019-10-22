@@ -16,6 +16,8 @@ void CPlayScene::OnKeyDown(int KeyCode)
 	
 	keys[KeyCode] = true;
 	Simon->OnKeyDown(KeyCode);
+	if (KeyCode == DIK_A)
+		Loadresources(0);
 	
 }
 void  CPlayScene::OnKeyUp(int KeyCode)
@@ -31,26 +33,18 @@ void CPlayScene::Render()
 
 	for (int i = 0; i < listObject.size(); i++)
 	{
-		float x, y, framew, frameh;
-		listObject[i]->GetBoundingBox(x, y, framew, frameh);
-		RECT objRECT;
-		objRECT.left = x;
-		objRECT.top = y;
-		objRECT.right = objRECT.left + framew;
-		objRECT.bottom = objRECT.top + frameh;
-		if (!CurrentMap->isContain(objRECT, CCamera::GetInstance()->GetBound()))
+		if(!IsInCamera(listObject[i]))
 		{
 			if (dynamic_cast<CWeapon *>(listObject[i]))
 			{
+				listObject[i]->IsDead = true;
 				listObject.erase(listObject.begin() + i);
-				Simon->isThrowing = false;
+				
 			}
 				
 			continue;
 		}
 		
-			
-
 		listObject[i]->Render();
 	}
 	Simon->Render();
@@ -60,6 +54,10 @@ void CPlayScene::Render()
 
 void CPlayScene::Update(DWORD dt)
 {
+	if (keys[DIK_Z] == true)
+		Simon->count++;
+	else
+		Simon->count = 0;
 	CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 +40, 0);
 	CCamera::GetInstance()->Update(CurrentMap->GetMapWidth());
 	if (Simon->isThrowing)
@@ -71,18 +69,22 @@ void CPlayScene::Update(DWORD dt)
 				allow = false;
 				
 		}
-		if (allow)
+		if (allow&&Simon->SecondWeapon->IsDead == false)
 		{
 			listObject.push_back(Simon->SecondWeapon);
-			Simon->SecondWeapon->IsDead = false;
-		}
 			
-		
+		}	
 	}
 
+
 	vector<LPGAMEOBJECT> coObjects;
+	
 	for (int i = 0; i < listObject.size(); i++)
 	{
+		/*if (!IsInCamera(listObject[i]))
+			listObject[i]->isIncamera = false;
+		else
+			listObject[i]->isIncamera = true;*/
 		coObjects.push_back(listObject[i]);
 	}
 	for (int i = 0; i < listObject.size(); i++)
@@ -101,10 +103,15 @@ void CPlayScene::Update(DWORD dt)
 			if (coObjects[i]->IsDead == true)
 			{
 				listObject.push_back(dynamic_cast<CLargeCandle *>(coObjects[i])->GetHolder());
+				dynamic_cast<CLargeCandle *>(coObjects[i])->GetHolder()->AppearOnMap();
 				listObject.erase(listObject.begin() + i);	
 				coObjects.erase(coObjects.begin() + i);
 			}
 				
+		}
+		else if (coObjects[i]->IsDead == true && dynamic_cast<CItem *>(coObjects[i]))
+		{
+			listObject.erase(listObject.begin() + i);
 		}
 		else if (dynamic_cast<CWeapon *>(coObjects[i]))
 		{
@@ -112,15 +119,10 @@ void CPlayScene::Update(DWORD dt)
 			{
 				listObject.erase(listObject.begin() + i);
 				coObjects.erase(coObjects.begin() + i);
-				Simon->isThrowing = false;
+
 			}
-			
+
 		}
-		else if (coObjects[i]->IsDead == true && dynamic_cast<CItem *>(coObjects[i]))
-		{
-			listObject.erase(listObject.begin() + i);
-		}
-			
 	}
 	
 
@@ -130,3 +132,20 @@ void CPlayScene::Update(DWORD dt)
 	
 }
 
+
+bool CPlayScene::IsInCamera(LPGAMEOBJECT object)
+{
+	float x, y, framew, frameh;
+	object->GetBoundingBox(x, y, framew, frameh);
+	RECT objRECT;
+	objRECT.left = x;
+	objRECT.top = y;
+	objRECT.right = objRECT.left + framew;
+	objRECT.bottom = objRECT.top + frameh;
+	if (!CurrentMap->isContain(objRECT, CCamera::GetInstance()->GetBound()))
+	{
+		return false;
+
+	}
+	return true;
+}

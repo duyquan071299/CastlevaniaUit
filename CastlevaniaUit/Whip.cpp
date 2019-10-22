@@ -72,7 +72,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 }
 void CWhip::Render()
 {
-	animation->Render(x,y);
+	animation->Render(x,y, default_color);
 	RenderBoundingBox();
 }
 void CWhip::ChangeWeaponState(int nx)

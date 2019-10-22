@@ -16,6 +16,7 @@ public:
 	void OnKeyUp(int KeyCode);
 	void Render();
 	void Update(DWORD dt);
+	bool IsInCamera(LPGAMEOBJECT object);
 	unordered_map<int, bool> keys;
 
 };

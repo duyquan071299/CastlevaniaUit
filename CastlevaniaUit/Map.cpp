@@ -86,7 +86,7 @@ void CMap::DrawTileBackground()
 					TileSet = new CSprite(MAP, Matrix[i][j] - 1, 49);
 					TileSet->Settexture(CTextureDatabase::GetInstance()->GetTexture(MAP));
 					TileSet->SetFrameWH(32, 32);
-					TileSet->Draw((float)j * 32, (float)i * 32);
+					TileSet->Draw((float)j * 32, (float)i * 32, default_color);
 				
 			
 
@@ -117,26 +117,19 @@ void CMap::DrawObject()
 void CMap::Draw()
 {
 	DrawTileBackground();
-	//DrawObject();
 
-	//vector<LPGAMEOBJECT> mapObjects = grid->GetListMapObjectInViewPort();
-
-	//for (int i = 0; i < mapObjects.size(); i++)
-	//{
-		//mapObjects[i]->Render();
-	//}
 }
 
 void CMap::Update(DWORD dt)
 {
-	//Update animation here
-	//vector<LPGAMEOBJECT> mapObjects = grid->GetListMapObjectInViewPort();
 
-	//for (int i = 0; i < listObject.size(); i++)
-	//{
-	//	listObject[i]->Update(dt);
-	//}
-	
+
+
+
+
+
+
+
 }
 
 bool CMap::isContain(RECT rect1, RECT rect2)
@@ -150,43 +143,37 @@ bool CMap::isContain(RECT rect1, RECT rect2)
 }
 vector<LPGAMEOBJECT> CMap::LoadMapObject(LPCSTR fileItemMap)
 {
-	int type, x, y, holder;
+	int type, x, y, holder,width,height;
 	vector<LPGAMEOBJECT> listObject;
 	ifstream ifs(fileItemMap);
 	if (ifs.is_open()) {
 		while (ifs.good()) {
-			ifs >> type >> x >> y>>holder;
+			ifs >> type >> x >> y>>width>>height>>holder;
 			switch (type)
 			{
 			case 1:
 			{
 				CLargeCandle* LargeCandle = new CLargeCandle(x, y, static_cast<HolderType>(holder));
+				LargeCandle->SetWH(width, height);
 				listObject.push_back(LargeCandle);
-
 				break;
 			}
 			case 2:
 			{
+				CBrick* brick = new CBrick(x,y);
+				brick->SetWH(width, height);
+				listObject.push_back(brick);
+				brick->dx = 0;
+				brick->dy = 0;
+				brick->vx = 0;
+				brick->vy = 0;
 
+				break;
 			}
 			}
 		}
 		ifs.close();
 	}
-		for (int j = 0; j < Columns; j++)
-		{
-			if (Matrix[9][j] == 49)
-			{
-				CBrick* brick = new CBrick();
-				brick->x = (float)j * 32;
-				brick->y = (float)9 * 32;
-				brick->SetSprite(new CSprite(MAP, Matrix[9][j] - 1, 49));
-				brick->GetSprite()->SetFrameWH(32, 32);
-				brick->GetSprite()->Settexture(CTextureDatabase::GetInstance()->GetTexture(MAP));
-				listObject.push_back(brick);
-
-			}
-		}
 
 
 

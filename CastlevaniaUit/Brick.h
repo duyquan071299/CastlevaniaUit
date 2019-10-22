@@ -5,23 +5,19 @@
 class CBrick :public CGameObject
 {
 	int Type;
-	LPSPRITE Sprite;
+	int Width;
+	int Height;
 public:
 	void SetType(int type)
 	{
 		this->Type = type;
 	}
+	void SetWH(int width, int height) { Width = width; Height = height; }
 	int GetType() { return this->Type; }
-	void SetSprite(LPSPRITE sprite)
-	{
-		this->Sprite = sprite;
-	}
-	LPSPRITE GetSprite()
-	{
-		return this->Sprite;
-	}
-	CBrick(){
-		type = BRICK;
+	CBrick(){}
+	CBrick(float x, float y){
+		this->x = x;
+		this->y = y;
 	}
 	~CBrick() {}
 	void Update(DWORD dt){}

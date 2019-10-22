@@ -38,6 +38,7 @@ public:
 	ItemType type;
 	bool IsDead;
 	bool isColiable;
+	bool isIncamera;
 	
 	int nx;
 

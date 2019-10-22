@@ -17,7 +17,7 @@ public:
 	CSprite() {};
 	CSprite(GraphicType type, int framenum, int columns);
 
-	void Draw(float x, float y, int alpha = 255);
+	void Draw(float x, float y,D3DCOLOR color);
 
 
 	GraphicType getType()

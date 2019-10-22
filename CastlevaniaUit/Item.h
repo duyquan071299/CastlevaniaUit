@@ -6,6 +6,7 @@ class CItem : public CGameObject
 	int Width;
 	int Height;
 	HolderType HDType;
+	DWORD lifetime;
 
 public:
 	CItem();
@@ -13,6 +14,7 @@ public:
 	~CItem(){}
 	HolderType GetHolderType() { return this->HDType; }
 	void GetBoundingBox(float &x, float &y, float &framew, float &frameh);
+	void AppearOnMap() { lifetime = GetTickCount(); }
 	void Render();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 

@@ -71,7 +71,7 @@ CSimon::CSimon() {
 
 void CSimon::Respawn()
 {
-	this->y = 200;
+	this->y = 0;
 	//currentanimation= animations[STANDING_RIGHT];
 	ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 	nx = 1;
@@ -101,13 +101,24 @@ void CSimon::Render()
 {
 	if (whip != nullptr)
 		whip->Render();
-	currentanimation->Render(x ,y );
+	D3DCOLOR color = default_color;
+	if (Untouchable == true)
+	{
+		color = D3DCOLOR_ARGB(255, rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1);
+		currentanimation->GetCurrenrFrame()->Draw(x, y, color);
+	}
+	else
+		currentanimation->Render(x, y, color);
+
+	
 	RenderBoundingBox();
 	
 }
 
 void CSimon::OnKeyDown(int keyCode)
 {
+	if (Untouchable == true)
+		return;
 	switch (keyCode)
 	{
 	case DIK_SPACE:
@@ -130,6 +141,7 @@ void CSimon::OnKeyDown(int keyCode)
 		}
 		break;
 	case DIK_Z:
+		IsKeyDownZ = true;
 		if ((IsStanding|| IsMoving|| IsOnAir) && !IsAttacking&&!isThrowing )
 		{
 			whip = new CWhip();
@@ -172,7 +184,8 @@ void CSimon::OnKeyDown(int keyCode)
 
 void CSimon::OnKeyUp(int keyCode)
 {
-	
+	if(keyCode==DIK_Z)
+		CSimon::GetInstance()->IsKeyDownZ = false;
 }
 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -182,6 +195,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	
 	// Simple fall down
 	vy += GAME_GRAVITY * dt;
+	
 
 
 
@@ -189,47 +203,28 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
+	
 
 	// turn off collision when die 
 	//if (currentstate->GetStateName() != MARIO_STATE_DIE)
-		CalcPotentialCollisions(coObjects, coEvents);
-
+	CalcPotentialCollisions(coObjects, coEvents);
 	// reset untouchable timer if untouchable time has passed
-	/*if (GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
+	DWORD now = GetTickCount();
+	if (GetTickCount() - Untouchable_Time > COLLECT_ITEM_TIME)
 	{
-		untouchable_start = 0;
-		untouchable = 0;
-	}*/
+		Untouchable = false;
+		Untouchable_Time = 0;
+		
+	}
+	if (Untouchable == true)
+		return;
 
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
 		x += dx;
 		y += dy;
-		for (UINT i = 0; i < coObjects->size(); i++)
-		{
-			if (isContain(this->GetBBox(), coObjects->at(i)->GetBBox())&&!dynamic_cast<CDagger*>(coObjects->at(i)))
-			{
-				for (UINT i = 0; i < coObjects->size(); i++)
-					if (dynamic_cast<CItem *>(coObjects->at(i)))
-					{
-						CItem *Item = dynamic_cast<CItem *>(coObjects->at(i));
-						if (Item->GetHolderType() == LARGE_HEART)
-							this->Heart += 5;
-						else if (Item->GetHolderType() == WHIP)
-							this->WhipLevel += 1;
-						else if (Item->GetHolderType() == DAGGER)
-						{
-							if (this->SecondWeapon == nullptr)
-								this->SecondWeapon = new CDagger();
-							else
-								ChangeSecondWeapon(new CDagger());
-						}
-						Item->IsDead = true;
-					}
-			}
-		}
-	
+		
 	}
 	else
 	{
@@ -244,6 +239,37 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
 		
+
+
+		for (UINT i = 0; i < coObjects->size(); i++)
+		{
+			if (isContain(this->GetBBox(), coObjects->at(i)->GetBBox())&&!dynamic_cast<CDagger*>(coObjects->at(i)))
+			{
+				for (UINT i = 0; i < coObjects->size(); i++)
+					if (dynamic_cast<CItem *>(coObjects->at(i)))
+					{
+						CItem *Item = dynamic_cast<CItem *>(coObjects->at(i));
+						if (Item->GetHolderType() == LARGE_HEART)
+							this->Heart += 5;
+						else if (Item->GetHolderType() == WHIP)
+						{
+							StartUntouchable();
+							this->WhipLevel += 1;
+						}
+						else if (Item->GetHolderType() == DAGGER)
+						{
+							if (this->SecondWeapon == nullptr)
+								this->SecondWeapon = new CDagger();
+							else
+								ChangeSecondWeapon(new CDagger());
+						}
+
+						Item->IsDead = true;
+					}
+			}
+		}
+
+
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -256,7 +282,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					if (Item->GetHolderType() == LARGE_HEART)
 						this->Heart += 5;
 					else if (Item->GetHolderType() == WHIP)
+					{
+						StartUntouchable();
 						this->WhipLevel += 1;
+					}
+						
 					else if (Item->GetHolderType() == DAGGER)
 					{
 						if (this->SecondWeapon == nullptr)
@@ -346,6 +376,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CSimon::HandleKeyboard(unordered_map<int, bool> keys)
 {
+
 	currentstate->HandleKeyboard(keys);
 }
 

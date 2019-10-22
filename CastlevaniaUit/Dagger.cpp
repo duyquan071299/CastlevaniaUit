@@ -3,13 +3,14 @@
 CDagger::CDagger()
 {
 	animation = new CAnimation(100);
+	this->IsDead = true;
 
 }
 
 
 void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 {
-	if (CSimon::GetInstance()->isThrowing == true)
+	if (this->IsDead==false)
 	{
 		
 		CGameObject::Update(dt);
@@ -34,18 +35,20 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 			float min_tx, min_ty, nx = 0, ny;
 
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+			x += min_tx * dx + nx * 0.4f;		
+			y += min_ty * dy + ny * 0.4f;
 
-			if (nx != 0) vx = 0;
-			if (ny != 0) vy = 0;
+			/*if (nx != 0) vx = 0;
+			if (ny != 0) vy = 0;*/
 			
 			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
 				LPCOLLISIONEVENT e = coEventsResult[i];
 				if (dynamic_cast<CLargeCandle *>(e->obj))
 				{
-
-					dynamic_cast<CLargeCandle *>(colliable_objects->at(i))->ChangeAnimation();
 					this->IsDead = true;
+					dynamic_cast<CLargeCandle *>(e->obj)->ChangeAnimation();
+				
 
 				}
 
@@ -74,6 +77,6 @@ void CDagger::GetBoundingBox(float &x, float &y, float &framew, float &frameh)
 }
 void CDagger::Render()
 {
-	animation->Render(x,y);
+	animation->Render(x,y, default_color);
 	RenderBoundingBox();
 }

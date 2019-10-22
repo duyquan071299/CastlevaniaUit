@@ -3,11 +3,12 @@ void CBrick::GetBoundingBox(float &x, float &y, float &framew, float &frameh)
 {
 	x = this->x;
 	y = this->y;
-	framew = frameh = 32;
+	framew = this->Width;
+	frameh = this->Height;
 }
 
 void CBrick::Render()
 {
-	Sprite->Draw(x, y);
+	
 	RenderBoundingBox();
 }

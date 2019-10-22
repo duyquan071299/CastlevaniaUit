@@ -19,7 +19,9 @@ using namespace std;
 #define KEYBOARD_BUFFER_SIZE 1024
 #define SIMON_RUNNING_SPEED 0.095f
 #define SIMON_JUMPING_SPEED 0.58f
-#define DAGGER_SPEED 0.04f
+#define DAGGER_SPEED 0.025f
+#define COLLECT_ITEM_TIME 500
+#define ITEM_LIFE_TIME 3000
 #define CAM_X 0.0f
 #define CAM_Y 0.0f
 #define GAME_GRAVITY 0.002f
@@ -32,6 +34,7 @@ extern HWND hWnd;												// hWnd hiện tại
 extern LPD3DXSPRITE spriteHandler;								// SpriteHanlder hiện tại
 extern LPDIRECT3DDEVICE9 d3ddv;								// Device directX hiện tại (nhằm đại diện card màn hình)
 extern LPDIRECT3DSURFACE9 backBuffer;
+extern D3DCOLOR default_color;
 
 
 

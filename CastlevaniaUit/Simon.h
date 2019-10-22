@@ -16,6 +16,9 @@ private:
 	LPANIMATION currentanimation;
 	CSimonState* currentstate;
 	SimonState StateName;
+	bool Untouchable;
+
+	DWORD Untouchable_Time;
 	int Heart;
 
 
@@ -25,6 +28,8 @@ public:
 	LPANIMATION getCurrentAnimation() { return currentanimation; }
 	CWhip* whip;
 	CWeapon* SecondWeapon;
+	bool IsKeyDownZ;
+	int count=0;
 	int WhipLevel = 1;
 	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false,isThrowing=false,isHitting=false;
 	void ChangeState(CSimonState* State);
@@ -32,6 +37,7 @@ public:
 	{
 		StateName = Name;
 	}
+	void StartUntouchable() { Untouchable = true; Untouchable_Time = GetTickCount(); }
 	void SetCurrentAnimation(SimonState Name)
 	{
 		currentanimation = animations[Name];

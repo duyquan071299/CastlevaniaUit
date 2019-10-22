@@ -5,6 +5,6 @@ void CIntroScene::Loadresources() {
 	
 	CurrentMap = new CMap("Resources\\Maps\\scene1.txt", "Resources\\Maps\\Scene_1.png", "Resources\\Maps\\Scene1_Object.txt");
 	CurrentMap->DrawTileBackground();
-	SimonSprite->Draw(80, 230);
+	SimonSprite->Draw(80, 230, default_color);
 		
 };

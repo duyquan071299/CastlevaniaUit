@@ -5,6 +5,7 @@
 class CDagger : public CWeapon
 {
 	LPANIMATION animation;
+
 	
 public:
 	CDagger();

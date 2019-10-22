@@ -8,7 +8,7 @@ CSprite::CSprite(GraphicType type, int framenum, int columns)
 }
 
 
-void CSprite::Draw(float x, float y, int alpha)
+void CSprite::Draw(float x, float y, D3DCOLOR color)
 {
 	
 	D3DXVECTOR3 position(floor(x- CCamera::GetInstance()->x), floor(y- CCamera::GetInstance()->y), 0);
@@ -17,7 +17,7 @@ void CSprite::Draw(float x, float y, int alpha)
 	rect.top = (Framenum / Columns) * Frameh;
 	rect.right = rect.left + Framew;
 	rect.bottom = rect.top + Frameh;
-	spriteHandler->Draw(texture, &rect, NULL, &position, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	spriteHandler->Draw(texture, &rect, NULL, &position, color);
 
 
 	

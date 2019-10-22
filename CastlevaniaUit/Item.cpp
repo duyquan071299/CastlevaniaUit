@@ -41,7 +41,7 @@ void CItem::GetBoundingBox(float &x, float &y, float &framew, float &frameh)
 }
 void CItem::Render()
 {	
-	animation->Render(x, y);
+	animation->Render(x, y, default_color);
 	RenderBoundingBox();
 	
 }
@@ -49,12 +49,16 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 {
 	CGameObject::Update(dt);
 	vy += GAME_GRAVITY * dt;
+	if (GetTickCount() - lifetime > ITEM_LIFE_TIME)
+	{
+		this->IsDead = true;
+		return;
 
+	}
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
-
 	// turn off collision when die 
 	//if (currentstate->GetStateName() != MARIO_STATE_DIE)
 	CalcPotentialCollisions(colliable_objects, coEvents);

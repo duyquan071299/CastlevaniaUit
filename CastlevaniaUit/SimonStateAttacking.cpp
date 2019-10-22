@@ -64,17 +64,19 @@ void CSimonStateAttacking::Update(DWORD dt)
 			CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_LEFT));
 		}
 		CSimon::GetInstance()->isHitting = false;
+		CSimon::GetInstance()->isThrowing = false;
 	}
 
 	//this->HandleKeyboard(keyCode);
 }
 void CSimonStateAttacking::HandleKeyboard(unordered_map<int, bool> keyCode)
 {
-	if (keyCode[DIK_UP] && CSimon::GetInstance()->isHitting==false)
+	if (keyCode[DIK_UP] && CSimon::GetInstance()->isHitting==false&& CSimon::GetInstance()->count==1)
 	{
-		if (CSimon::GetInstance()->SecondWeapon != nullptr &&CSimon::GetInstance()->isThrowing==false)
+		if (CSimon::GetInstance()->SecondWeapon != nullptr &&CSimon::GetInstance()->isThrowing==false && CSimon::GetInstance()->SecondWeapon->IsDead==true)
 		{
 			CSimon::GetInstance()->isThrowing = true;
+			CSimon::GetInstance()->SecondWeapon->IsDead = false;
 			CSimon::GetInstance()->whip = nullptr;
 			int x = CSimon::GetInstance()->x+8;
 			int y = CSimon::GetInstance()->y;

@@ -9,7 +9,7 @@ CLargeCandle::CLargeCandle(int x, int y,HolderType HolderType)
 	SetPosition(x, y);
 	Holder->x = this->x + 8;
 	Holder->y = this->y;
-
+	isColiable = true;
 
 }
 
@@ -22,13 +22,14 @@ void CLargeCandle::Render()
 	if (animation->IsLastFrame()==true && animation->GetFrameSize() == 3)
 	{
 		IsDead = true;
+		isColiable = false;
 	}
-	animation->Render(x, y);	
+	animation->Render(x, y, default_color);
 	if (animation->GetCurrentFrame() >=0 && animation->GetCurrentFrame() < animation->GetFrameSize() - 1 && animation->GetFrameSize() == 3)
 	{
 		LPANIMATION ani = new CAnimation(80);
 		ani->Add(EFFECT, 3);
-		ani->Render(x, y);
+		ani->Render(x, y, default_color);
 	}
 	RenderBoundingBox();
 }
@@ -37,12 +38,13 @@ void CLargeCandle::GetBoundingBox(float &x, float &y, float &framew, float &fram
 {
 	x = this->x;
 	y = this->y;
-	framew = 32;
-	frameh = 64;
+	framew = Width;
+	frameh = Height;
 
 }
 void CLargeCandle::ChangeAnimation()
 {
+	this->isColiable = false;
 	animation = new CAnimation(80);
 	animation->Add(EFFECT, 0);
 	animation->Add(EFFECT, 1);
