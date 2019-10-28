@@ -9,6 +9,10 @@ void CBrick::GetBoundingBox(float &x, float &y, float &framew, float &frameh)
 
 void CBrick::Render()
 {
-	
 	RenderBoundingBox();
+}
+
+void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
+{
+
 }

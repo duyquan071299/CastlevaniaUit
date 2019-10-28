@@ -187,7 +187,51 @@ void CSimon::OnKeyUp(int keyCode)
 	if(keyCode==DIK_Z)
 		CSimon::GetInstance()->IsKeyDownZ = false;
 }
+void CSimon::Wall(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+{
+	/*CGameObject::Update(dt);*/
 
+	// Simple fall down
+	//vy += GAME_GRAVITY * dt;
+
+
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	coEvents.clear();
+
+
+	// turn off collision when die 
+	//if (currentstate->GetStateName() != MARIO_STATE_DIE)
+	CalcPotentialCollisions(coObjects, coEvents);
+	// reset untouchable timer if untouchable time has passed
+
+	// No collision occured, proceed normally
+	/*if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
+
+	}
+	else*/
+	{
+		float min_tx, min_ty, nx = 0, ny;
+
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+		// block 
+		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+		y += min_ty * dy + ny * 0.4f;
+
+		if (nx != 0) vx = 0;
+		if (ny != 0) vy = 0;
+
+	}
+
+	// clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+}
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	// Calculate dx, dy 
@@ -196,8 +240,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// Simple fall down
 	vy += GAME_GRAVITY * dt;
 	
-
-
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -222,8 +264,36 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
-		x += dx;
+ 		x += dx;
 		y += dy;
+
+		for (UINT i = 0; i < coObjects->size(); i++)
+		{
+			if (isContain(this->GetBBox(), coObjects->at(i)->GetBBox()) && !dynamic_cast<CDagger*>(coObjects->at(i)))
+			{
+
+				if (dynamic_cast<CItem *>(coObjects->at(i)))
+				{
+					CItem *Item = dynamic_cast<CItem *>(coObjects->at(i));
+					if (Item->GetHolderType() == LARGE_HEART)
+						this->Heart += 5;
+					else if (Item->GetHolderType() == WHIP)
+					{
+						StartUntouchable();
+						this->WhipLevel += 1;
+					}
+					else if (Item->GetHolderType() == DAGGER)
+					{
+						if (this->SecondWeapon == nullptr)
+							this->SecondWeapon = new CDagger();
+						else
+							ChangeSecondWeapon(new CDagger());
+					}
+
+					Item->IsDead = true;
+				}
+			}
+		}
 		
 	}
 	else
@@ -233,49 +303,20 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		// block 
-		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-		y += min_ty * dy + ny * 0.4f;
+		if (dynamic_cast<CBrick *>(coEventsResult[0]->obj))
+		{
+			x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+			y += min_ty * dy + ny * 0.4f;
+		}
 
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
 		
-
-
-		for (UINT i = 0; i < coObjects->size(); i++)
-		{
-			if (isContain(this->GetBBox(), coObjects->at(i)->GetBBox())&&!dynamic_cast<CDagger*>(coObjects->at(i)))
-			{
-				for (UINT i = 0; i < coObjects->size(); i++)
-					if (dynamic_cast<CItem *>(coObjects->at(i)))
-					{
-						CItem *Item = dynamic_cast<CItem *>(coObjects->at(i));
-						if (Item->GetHolderType() == LARGE_HEART)
-							this->Heart += 5;
-						else if (Item->GetHolderType() == WHIP)
-						{
-							StartUntouchable();
-							this->WhipLevel += 1;
-						}
-						else if (Item->GetHolderType() == DAGGER)
-						{
-							if (this->SecondWeapon == nullptr)
-								this->SecondWeapon = new CDagger();
-							else
-								ChangeSecondWeapon(new CDagger());
-						}
-
-						Item->IsDead = true;
-					}
-			}
-		}
-
-
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<CItem *>(e->obj))
 			{
-					
 					CItem *Item = dynamic_cast<CItem *>(e->obj);
 					if (Item->IsDead == true)
 						continue;
@@ -295,49 +336,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 							ChangeSecondWeapon(new CDagger());
 					}
 					Item->IsDead = true;
-
 			
 			}
-			
-			
-
 		}
-		// Collision logic with Goombas
-		//for (UINT i = 0; i < coEventsResult.size(); i++)
-		//{
-		//	LPCOLLISIONEVENT e = coEventsResult[i];
 
-		//	if (dynamic_cast<CGoomba *>(e->obj))
-		//	{
-		//		CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
 
-		//		 jump on top >> kill Goomba and deflect a bit 
-		//		if (e->ny < 0)
-		//		{
-		//			if (goomba->GetState() != GOOMBA_STATE_DIE)
-		//			{
-		//				goomba->SetState(GOOMBA_STATE_DIE);
-		//				vy = -MARIO_JUMP_DEFLECT_SPEED;
-		//			}
-		//		}
-		//		else if (e->nx != 0)
-		//		{
-		//			/*if (untouchable==0)
-		//			{
-		//				if (goomba->GetState()!=GOOMBA_STATE_DIE)
-		//				{
-		//					if (level > MARIO_LEVEL_SMALL)
-		//					{
-		//						level = MARIO_LEVEL_SMALL;
-		//						StartUntouchable();
-		//					}
-		//					else
-		//						SetState(MARIO_STATE_DIE);
-		//				}
-		//			}*/
-		//		}
-		//	}
-		//}
+
 	}
 
 	// clean up collision events
@@ -346,30 +350,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (whip != nullptr)
 		whip->Update(dt, coObjects);
 	currentstate->Update(dt);
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/*y += vy * dt;
-	x += vx * dt;
-	vy += GAME_GRAVITY * dt;
-	if (y > 225)
-	{
-		IsJumping = false;
-		vy = 0;
-		y = 225;
-	}
-	currentstate->Update(dt);*/
 
 }
 

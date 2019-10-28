@@ -9,8 +9,9 @@ CMap::CMap(LPCSTR fileMatrixMap, LPCSTR fileTileSet, LPCSTR fileItemMap)
 
 	if (fileMatrixMap != "")
 	{
-		AddTileSet(fileMatrixMap, fileTileSet);
+		/*AddTileSet(fileMatrixMap, fileTileSet);*/
 		LoadMatrixBackground(fileMatrixMap);
+		TileTexture = (new CTextures(fileTileSet, D3DCOLOR_XRGB(255, 0, 255)))->GetTexture();
 		
 	}
 	else
@@ -36,18 +37,18 @@ CMap::~CMap()
 	}
 
 }
-
-void CMap::AddTileSet(LPCSTR fileMatrixMap, LPCSTR fileTileSet)
-{
-	
-	//listTileSet.push_back(new CSprite(fileTileSet));
-	//listMapData.push_back(fileMatrixMap);
-}
+//
+//void CMap::AddTileSet(LPCSTR fileMatrixMap, LPCSTR fileTileSet)
+//{
+//	
+//	//listTileSet.push_back(new CSprite(fileTileSet));
+//	//listMapData.push_back(fileMatrixMap);
+//}
 
 void CMap::LoadMatrixBackground(LPCSTR fileMatrixMap)
 {
 	ifstream ifs(fileMatrixMap);
-	ifs >> Columns >> Rows;
+	ifs >> Columns >> Rows>> MapCol;
 	Matrix = new int*[Rows];
 	for (int i = 0; i < Rows; i++) {
 		Matrix[i] = new int[Columns];
@@ -82,9 +83,9 @@ void CMap::DrawTileBackground()
 				//neu nam ngoai camera thi khong Draw
 				if (!isContain(objRECT, CCamera::GetInstance()->GetBound()))
 					continue;
-			
-					TileSet = new CSprite(MAP, Matrix[i][j] - 1, 49);
-					TileSet->Settexture(CTextureDatabase::GetInstance()->GetTexture(MAP));
+				delete TileSet;
+					TileSet = new CSprite(MAP, Matrix[i][j] - 1, MapCol);
+					TileSet->Settexture(TileTexture);
 					TileSet->SetFrameWH(32, 32);
 					TileSet->Draw((float)j * 32, (float)i * 32, default_color);
 				
@@ -153,7 +154,7 @@ vector<LPGAMEOBJECT> CMap::LoadMapObject(LPCSTR fileItemMap)
 			{
 			case 1:
 			{
-				CLargeCandle* LargeCandle = new CLargeCandle(x, y, static_cast<HolderType>(holder));
+				CLargeCandle* LargeCandle = new CLargeCandle(x, y, static_cast<HolderType>(holder),1);
 				LargeCandle->SetWH(width, height);
 				listObject.push_back(LargeCandle);
 				break;
@@ -168,6 +169,13 @@ vector<LPGAMEOBJECT> CMap::LoadMapObject(LPCSTR fileItemMap)
 				brick->vx = 0;
 				brick->vy = 0;
 
+				break;
+			}
+			case 3:
+			{
+				CLargeCandle* LargeCandle = new CLargeCandle(x, y, static_cast<HolderType>(holder), 2);
+				LargeCandle->SetWH(width, height);
+				listObject.push_back(LargeCandle);
 				break;
 			}
 			}

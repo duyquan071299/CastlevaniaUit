@@ -9,6 +9,7 @@ private:
 	CSimon* Simon;
 	CMap* CurrentMap;
 	vector<LPGAMEOBJECT> listObject;
+	//vector<LPGAMEOBJECT> WallObject;
 public:
 	CPlayScene() { Loadresources(0); };
 	void Loadresources(int level);

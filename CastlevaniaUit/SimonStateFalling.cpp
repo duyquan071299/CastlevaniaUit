@@ -12,7 +12,7 @@ void CSimonStateFalling::HandleKeyboard(unordered_map<int, bool> keyCode)
 	if (CSimon::GetInstance()->vy==0)
 	{
 		CSimon::GetInstance()->vx = 0;
-		if (CSimon::GetInstance()->nx >= 0)
+		if (CSimon::GetInstance()->nx > 0)
 			CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 		else
 			CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_LEFT));

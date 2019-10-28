@@ -1,14 +1,31 @@
 #include"PlayScene.h"
 
 void CPlayScene::Loadresources(int level) {
-	
-	Simon = CSimon::GetInstance();
-	Simon->Respawn();
-	CurrentMap = new CMap("Resources\\Maps\\scene1.txt", "Resources\\Maps\\Scene_1.png", "Resources\\Maps\\Scene1_Object.txt");
 	CCamera::GetInstance()->SetWH(SCREEN_WIDTH, SCREEN_HEIGHT);
 	CCamera::GetInstance()->SetPosition(SCREEN_WIDTH / 2,
 		SCREEN_HEIGHT / 2);
-	this->listObject = CurrentMap->GetListObject();
+	this->listObject.clear();
+	//this->WallObject.clear();
+	Simon = CSimon::GetInstance();
+	switch (level)
+	{
+	case 0:
+	{
+		Simon->Respawn();
+		CurrentMap = new CMap("Resources\\Maps\\Scene1.txt", "Resources\\Maps\\Scene_1.png", "Resources\\Maps\\Scene1_Object.txt");
+		this->listObject = CurrentMap->GetListObject();
+		//this->WallObject = CurrentMap->WallObject;
+		break;
+	}
+	case 1:
+	{
+		Simon->Respawn();
+		CurrentMap = new CMap("Resources\\Maps\\Scene2.txt", "Resources\\Maps\\Scene_2.png", "Resources\\Maps\\Scene2_Object.txt");
+		this->listObject = CurrentMap->GetListObject();
+		//this->WallObject = CurrentMap->WallObject;
+	}
+	}
+
 };
 
 void CPlayScene::OnKeyDown(int KeyCode)
@@ -17,7 +34,12 @@ void CPlayScene::OnKeyDown(int KeyCode)
 	keys[KeyCode] = true;
 	Simon->OnKeyDown(KeyCode);
 	if (KeyCode == DIK_A)
-		Loadresources(0);
+	{
+		delete CurrentMap;
+		Loadresources(1);
+
+	}
+	
 	
 }
 void  CPlayScene::OnKeyUp(int KeyCode)
@@ -81,10 +103,10 @@ void CPlayScene::Update(DWORD dt)
 	
 	for (int i = 0; i < listObject.size(); i++)
 	{
-		/*if (!IsInCamera(listObject[i]))
+		if (!IsInCamera(listObject[i]))
 			listObject[i]->isIncamera = false;
 		else
-			listObject[i]->isIncamera = true;*/
+			listObject[i]->isIncamera = true;
 		coObjects.push_back(listObject[i]);
 	}
 	for (int i = 0; i < listObject.size(); i++)
@@ -93,7 +115,9 @@ void CPlayScene::Update(DWORD dt)
 
 	}	
 	Simon->HandleKeyboard(keys);
+	//Simon->Wall(dt, &WallObject);
 	Simon->Update(dt, &coObjects);
+	
 
 
 	for (int i = 0; i < coObjects.size(); i++)

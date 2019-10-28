@@ -12,8 +12,8 @@ using namespace std;
 // Program values
 #define WINDOW_CLASS_NAME "CastleVaniaUIT"
 #define MAIN_WINDOW_TITLE "CastleVaniaUIT"
-#define SCREEN_WIDTH 512
-#define SCREEN_HEIGHT 365
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 800
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0,0 )
 #define MAX_FRAME_RATE 120
 #define KEYBOARD_BUFFER_SIZE 1024
@@ -45,13 +45,15 @@ enum GraphicType
 	ITEM,
 	WEAPON,
 	GROUND,
-	MAP,
+	BOSS,
 	FONT,
-	ENEMY,
+	GHOST,
 	BBOX,
 	CANDLE,
 	INTROSCENE,
 	EFFECT,
+	PANTHER,
+	MAP,
 	
 };	
 

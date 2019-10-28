@@ -5,6 +5,7 @@
 #include"Whip.h"
 #include"Item.h"
 #include"Dagger.h"
+#include"Brick.h"
 
 class CSimonState;
 class Whip;
@@ -31,7 +32,7 @@ public:
 	bool IsKeyDownZ;
 	int count=0;
 	int WhipLevel = 1;
-	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false,isThrowing=false,isHitting=false;
+	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false,isThrowing=false,isHitting=false,isOnAirBrick=false;
 	void ChangeState(CSimonState* State);
 	void SetStateName(SimonState Name)
 	{
@@ -43,6 +44,7 @@ public:
 		currentanimation = animations[Name];
 	}
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
+	void Wall(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	void Respawn();
 	void HandleKeyboard(unordered_map<int, bool> keys);
 	void OnKeyDown(int keyCode);

@@ -7,6 +7,7 @@
 #include"Camera.h"
 #include"Brick.h"
 #include"LargeCandle.h"
+#include"Textures.h"
 
 #define TILE_WIDTH 32
 #define TILE_HEIGHT 32
@@ -19,10 +20,11 @@ private:
 	int ColStart, ColEnd;
 	int TileWidth, TileHeight;
 	int MapWidth, MapHeight;
-	//int currentBackground;
+	int MapCol;
+
 	LPSPRITE TileSet;
-	vector<LPSPRITE> listTileSet;
-	vector<LPCSTR> listMapData;
+	LPDIRECT3DTEXTURE9 TileTexture;
+
 	vector<LPGAMEOBJECT> listObject;
 
 
@@ -35,11 +37,12 @@ private:
 public:
 	void DrawTileBackground();
 	RECT rect;
+	vector<LPGAMEOBJECT> WallObject;
 	CMap(LPCSTR fileMatrixMap, LPCSTR fileTileSet, LPCSTR fileItemMap);
 
 	~CMap();
 
-	void AddTileSet(LPCSTR fileMatrixMap, LPCSTR fileTileSet);
+	/*void AddTileSet(LPCSTR fileMatrixMap, LPCSTR fileTileSet);*/
 	void DrawObject();
 	vector<LPGAMEOBJECT> LoadMapObject(LPCSTR fileItemMap);
 

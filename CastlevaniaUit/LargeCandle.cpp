@@ -1,14 +1,22 @@
 #include"LargeCandle.h"
 
-CLargeCandle::CLargeCandle(int x, int y,HolderType HolderType)
+CLargeCandle::CLargeCandle(int x, int y,HolderType HolderType, int CandleType)
 {
 	animation = new CAnimation(100);
-	animation->Add(CANDLE, 0);
-	animation->Add(CANDLE, 1);
+	switch (CandleType)
+	{	
+	case 1:
+		animation->Add(CANDLE, 0);
+		animation->Add(CANDLE, 1);
+		break;
+	case 2:
+		animation->Add(CANDLE, 2);
+		animation->Add(CANDLE, 3);
+	}
 	Holder = new CItem(HolderType);
 	SetPosition(x, y);
 	Holder->x = this->x + 8;
-	Holder->y = this->y;
+	Holder->y = this->y+8;
 	isColiable = true;
 
 }

@@ -35,10 +35,6 @@ LPDIRECT3DTEXTURE9 CTextureDatabase::GetTexture(GraphicType type) {
 	{
 	case HOLDER: case ITEM:
 		return textures[ITEM];
-	case ENEMY:
-		return textures[ENEMY];
-	case MAP:
-		return textures[MAP];
 	default:
 		return textures[type];
 	}

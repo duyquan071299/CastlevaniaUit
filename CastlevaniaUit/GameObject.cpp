@@ -14,7 +14,7 @@ void CGameObject::RenderBoundingBox()
 	LPSPRITE boundingbox = new CSprite(BBOX, 0,1 );
 	boundingbox->Settexture(bbox);
 	boundingbox->SetFrameWH((int)framew, (int)frameh);
-	//boundingbox->Draw(x, y,D3DCOLOR_ARGB(128,255,255,255));
+	boundingbox->Draw(x, y,D3DCOLOR_ARGB(128,255,255,255));
 	
 }
 
@@ -81,7 +81,7 @@ void CGameObject::CalcPotentialCollisions(
 		}
 		else
 		{
-			if ((dynamic_cast<CLargeCandle *>(coObjects->at(i)) || dynamic_cast<CItem *>(coObjects->at(i))) && coObjects->at(i)->isColiable == false)
+			if (((dynamic_cast<CLargeCandle *>(coObjects->at(i))) || dynamic_cast<CItem *>(coObjects->at(i))) && (coObjects->at(i)->isColiable == false|| !coObjects->at(i)->isIncamera))
 				continue;
 		}
 		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));

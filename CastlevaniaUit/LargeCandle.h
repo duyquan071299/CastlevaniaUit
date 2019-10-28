@@ -8,9 +8,10 @@ class CLargeCandle:public CGameObject
 	CItem * Holder;
 	int Width;
 	int Height;
+	int CandleType;
 	
 public:
-	CLargeCandle(int x,int y,HolderType type);
+	CLargeCandle(int x,int y,HolderType type, int CandleType);
 	~CLargeCandle(){}
 	CItem * GetHolder() { return Holder; }
 	void ChangeAnimation();

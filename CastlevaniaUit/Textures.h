@@ -12,3 +12,4 @@ public:
 	LPDIRECT3DTEXTURE9 GetTexture();
 	
 };
+typedef CTextures * LPTEXTURE;
