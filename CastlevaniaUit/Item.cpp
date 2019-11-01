@@ -37,6 +37,16 @@ void CItem::GetBoundingBox(float &x, float &y, float &framew, float &frameh)
 	case DAGGER:
 		framew = 32;
 		frameh = 18;
+		break;
+	case POTION:
+		framew = 26;
+		frameh = 32;
+		break;
+	case CHEST_1:case CHEST_2:case CHICKEN:
+		framew = 32;
+		frameh = 24;
+		break;
+
 	}
 }
 void CItem::Render()
@@ -48,7 +58,16 @@ void CItem::Render()
 void CItem::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 {
 	CGameObject::Update(dt);
-	vy += GAME_GRAVITY * dt;
+	
+	
+	if (!this->HDType == HEART)
+		vy += GAME_GRAVITY * dt;
+	else
+	{
+		vy += 0.0002* dt;
+	}
+		
+
 	if (GetTickCount() - lifetime > ITEM_LIFE_TIME)
 	{
 		this->IsDead = true;
@@ -64,8 +83,18 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 	CalcPotentialCollisions(colliable_objects, coEvents);
 	if (coEvents.size() == 0)
 	{
-		x += dx;
-		y += dy;
+
+		if (this->HDType == HEART && !isOnGround)
+		{
+			y += dy;
+			x += -1.5*sin(y / 17);
+		}
+		else
+		{
+			x += dx;
+			y += dy;
+		}
+		
 	}
 	else
 	{
@@ -79,6 +108,7 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
+		isOnGround = true;
 	}
 	
 }

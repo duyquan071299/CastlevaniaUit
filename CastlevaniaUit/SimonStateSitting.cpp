@@ -4,7 +4,7 @@
 void CSimonStateSitting::Update(DWORD dt) {};
 void CSimonStateSitting::HandleKeyboard(unordered_map<int, bool> keyCode)
 {
-	if (!keyCode[DIK_DOWN] || keyCode[DIK_UP])
+	if ((!keyCode[DIK_DOWN] || keyCode[DIK_UP])&&!CSimon::GetInstance()->Landing)
 	{	
 		if (CSimon::GetInstance()->nx > 0)
 			CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_RIGHT));

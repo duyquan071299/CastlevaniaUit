@@ -25,7 +25,7 @@ void CSimonStateWalking::HandleKeyboard(unordered_map<int, bool> keyCode)
 		}
 			
 		CSimon::GetInstance()->SetCurrentAnimation(WALKING_RIGHT);
-		CSimon::GetInstance()->vx = SIMON_RUNNING_SPEED;
+		CSimon::GetInstance()->vx =SIMON_RUNNING_SPEED;
 	}
 	else if (keyCode[DIK_LEFT])
 	{

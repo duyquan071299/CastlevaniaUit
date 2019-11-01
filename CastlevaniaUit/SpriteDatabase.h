@@ -15,8 +15,5 @@ public:
 	void LoadResources();
 	void AddSprite(LPSPRITE sprite);
 	LPSPRITE GetSprite(GraphicType type,int index);
-	//LPSPRITE GetSprites(GraphicType type, int firstIndex, int lastIndex);
-	//LPSPRITE GetSprite(GraphicType type);
-	//LPSPRITE &operator[](GraphicType type) { return sprites[type]; }
 	static CSpriteDatabase* GetInstance();
 };

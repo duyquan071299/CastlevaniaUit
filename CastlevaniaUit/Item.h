@@ -5,6 +5,8 @@ class CItem : public CGameObject
 	LPANIMATION animation;
 	int Width;
 	int Height;
+	bool isOnGround;
+	int MaxMov = y;
 	HolderType HDType;
 	DWORD lifetime;
 

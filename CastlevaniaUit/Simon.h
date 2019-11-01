@@ -18,8 +18,10 @@ private:
 	CSimonState* currentstate;
 	SimonState StateName;
 	bool Untouchable;
+	
 
 	DWORD Untouchable_Time;
+	DWORD Landing_Time;
 	int Heart;
 
 
@@ -29,22 +31,24 @@ public:
 	LPANIMATION getCurrentAnimation() { return currentanimation; }
 	CWhip* whip;
 	CWeapon* SecondWeapon;
+	bool Landing;
 	bool IsKeyDownZ;
 	int count=0;
 	int WhipLevel = 1;
-	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false,isThrowing=false,isHitting=false,isOnAirBrick=false;
+	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false,isThrowing=false,isHitting=false,isFreeFall=false,isCollect=false;
 	void ChangeState(CSimonState* State);
 	void SetStateName(SimonState Name)
 	{
 		StateName = Name;
 	}
 	void StartUntouchable() { Untouchable = true; Untouchable_Time = GetTickCount(); }
+	void StartLanding() { Landing = true; Landing_Time = GetTickCount(); }
+
 	void SetCurrentAnimation(SimonState Name)
 	{
 		currentanimation = animations[Name];
 	}
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
-	void Wall(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	void Respawn();
 	void HandleKeyboard(unordered_map<int, bool> keys);
 	void OnKeyDown(int keyCode);

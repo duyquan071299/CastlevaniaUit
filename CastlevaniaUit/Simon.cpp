@@ -2,6 +2,7 @@
 #include"SimonStateStanding.h"
 #include"SimonStateJumping.h"
 #include"SimonStateAttacking.h"
+#include"SimonStateSitting.h"
 
 CSimon * CSimon::instance = NULL;
 
@@ -36,6 +37,32 @@ CSimon::CSimon() {
 	ani->Add(PLAYER, 10);
 	animations[ATTACKING_SIT_LEFT] = ani;
 
+	ani = new CAnimation(100);
+	ani->Add(PLAYER, 22);
+	animations[ONSTAIR_STANDING_LEFT] = ani;
+
+	ani = new CAnimation(180);
+	ani->Add(PLAYER, 22);
+	ani->Add(PLAYER, 23);
+	animations[ONSTAIR_UP_LEFT] = ani;
+
+	ani = new CAnimation(180);
+	ani->Add(PLAYER, 24);
+	ani->Add(PLAYER, 23);
+	animations[ONSTAIR_DOWN_LEFT] = ani;
+
+	ani = new CAnimation(100);
+	ani->Add(PLAYER, 25);
+	ani->Add(PLAYER, 26);
+	ani->Add(PLAYER, 27);
+	animations[ONSTAIR_UP_ATTACK_LEFT] = ani;
+	ani = new CAnimation(100);
+	ani->Add(PLAYER, 28);
+	ani->Add(PLAYER, 29);
+	ani->Add(PLAYER, 30);
+	animations[ONSTAIR_DOWN_ATTACK_LEFT] = ani;
+	
+
 	//RIGHT ANIMATION
 	ani = new CAnimation(100);
 	ani->Add(PLAYER,11);
@@ -65,6 +92,36 @@ CSimon::CSimon() {
 	ani->Add(PLAYER, 20);
 	ani->Add(PLAYER, 21);
 	animations[ATTACKING_SIT_RIGHT] = ani;
+
+	ani = new CAnimation(100);
+	ani->Add(PLAYER, 31);
+	animations[ONSTAIR_STANDING_RIGHT] = ani;
+
+	ani = new CAnimation(180);
+	ani->Add(PLAYER, 31);
+	ani->Add(PLAYER, 32);
+	animations[ONSTAIR_UP_RIGHT] = ani;
+
+	ani = new CAnimation(180);
+	ani->Add(PLAYER, 33);
+	ani->Add(PLAYER, 32);
+	animations[ONSTAIR_DOWN_RIGHT] = ani;
+
+	ani = new CAnimation(100);
+	ani->Add(PLAYER, 34);
+	ani->Add(PLAYER, 35);
+	ani->Add(PLAYER, 36);
+	animations[ONSTAIR_UP_ATTACK_RIGHT] = ani;
+
+	ani = new CAnimation(100);
+	ani->Add(PLAYER, 37);
+	ani->Add(PLAYER, 38);
+	ani->Add(PLAYER, 39);
+	animations[ONSTAIR_DOWN_ATTACK_RIGHT] = ani;
+
+
+
+
 	
 }
 
@@ -187,85 +244,65 @@ void CSimon::OnKeyUp(int keyCode)
 	if(keyCode==DIK_Z)
 		CSimon::GetInstance()->IsKeyDownZ = false;
 }
-void CSimon::Wall(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
-{
-	/*CGameObject::Update(dt);*/
 
-	// Simple fall down
-	//vy += GAME_GRAVITY * dt;
-
-
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-
-	coEvents.clear();
-
-
-	// turn off collision when die 
-	//if (currentstate->GetStateName() != MARIO_STATE_DIE)
-	CalcPotentialCollisions(coObjects, coEvents);
-	// reset untouchable timer if untouchable time has passed
-
-	// No collision occured, proceed normally
-	/*if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
-
-	}
-	else*/
-	{
-		float min_tx, min_ty, nx = 0, ny;
-
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-		// block 
-		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-		y += min_ty * dy + ny * 0.4f;
-
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
-
-	}
-
-	// clean up collision events
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-
-}
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	// Calculate dx, dy 
-	CGameObject::Update(dt);
-	
-	// Simple fall down
-	vy += GAME_GRAVITY * dt;
-	
 
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-
-	coEvents.clear();
-	
-
-	// turn off collision when die 
-	//if (currentstate->GetStateName() != MARIO_STATE_DIE)
-	CalcPotentialCollisions(coObjects, coEvents);
 	// reset untouchable timer if untouchable time has passed
 	DWORD now = GetTickCount();
 	if (GetTickCount() - Untouchable_Time > COLLECT_ITEM_TIME)
 	{
 		Untouchable = false;
 		Untouchable_Time = 0;
-		
+
+	}
+	if (GetTickCount() - Landing_Time > LANDING_TIME)
+	{
+		Landing = false;
+		Landing_Time = 0;
+
 	}
 	if (Untouchable == true)
 		return;
+	// Calculate dx, dy 
+	CGameObject::Update(dt);
+	
+	// Simple fall down	
+	if (!this->IsJumping && !this->IsFalling && !this->IsAttacking &&!this->isCollect && vy > GAME_GRAVITY * dt+0.2 )
+	{
+		vy += 20 * GAME_GRAVITY * dt;
+		isFreeFall = true;
+	}
+	else
+		vy += GAME_GRAVITY * dt;
+	
+
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	coEvents.clear();
+	
+	
+
+	// turn off collision when die 
+	//if (currentstate->GetStateName() != MARIO_STATE_DIE)
+	CalcPotentialCollisions(coObjects, coEvents);
 
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
  		x += dx;
 		y += dy;
+
+		if (isFreeFall)
+		{
+			StartLanding();
+			isFreeFall = false;
+			if (nx >= 0)
+				ChangeState(new CSimonStateSitting(SITTING_RIGHT));
+			else
+				ChangeState(new CSimonStateSitting(SITTING_LEFT));
+		}
 
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
@@ -274,6 +311,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 				if (dynamic_cast<CItem *>(coObjects->at(i)))
 				{
+				
 					CItem *Item = dynamic_cast<CItem *>(coObjects->at(i));
 					if (Item->GetHolderType() == LARGE_HEART)
 						this->Heart += 5;
@@ -298,6 +336,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else
 	{
+		
+		
 		float min_tx, min_ty, nx = 0, ny;
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
@@ -307,8 +347,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 			y += min_ty * dy + ny * 0.4f;
+			
 		}
-
+		
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
 		
@@ -318,6 +359,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (dynamic_cast<CItem *>(e->obj))
 			{
 					CItem *Item = dynamic_cast<CItem *>(e->obj);
+					isCollect = true;
 					if (Item->IsDead == true)
 						continue;
 					if (Item->GetHolderType() == LARGE_HEART)
@@ -338,6 +380,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					Item->IsDead = true;
 			
 			}
+			else
+				this->isCollect = false;
 		}
 
 

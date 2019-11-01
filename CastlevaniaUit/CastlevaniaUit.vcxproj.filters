@@ -159,6 +159,21 @@
     <ClInclude Include="EffectSprite.h">
       <Filter>GameObjects\MapObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Ghost.h">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Panther.h">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Kappa.h">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Bat.h">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CastlevaniaUit.rc">
@@ -278,6 +293,18 @@
     </ClCompile>
     <ClCompile Include="Item.cpp">
       <Filter>GameObjects\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Ghost.cpp">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Panther.cpp">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Kappa.cpp">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Bat.cpp">
+      <Filter>GameObjects\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

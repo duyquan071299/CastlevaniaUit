@@ -1,6 +1,8 @@
 0 Resources\\Textures\\Simon.png
-2 Resources\\Textures\\Weapon.png
-8 Resources\\Textures\\Candle.png
-7 Resources\\Textures\\bbox.png
 1 Resources\\Textures\\Item.png
+2 Resources\\Textures\\Weapon.png
+6 Resources\\Textures\\GhostKappa.png
+7 Resources\\Textures\\bbox.png
+8 Resources\\Textures\\Candle.png
 10 Resources\\Textures\\Effect.png
+11 Resources\\Textures\\Panther.png
