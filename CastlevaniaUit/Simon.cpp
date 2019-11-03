@@ -129,6 +129,7 @@ CSimon::CSimon() {
 void CSimon::Respawn()
 {
 	this->y = 0;
+	this->x = 0;
 	//currentanimation= animations[STANDING_RIGHT];
 	ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 	nx = 1;
@@ -349,9 +350,32 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			y += min_ty * dy + ny * 0.4f;
 			
 		}
-		
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
+		if (dynamic_cast<CInvisibleObject*>(coEventsResult[0]->obj))
+		{
+			//this->IsOnAnimation = true;
+			CInvisibleObject*Object = dynamic_cast<CInvisibleObject *>(coEventsResult[0]->obj);
+			if (Object->GetType() == 1)
+			{
+				//this->x = 1344;
+				this->IsOnAnimation = true;
+			}
+			else
+			{
+
+				this->IsOnAnimation = false;
+				this->IsRespawn = true;
+			}
+				
+
+			Object->IsDead = true;
+			
+		}
+
+		if (!dynamic_cast<CInvisibleObject*>(coEventsResult[0]->obj))
+		{
+			if (nx != 0) vx = 0;
+			if (ny != 0) vy = 0;
+		}
 		
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
@@ -400,8 +424,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CSimon::HandleKeyboard(unordered_map<int, bool> keys)
 {
-
-	currentstate->HandleKeyboard(keys);
+	if(!IsOnAnimation)
+		currentstate->HandleKeyboard(keys);
 }
 
 void CSimon::ChangeState(CSimonState* State) {

@@ -70,12 +70,27 @@ void CPlayScene::Render()
 		listObject[i]->Render();
 	}
 	Simon->Render();
-	//CCamera::GetInstance()->SetPosition(CCamera::GetInstance()->GetPosition() + D3DXVECTOR3(10, 0, 0));
+	if (Simon->IsOnAnimation)
+	{
+		LPSPRITE TileSet = new CSprite(MAP, 0, 1);
+		TileSet->Settexture(CTextureDatabase::GetInstance()->GetTexture(HIDING_OBJECT));
+		TileSet->SetFrameWH(96, 128);
+		TileSet->Draw((float)1408, (float)160, default_color);
+	}
+	
 
 }
 
 void CPlayScene::Update(DWORD dt)
 {
+	if (Simon->IsRespawn)
+	{
+		Simon->IsRespawn = false;
+		delete CurrentMap;
+		Loadresources(1);
+		return;
+	}
+
 	if (keys[DIK_Z] == true)
 		Simon->count++;
 	else
@@ -133,7 +148,7 @@ void CPlayScene::Update(DWORD dt)
 			}
 				
 		}
-		else if (coObjects[i]->IsDead == true && dynamic_cast<CItem *>(coObjects[i]))
+		else if (coObjects[i]->IsDead == true && (dynamic_cast<CItem *>(coObjects[i])|| dynamic_cast<CInvisibleObject *>(coObjects[i])))
 		{
 			listObject.erase(listObject.begin() + i);
 		}

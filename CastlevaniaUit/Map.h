@@ -8,7 +8,7 @@
 #include"Brick.h"
 #include"LargeCandle.h"
 #include"Textures.h"
-
+#include"InvisibleObject.h"
 #define TILE_WIDTH 32
 #define TILE_HEIGHT 32
 
@@ -39,7 +39,8 @@ public:
 	RECT rect;
 	vector<LPGAMEOBJECT> WallObject;
 	CMap(LPCSTR fileMatrixMap, LPCSTR fileTileSet, LPCSTR fileItemMap);
-
+	LPDIRECT3DTEXTURE9 GetTileTexture() { return TileTexture; }
+	int GetMapCol() { return MapCol; }
 	~CMap();
 
 	/*void AddTileSet(LPCSTR fileMatrixMap, LPCSTR fileTileSet);*/
@@ -50,6 +51,10 @@ public:
 	vector<LPGAMEOBJECT> GetListObject()
 	{
 		return listObject;
+	}
+	int** GetMapMat()
+	{
+		return Matrix;
 	}
 	void Draw();
 

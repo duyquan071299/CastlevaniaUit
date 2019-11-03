@@ -178,6 +178,18 @@ vector<LPGAMEOBJECT> CMap::LoadMapObject(LPCSTR fileItemMap)
 				listObject.push_back(LargeCandle);
 				break;
 			}
+			case 4:
+			{
+				CInvisibleObject* Invisible = new CInvisibleObject(x, y);
+				Invisible->SetType(holder);
+				Invisible->SetWH(width, height);
+				Invisible->dx = 0;
+				Invisible->dy = 0;
+				Invisible->vx = 0;
+				Invisible->vy = 0;
+				listObject.push_back(Invisible);
+				break;
+			}
 			}
 		}
 		ifs.close();

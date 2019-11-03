@@ -1,7 +1,15 @@
 #include"SimonStateWalking.h"
 #include"SimonStateSitting.h"
 
-void CSimonStateWalking::Update(DWORD dt) {};
+void CSimonStateWalking::Update(DWORD dt) 
+{
+	if (CSimon::GetInstance()->IsOnAnimation)
+	{
+		CSimon::GetInstance()->SetCurrentAnimation(WALKING_RIGHT);
+		CSimon::GetInstance()->vx = 0.05;
+	
+	}
+};
 void CSimonStateWalking::HandleKeyboard(unordered_map<int, bool> keyCode)
 {
 	if (keyCode[DIK_DOWN])

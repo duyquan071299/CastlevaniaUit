@@ -6,6 +6,7 @@
 #include"Item.h"
 #include"Dagger.h"
 #include"Brick.h"
+#include"InvisibleObject.h"
 
 class CSimonState;
 class Whip;
@@ -18,8 +19,6 @@ private:
 	CSimonState* currentstate;
 	SimonState StateName;
 	bool Untouchable;
-	
-
 	DWORD Untouchable_Time;
 	DWORD Landing_Time;
 	int Heart;
@@ -36,6 +35,8 @@ public:
 	int count=0;
 	int WhipLevel = 1;
 	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false,isThrowing=false,isHitting=false,isFreeFall=false,isCollect=false;
+	bool IsOnAnimation;
+	bool IsRespawn;
 	void ChangeState(CSimonState* State);
 	void SetStateName(SimonState Name)
 	{

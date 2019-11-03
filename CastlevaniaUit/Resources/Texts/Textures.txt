@@ -6,3 +6,4 @@
 8 Resources\\Textures\\Candle.png
 10 Resources\\Textures\\Effect.png
 11 Resources\\Textures\\Panther.png
+13 Resources\\Textures\\Hiding_part.png

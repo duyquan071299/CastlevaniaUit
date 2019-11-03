@@ -18,7 +18,7 @@ using namespace std;
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0,0 )
 #define MAX_FRAME_RATE 120
 #define KEYBOARD_BUFFER_SIZE 1024
-#define SIMON_RUNNING_SPEED 0.1f
+#define SIMON_RUNNING_SPEED 0.2f
 #define SIMON_JUMPING_SPEED 0.53f
 #define DAGGER_SPEED 0.025f
 #define COLLECT_ITEM_TIME 500
@@ -60,6 +60,7 @@ enum GraphicType
 	EFFECT,
 	PANTHER,
 	MAP,
+	HIDING_OBJECT,
 	
 };	
 

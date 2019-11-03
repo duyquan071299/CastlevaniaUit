@@ -164,6 +164,7 @@
     <ClInclude Include="Ghost.h" />
     <ClInclude Include="GlobalObject.h" />
     <ClInclude Include="IntroScene.h" />
+    <ClInclude Include="InvisibleObject.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemSprite.h" />
     <ClInclude Include="Kappa.h" />
