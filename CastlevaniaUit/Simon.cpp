@@ -16,108 +16,122 @@ CSimon::CSimon() {
 	ani->Add(PLAYER, 0);
 	ani->Add(PLAYER, 1);
 	ani->Add(PLAYER, 2);
-	ani->Add(PLAYER, 3);
+	ani->Add(PLAYER, 1);
 	animations[WALKING_LEFT] = ani;
 
 	ani = new CAnimation(100);
-	ani->Add(PLAYER, 4);
+	ani->Add(PLAYER, 3);
 	animations[SITTING_LEFT] = ani;
 
 	ani = new CAnimation(100);
 	ani->Add(PLAYER, 0,10);
+	ani->Add(PLAYER, 4);
 	ani->Add(PLAYER, 5);
 	ani->Add(PLAYER, 6);
-	ani->Add(PLAYER, 7);
 	animations[ATTACKING_STAND_LEFT] = ani;
 
 	ani = new CAnimation(100);
-	ani->Add(PLAYER, 4, 10);
+	ani->Add(PLAYER, 3, 10);
+	ani->Add(PLAYER, 7);
 	ani->Add(PLAYER, 8);
 	ani->Add(PLAYER, 9);
-	ani->Add(PLAYER, 10);
 	animations[ATTACKING_SIT_LEFT] = ani;
 
 	ani = new CAnimation(100);
-	ani->Add(PLAYER, 22);
-	animations[ONSTAIR_STANDING_LEFT] = ani;
+	ani->Add(PLAYER, 20);
+	animations[ONSTAIR_STANDING_DOWN_LEFT] = ani;
 
-	ani = new CAnimation(180);
-	ani->Add(PLAYER, 22);
-	ani->Add(PLAYER, 23);
-	animations[ONSTAIR_UP_LEFT] = ani;
-
-	ani = new CAnimation(180);
-	ani->Add(PLAYER, 24);
-	ani->Add(PLAYER, 23);
-	animations[ONSTAIR_DOWN_LEFT] = ani;
+	ani = new CAnimation(120);
+	ani->Add(PLAYER, 20);
+	ani->Add(PLAYER, 21);
+	animations[ONSTAIR_WALKING_DOWN_LEFT] = ani;
 
 	ani = new CAnimation(100);
+	ani->Add(PLAYER, 22);
+	animations[ONSTAIR_STANDING_UP_LEFT] = ani;
+
+	ani = new CAnimation(120);
+	ani->Add(PLAYER, 22);
+	ani->Add(PLAYER, 23);
+	animations[ONSTAIR_WALKING_UP_LEFT] = ani;
+
+	ani = new CAnimation(100);
+	ani->Add(PLAYER, 20,10);
+	ani->Add(PLAYER, 24);
 	ani->Add(PLAYER, 25);
 	ani->Add(PLAYER, 26);
-	ani->Add(PLAYER, 27);
-	animations[ONSTAIR_UP_ATTACK_LEFT] = ani;
+	animations[ONSTAIR_DOWN_ATTACK_LEFT] = ani;
 	ani = new CAnimation(100);
+	ani->Add(PLAYER, 22,10);
+	ani->Add(PLAYER, 27);
 	ani->Add(PLAYER, 28);
 	ani->Add(PLAYER, 29);
-	ani->Add(PLAYER, 30);
-	animations[ONSTAIR_DOWN_ATTACK_LEFT] = ani;
+	animations[ONSTAIR_UP_ATTACK_LEFT] = ani;
 	
 
 	//RIGHT ANIMATION
 	ani = new CAnimation(100);
-	ani->Add(PLAYER,11);
+	ani->Add(PLAYER,10);
 	animations[STANDING_RIGHT] = ani;
 
 	ani = new CAnimation(180);
+	ani->Add(PLAYER, 10);
 	ani->Add(PLAYER, 11);
 	ani->Add(PLAYER, 12);
-	ani->Add(PLAYER, 13);
-	ani->Add(PLAYER, 14);
+	ani->Add(PLAYER, 11);
 	animations[WALKING_RIGHT] = ani;
 
 	ani = new CAnimation(100);
-	ani->Add(PLAYER, 15);
+	ani->Add(PLAYER, 13);
 	animations[SITTING_RIGHT] = ani;
 
 	ani = new CAnimation(100);
-	ani->Add(PLAYER, 11,10);
+	ani->Add(PLAYER, 10,10);
+	ani->Add(PLAYER, 14);
+	ani->Add(PLAYER, 15);
 	ani->Add(PLAYER, 16);
-	ani->Add(PLAYER, 17);
-	ani->Add(PLAYER, 18);
 	animations[ATTACKING_STAND_RIGHT] = ani;
 
 	ani = new CAnimation(100);
-	ani->Add(PLAYER, 15, 10);
+	ani->Add(PLAYER, 13, 10);
+	ani->Add(PLAYER, 17);
+	ani->Add(PLAYER, 18);
 	ani->Add(PLAYER, 19);
-	ani->Add(PLAYER, 20);
-	ani->Add(PLAYER, 21);
 	animations[ATTACKING_SIT_RIGHT] = ani;
 
 	ani = new CAnimation(100);
-	ani->Add(PLAYER, 31);
-	animations[ONSTAIR_STANDING_RIGHT] = ani;
+	ani->Add(PLAYER, 30);
+	animations[ONSTAIR_STANDING_DOWN_RIGHT] = ani;
 
-	ani = new CAnimation(180);
+	ani = new CAnimation(120);
+	ani->Add(PLAYER, 30);
 	ani->Add(PLAYER, 31);
-	ani->Add(PLAYER, 32);
-	animations[ONSTAIR_UP_RIGHT] = ani;
-
-	ani = new CAnimation(180);
-	ani->Add(PLAYER, 33);
-	ani->Add(PLAYER, 32);
-	animations[ONSTAIR_DOWN_RIGHT] = ani;
+	animations[ONSTAIR_WALKING_DOWN_RIGHT] = ani;
 
 	ani = new CAnimation(100);
+	ani->Add(PLAYER, 32);
+	animations[ONSTAIR_STANDING_UP_RIGHT] = ani;
+
+	ani = new CAnimation(120);
+	ani->Add(PLAYER, 32);
+	ani->Add(PLAYER, 33);
+	animations[ONSTAIR_WALKING_UP_RIGHT] = ani;
+
+	ani = new CAnimation(100);
+	ani->Add(PLAYER, 30, 10);
 	ani->Add(PLAYER, 34);
 	ani->Add(PLAYER, 35);
 	ani->Add(PLAYER, 36);
-	animations[ONSTAIR_UP_ATTACK_RIGHT] = ani;
+	animations[ONSTAIR_DOWN_ATTACK_RIGHT] = ani;
 
 	ani = new CAnimation(100);
+	ani->Add(PLAYER, 32,10);
 	ani->Add(PLAYER, 37);
 	ani->Add(PLAYER, 38);
 	ani->Add(PLAYER, 39);
-	animations[ONSTAIR_DOWN_ATTACK_RIGHT] = ani;
+	animations[ONSTAIR_UP_ATTACK_RIGHT] = ani;
+
+
 
 
 
@@ -180,7 +194,7 @@ void CSimon::OnKeyDown(int keyCode)
 	switch (keyCode)
 	{
 	case DIK_SPACE:
-		if ((IsStanding == true || IsMoving == true)&&IsJumping!=true)
+		if ((IsStanding || IsMoving)&&!IsJumping&&!isOnStair)
 		{
 			if (nx > 0)
 			{
@@ -200,7 +214,29 @@ void CSimon::OnKeyDown(int keyCode)
 		break;
 	case DIK_Z:
 		IsKeyDownZ = true;
-		if ((IsStanding|| IsMoving|| IsOnAir) && !IsAttacking&&!isThrowing )
+		if (isOnStair && !IsAttacking)
+		{
+			whip = new CWhip();
+			whip->SetType(WhipLevel);
+			IsSitting = false;
+			if (DirectionStair==1)
+			{
+				if(CSimon::GetInstance()->isUP)
+					ChangeState(new CSimonStateAttacking(ONSTAIR_UP_ATTACK_RIGHT));
+				else
+					ChangeState(new CSimonStateAttacking(ONSTAIR_DOWN_ATTACK_LEFT));
+			}
+			else
+			{
+				if (CSimon::GetInstance()->isUP)
+					ChangeState(new CSimonStateAttacking(ONSTAIR_UP_ATTACK_LEFT));
+				else
+					ChangeState(new CSimonStateAttacking(ONSTAIR_DOWN_ATTACK_RIGHT));
+
+			}
+
+		}
+		else if ((IsStanding|| IsMoving|| IsOnAir) && !IsAttacking&&!isThrowing )
 		{
 			whip = new CWhip();
 			whip->SetType(WhipLevel);
@@ -269,13 +305,14 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CGameObject::Update(dt);
 	
 	// Simple fall down	
-	if (!this->IsJumping && !this->IsFalling && !this->IsAttacking &&!this->isCollect && vy > GAME_GRAVITY * dt+0.4 )
+	if (!this->IsJumping && !this->IsFalling && !this->IsAttacking &&!this->isCollect &&!this->isOnStair && vy > GAME_GRAVITY * dt+0.4 &&vy<1000 )
 	{
 		vy += 20 * GAME_GRAVITY * dt;
 		isFreeFall = true;
 	}
-	else
+	else if(!isOnStair)
 		vy += GAME_GRAVITY * dt;
+
 	
 
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -294,7 +331,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
  		x += dx;
 		y += dy;
-
+		isColiableWithStairBottom = isColiableWithStairTop = false;
 		if (isFreeFall)
 		{
 			StartLanding();
@@ -331,6 +368,65 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 					Item->IsDead = true;
 				}
+				else if (dynamic_cast<CInvisibleObject *>(coObjects->at(i)))
+				{
+					if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() == 4)
+					{
+						isColiableWithStairBottom = true;
+						DirectionStair = 1;
+						CheckPoint = dynamic_cast<CInvisibleObject *>(coObjects->at(i))->x + 5;
+					}
+					else if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() == 5)
+					{
+						if (isOnStair)
+						{
+							isOnStair = false;
+							if (DirectionStair)
+							{
+								nx = 1;
+								ChangeState(new CSimonStateStanding(STANDING_RIGHT));
+							}
+							y -= 2;
+							vy = 9999999.0f;
+							vx = 0.0f;
+						}
+						else
+						{
+							isColiableWithStairTop = true;
+							DirectionStair = 1;
+							CheckPoint = dynamic_cast<CInvisibleObject *>(coObjects->at(i))->x;
+						}
+							
+					}
+					else if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() == 6)
+					{
+						isColiableWithStairBottom = true;
+						DirectionStair = -1;
+						CheckPoint = dynamic_cast<CInvisibleObject *>(coObjects->at(i))->x ;
+					}
+					else if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() == 7)
+					{
+						if (isOnStair)
+						{
+							isOnStair = false;
+							if (DirectionStair)
+							{
+								nx = -1;
+								ChangeState(new CSimonStateStanding(STANDING_LEFT));
+							}
+							y -= 2;
+							vy = 9999999.0f;
+							vx = 0.0f;
+						}
+						else
+						{
+							isColiableWithStairTop = true;
+							DirectionStair = -1;
+							CheckPoint = dynamic_cast<CInvisibleObject *>(coObjects->at(i))->x;
+						}
+					}
+						
+				}
 			}
 		}
 		
@@ -347,7 +443,24 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 			y += min_ty * dy + ny * 0.4f;
+			if (isOnStair && !isUP)
+			{
+				isOnStair = false;
+				if (DirectionStair==1)
+				{
+					nx = -1;
+					ChangeState(new CSimonStateStanding(STANDING_LEFT));
 
+				}
+				else if (DirectionStair == -1)
+				{
+					nx = 1;
+					ChangeState(new CSimonStateStanding(STANDING_RIGHT));
+				}
+				
+
+			}
+				
 			if (ny == 1)
 			{
 				y += dy;

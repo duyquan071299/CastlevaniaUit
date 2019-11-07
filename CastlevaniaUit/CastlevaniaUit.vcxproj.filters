@@ -183,6 +183,9 @@
     <ClInclude Include="Candle.h">
       <Filter>GameObjects\MapObjects</Filter>
     </ClInclude>
+    <ClInclude Include="SimonStateWalkingOnStair.h">
+      <Filter>GameObjects\Simon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CastlevaniaUit.rc">
@@ -314,6 +317,9 @@
     </ClCompile>
     <ClCompile Include="Candle.cpp">
       <Filter>GameObjects\MapObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="SimonStateWalkingOnStair.cpp">
+      <Filter>GameObjects\Simon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

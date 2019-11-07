@@ -31,11 +31,16 @@ public:
 	CWhip* whip;
 	CWeapon* SecondWeapon;
 	bool Landing;
+	int DirectionStair;
+	int CheckPoint;
 	bool IsKeyDownZ;
 	int count=0;
 	int WhipLevel = 1;
-	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false,isThrowing=false,isHitting=false,isFreeFall=false,isCollect=false;
+	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false,isThrowing=false,isHitting=false,isFreeFall=false,isCollect=false,isOnStair=false,isUP;
 	bool IsOnAnimation;
+	bool isColiableWithStairBottom;
+	bool isColiableWithStairTop;
+
 	bool IsRespawn;
 	void ChangeState(CSimonState* State);
 	void SetStateName(State Name)

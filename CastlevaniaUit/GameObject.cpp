@@ -14,7 +14,7 @@ void CGameObject::RenderBoundingBox()
 	LPSPRITE boundingbox = new CSprite(BBOX, 0,1 );
 	boundingbox->Settexture(bbox);
 	boundingbox->SetFrameWH((int)framew, (int)frameh);
-	boundingbox->Draw(x, y,D3DCOLOR_ARGB(128,255,255,255));
+	//boundingbox->Draw(x, y,D3DCOLOR_ARGB(200,255,255,255));
 	
 }
 
@@ -79,15 +79,35 @@ void CGameObject::CalcPotentialCollisions(
 
 			if(dynamic_cast<CCandle *>(coObjects->at(i))|| dynamic_cast<CDagger *>(coObjects->at(i)))
 				continue;
+			else if (dynamic_cast<CInvisibleObject *>(coObjects->at(i)))
+			{
+				if(dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() >2)
+					continue;
+			}
+			else if (dynamic_cast<CBrick*>(coObjects->at(i)))
+			{
+				if(dynamic_cast<CSimon*>(this)->isOnStair &&dynamic_cast<CSimon*>(this)->isUP&&!dynamic_cast<CSimon*>(this)->isColiableWithStairBottom)
+					continue;
+				if (dynamic_cast<CSimon*>(this)->isOnStair&&!dynamic_cast<CSimon*>(this)->isUP && dynamic_cast<CSimon*>(this)->isColiableWithStairTop)
+					continue;
+			}
+				
 		}
 		else if (dynamic_cast<CEnemy *>(this))
 		{
 			if (dynamic_cast<CCandle *>(coObjects->at(i)) || dynamic_cast<CItem *>(coObjects->at(i))|| dynamic_cast<CEnemy *>(coObjects->at(i)))
 				continue;
+			else if (dynamic_cast<CInvisibleObject *>(coObjects->at(i)))
+			{
+				if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() > 3)
+					continue;
+			}
 		}
 		else if(dynamic_cast<CDagger *>(this))
 		{
 			if (((dynamic_cast<CCandle *>(coObjects->at(i))) || dynamic_cast<CItem *>(coObjects->at(i))) && (/*coObjects->at(i)->isColiable == false||*/ !coObjects->at(i)->isIncamera))
+				continue;
+			if ((dynamic_cast<CBrick *>(coObjects->at(i)))|| (dynamic_cast<CInvisibleObject *>(coObjects->at(i))))
 				continue;
 		}
 		else if (dynamic_cast<CItem *>(this))

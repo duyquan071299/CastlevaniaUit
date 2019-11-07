@@ -21,7 +21,7 @@ void CPlayScene::Loadresources(int level) {
 		Simon->Respawn();
 		CurrentMap = new CMap("Resources\\Maps\\Scene1.txt", "Resources\\Maps\\Scene_1.png", "Resources\\Maps\\Scene1_Object.txt");
 		this->listObject = CurrentMap->GetListObject();
-		
+		MapBound = CurrentMap->GetMapWidth();
 		break;
 	}
 	case 1:
@@ -47,7 +47,7 @@ void CPlayScene::OnKeyDown(int KeyCode)
 	{
 		delete CurrentMap;
 		Loadresources(1);
-		Simon->x = 2000;
+		Simon->x = 1500;
 
 	}
 	else if (KeyCode == DIK_B)
@@ -88,7 +88,7 @@ void CPlayScene::Render()
 		listObject[i]->Render();
 	}
 	Simon->Render();
-	if ((Simon->IsOnAnimation||Simon->IsRespawn)&&Simon->vx>0)
+	if ((Simon->IsOnAnimation||Simon->IsRespawn)&&Simon->vx>0&&!this->Level)
 	{
 		LPSPRITE TileSet = new CSprite(MAP, 0, 1);
 		TileSet->Settexture(CTextureDatabase::GetInstance()->GetTexture(HIDING_OBJECT));

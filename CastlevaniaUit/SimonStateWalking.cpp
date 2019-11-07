@@ -16,6 +16,7 @@ void CSimonStateWalking::Update(DWORD dt)
 			CSimon::GetInstance()->vx = 0.05;
 		}
 		
+
 	
 	}
 };
