@@ -3,8 +3,7 @@
 void CSimonStateFalling::Update(DWORD dt)
 {
 
-
-	//this->HandleKeyboard(keyCode);
+	
 }
 void CSimonStateFalling::HandleKeyboard(unordered_map<int, bool> keyCode)
 {

@@ -44,11 +44,18 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
 				LPCOLLISIONEVENT e = coEventsResult[i];
-				if (dynamic_cast<CLargeCandle *>(e->obj))
+				if (dynamic_cast<CCandle *>(e->obj))
 				{
 					this->IsDead = true;
-					dynamic_cast<CLargeCandle *>(e->obj)->ChangeAnimation();
+					dynamic_cast<CCandle *>(e->obj)->ChangeAnimation();
 				
+
+				}
+				else if (dynamic_cast<CGhost*>(e->obj))
+				{
+
+					this->IsDead = true;
+					e->obj->IsDead = true;
 
 				}
 

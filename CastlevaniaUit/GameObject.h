@@ -35,8 +35,8 @@ public:
 
 	float vx;
 	float vy;
-	ItemType type;
-	bool IsDead;
+	
+	bool IsDead=false;
 	bool isColiable;
 	bool isIncamera;
 	

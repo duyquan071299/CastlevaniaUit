@@ -1,12 +1,19 @@
 #include"PlayScene.h"
 
+
 void CPlayScene::Loadresources(int level) {
 	CCamera::GetInstance()->SetWH(SCREEN_WIDTH, SCREEN_HEIGHT);
 	CCamera::GetInstance()->SetPosition(SCREEN_WIDTH / 2,
 		SCREEN_HEIGHT / 2);
+
+	for (int i = 0; i < listObject.size(); i++)
+	{
+		delete listObject[i];
+	}
 	this->listObject.clear();
 	//this->WallObject.clear();
 	Simon = CSimon::GetInstance();
+
 	switch (level)
 	{
 	case 0:
@@ -14,7 +21,7 @@ void CPlayScene::Loadresources(int level) {
 		Simon->Respawn();
 		CurrentMap = new CMap("Resources\\Maps\\Scene1.txt", "Resources\\Maps\\Scene_1.png", "Resources\\Maps\\Scene1_Object.txt");
 		this->listObject = CurrentMap->GetListObject();
-		//this->WallObject = CurrentMap->WallObject;
+		
 		break;
 	}
 	case 1:
@@ -22,9 +29,12 @@ void CPlayScene::Loadresources(int level) {
 		Simon->Respawn();
 		CurrentMap = new CMap("Resources\\Maps\\Scene2.txt", "Resources\\Maps\\Scene_2.png", "Resources\\Maps\\Scene2_Object.txt");
 		this->listObject = CurrentMap->GetListObject();
-		//this->WallObject = CurrentMap->WallObject;
+		this->Level = level;
+		MapBound = 3072;
+		GhostRespawn();
 	}
 	}
+	
 
 };
 
@@ -37,8 +47,16 @@ void CPlayScene::OnKeyDown(int KeyCode)
 	{
 		delete CurrentMap;
 		Loadresources(1);
+		Simon->x = 2000;
 
 	}
+	else if (KeyCode == DIK_B)
+	{
+		Panther->isRunning = true;
+		Panther->isSitting = false;
+		Panther->ChangeAni();
+	}
+		
 	
 	
 }
@@ -70,20 +88,20 @@ void CPlayScene::Render()
 		listObject[i]->Render();
 	}
 	Simon->Render();
-	if (Simon->IsOnAnimation)
+	if ((Simon->IsOnAnimation||Simon->IsRespawn)&&Simon->vx>0)
 	{
 		LPSPRITE TileSet = new CSprite(MAP, 0, 1);
 		TileSet->Settexture(CTextureDatabase::GetInstance()->GetTexture(HIDING_OBJECT));
 		TileSet->SetFrameWH(96, 128);
 		TileSet->Draw((float)1408, (float)160, default_color);
 	}
-	
+
 
 }
 
 void CPlayScene::Update(DWORD dt)
 {
-	if (Simon->IsRespawn)
+	/*if (Simon->IsRespawn)
 	{
 		Simon->IsRespawn = false;
 		delete CurrentMap;
@@ -94,25 +112,28 @@ void CPlayScene::Update(DWORD dt)
 	if (keys[DIK_Z] == true)
 		Simon->count++;
 	else
-		Simon->count = 0;
-	CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 +40, 0);
-	CCamera::GetInstance()->Update(CurrentMap->GetMapWidth());
-	if (Simon->isThrowing)
-	{
-		bool allow=true;
-		for (int i = 0; i < listObject.size(); i++)
-		{
-			if (dynamic_cast<CWeapon *>(listObject[i]))
-				allow = false;
-				
-		}
-		if (allow&&Simon->SecondWeapon->IsDead == false)
-		{
-			listObject.push_back(Simon->SecondWeapon);
-			
-		}	
-	}
-
+		Simon->count = 0;*/
+	CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 + 40, 0);
+	CCamera::GetInstance()->Update(MapBound);
+	UpdateSimon();
+	//if (Simon->isThrowing)
+	//{
+	//	bool allow=true;
+	//	for (int i = 0; i < listObject.size(); i++)
+	//	{
+	//		if (dynamic_cast<CWeapon *>(listObject[i]))
+	//			allow = false;
+	//			
+	//	}
+	//	if (allow&&Simon->SecondWeapon->IsDead == false)
+	//	{
+	//		listObject.push_back(Simon->SecondWeapon);
+	//		
+	//	}	
+	//}
+	/*if (GhostCount == 0 && this->Level)
+		GhostRespawn();
+	*/
 
 	vector<LPGAMEOBJECT> coObjects;
 	
@@ -129,43 +150,42 @@ void CPlayScene::Update(DWORD dt)
 		listObject[i]->Update(dt, &coObjects);
 
 	}	
-	Simon->HandleKeyboard(keys);
-	//Simon->Wall(dt, &WallObject);
-	Simon->Update(dt, &coObjects);
+	/*Simon->HandleKeyboard(keys);
 	
+	Simon->Update(dt, &coObjects);
+	*/
 
 
 	for (int i = 0; i < coObjects.size(); i++)
 	{
-		if (dynamic_cast<CLargeCandle *>(coObjects[i]))
+		if (dynamic_cast<CCandle *>(coObjects[i]))
 		{
 			if (coObjects[i]->IsDead == true)
 			{
-				listObject.push_back(dynamic_cast<CLargeCandle *>(coObjects[i])->GetHolder());
-				dynamic_cast<CLargeCandle *>(coObjects[i])->GetHolder()->AppearOnMap();
+				listObject.push_back(dynamic_cast<CCandle *>(coObjects[i])->GetHolder());
+				dynamic_cast<CCandle *>(coObjects[i])->GetHolder()->AppearOnMap();
 				listObject.erase(listObject.begin() + i);	
 				coObjects.erase(coObjects.begin() + i);
 			}
 				
 		}
-		else if (coObjects[i]->IsDead == true && (dynamic_cast<CItem *>(coObjects[i])|| dynamic_cast<CInvisibleObject *>(coObjects[i])))
+		else if(coObjects[i]->IsDead && !dynamic_cast<CBrick*>(coObjects[i]))
 		{
-			listObject.erase(listObject.begin() + i);
-		}
-		else if (dynamic_cast<CWeapon *>(coObjects[i]))
-		{
-			if (coObjects[i]->IsDead == true)
+			if (dynamic_cast<CGhost *>(coObjects[i]))
 			{
-				listObject.erase(listObject.begin() + i);
-				coObjects.erase(coObjects.begin() + i);
-
+				GhostCount--;
 			}
-
+			listObject.erase(listObject.begin() + i);
+			coObjects.erase(coObjects.begin() + i);
 		}
+		
 	}
 	
+	Simon->HandleKeyboard(keys);
 
-	
+	Simon->Update(dt, &coObjects);
+
+	//Ghost->Update(dt, &coObjects);
 	CurrentMap->Update(dt);
 	
 	
@@ -187,4 +207,64 @@ bool CPlayScene::IsInCamera(LPGAMEOBJECT object)
 
 	}
 	return true;
+}
+
+void CPlayScene::UpdateSimon()
+{
+	if (Simon->IsRespawn)
+	{
+		Simon->IsRespawn = false;
+		delete CurrentMap;
+		Loadresources(1);
+		return;
+	}
+
+	if (keys[DIK_Z] == true)
+		Simon->count++;
+	else
+		Simon->count = 0;
+
+	if (Simon->isThrowing)
+	{
+		bool allow = true;
+		for (int i = 0; i < listObject.size(); i++)
+		{
+			if (dynamic_cast<CWeapon *>(listObject[i]))
+				allow = false;
+
+		}
+		if (allow&&Simon->SecondWeapon->IsDead == false)
+		{
+			listObject.push_back(Simon->SecondWeapon);
+
+		}
+	}
+
+
+}
+
+void CPlayScene::GhostRespawn()
+{
+	/*for (int i = 0; i < 3; i++)
+	{
+		Ghost = new CGhost();
+		Ghost->SetPosition(CCamera::GetInstance()->x+SCREEN_WIDTH+i*30, 255);
+		Ghost->Respawn(-1);
+		GhostCount++;
+		listObject.push_back(Ghost);
+	}*/
+	Panther = new CPanther();
+	Panther->SetPosition(1376, 159);
+	Panther->Respawn(-1);
+	listObject.push_back(Panther);
+
+	//Panther = new CPanther();
+	//Panther->SetPosition(1860, 159);
+	//Panther->Respawn(-1);
+	//listObject.push_back(Panther);
+
+	//Panther = new CPanther();
+	//Panther->SetPosition(1772, 95);
+	//Panther->Respawn(-1);
+	//listObject.push_back(Panther);
 }

@@ -61,9 +61,13 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 			if (isContain(GetBBox(), coObjects->at(i)->GetBBox()))
 			{
-				if (dynamic_cast<CLargeCandle *>(coObjects->at(i)))
+				if (dynamic_cast<CCandle *>(coObjects->at(i)))
 				{
-					dynamic_cast<CLargeCandle *>(coObjects->at(i))->ChangeAnimation();
+					dynamic_cast<CCandle *>(coObjects->at(i))->ChangeAnimation();
+				}
+				else if (dynamic_cast<CEnemy*>(coObjects->at(i)))
+				{
+					dynamic_cast<CEnemy*>(coObjects->at(i))->ChangeAnimation();
 				}
 			}
 		}

@@ -74,14 +74,25 @@ void CGameObject::CalcPotentialCollisions(
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		
-		if (!dynamic_cast<CDagger *>(this))
+		if (dynamic_cast<CSimon*>(this))
 		{
-			if(dynamic_cast<CLargeCandle *>(coObjects->at(i))|| dynamic_cast<CDagger *>(coObjects->at(i)))
+
+			if(dynamic_cast<CCandle *>(coObjects->at(i))|| dynamic_cast<CDagger *>(coObjects->at(i)))
 				continue;
 		}
-		else
+		else if (dynamic_cast<CEnemy *>(this))
 		{
-			if (((dynamic_cast<CLargeCandle *>(coObjects->at(i))) || dynamic_cast<CItem *>(coObjects->at(i))) && (coObjects->at(i)->isColiable == false|| !coObjects->at(i)->isIncamera))
+			if (dynamic_cast<CCandle *>(coObjects->at(i)) || dynamic_cast<CItem *>(coObjects->at(i))|| dynamic_cast<CEnemy *>(coObjects->at(i)))
+				continue;
+		}
+		else if(dynamic_cast<CDagger *>(this))
+		{
+			if (((dynamic_cast<CCandle *>(coObjects->at(i))) || dynamic_cast<CItem *>(coObjects->at(i))) && (/*coObjects->at(i)->isColiable == false||*/ !coObjects->at(i)->isIncamera))
+				continue;
+		}
+		else if (dynamic_cast<CItem *>(this))
+		{
+			if(!dynamic_cast<CBrick*>(coObjects->at(i)))
 				continue;
 		}
 		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));

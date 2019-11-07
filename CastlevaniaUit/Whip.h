@@ -1,6 +1,7 @@
 #pragma once
 #include"Weapon.h"
-#include"LargeCandle.h"
+#include"Candle.h"
+#include"Ghost.h"
 
 class CWhip : public CWeapon
 {

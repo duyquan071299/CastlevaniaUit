@@ -5,6 +5,7 @@
 #include"CandleSprite.h"
 #include"ItemSprite.h"
 #include"EffectSprite.h"
+#include"EnemySprites.h"
 class CSpriteDatabase
 {
 private:

@@ -13,8 +13,8 @@ using namespace std;
 // Program values
 #define WINDOW_CLASS_NAME "CastleVaniaUIT"
 #define MAIN_WINDOW_TITLE "CastleVaniaUIT"
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 800
+#define SCREEN_WIDTH 512
+#define SCREEN_HEIGHT 387
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0,0 )
 #define MAX_FRAME_RATE 120
 #define KEYBOARD_BUFFER_SIZE 1024
@@ -50,7 +50,7 @@ enum GraphicType
 	PLAYER,
 	ITEM,
 	WEAPON,
-	GROUND,
+	DOOR,
 	BOSS,
 	FONT,
 	ENEMY,
@@ -58,14 +58,13 @@ enum GraphicType
 	CANDLE,
 	INTROSCENE,
 	EFFECT,
-	PANTHER,
 	MAP,
 	HIDING_OBJECT,
 	
 };	
 
 
-enum SimonState
+enum State
 {
 	WALKING,
 	WALKING_LEFT,
@@ -74,6 +73,8 @@ enum SimonState
 	STANDING_LEFT,
 	STANDING_RIGHT,
 	JUMPING,
+	JUMPING_LEFT,
+	JUMPING_RIGHT,
 	FALLING,
 	SITTING,
 	SITTING_RIGHT,
@@ -96,7 +97,9 @@ enum SimonState
 	ONSTAIR_DOWN_ATTACK_RIGHT,
 	ACTIVE,
 	DEAD,
-	INJURED
+	INJURED,
+	OPEN,
+	CLOSE,
 };
 
 enum ItemType
@@ -140,4 +143,12 @@ enum EffectType
 {
 	FIRE,
 	DESTROYED,
+};
+enum EnemyType 
+{
+	GHOST,
+	KAPPA,
+	PANTHER,
+	BAT,
+	
 };

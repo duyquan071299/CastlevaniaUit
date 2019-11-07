@@ -16,15 +16,17 @@ void CSpriteDatabase::LoadResources()
 			{
 				ifs >> type >> frame >> columns>>framew>>frameh;
 				if (object == "s")
-					sprites->AddSprite(new CSimonSprites(static_cast<SimonState>(type), frame, columns, framew, frameh));
+					sprites->AddSprite(new CSimonSprites(static_cast<State>(type), frame, columns, framew, frameh));
 				else if (object == "w")
 					sprites->AddSprite(new CWeaponSprite(static_cast<ItemType>(type), frame, columns,framew,frameh));
 				else if (object == "lc")
 					sprites->AddSprite(new CCandleSprite(static_cast<ItemType>(type), frame, columns, framew, frameh));
 				else if(object=="hd")
 					sprites->AddSprite(new CItemSprite(static_cast<ItemType>(type), frame, columns, framew, frameh));
-				else if(object=="e")
+				else if(object=="ef")
 					sprites->AddSprite(new CEffectSprite(static_cast<EffectType>(type), frame, columns, framew, frameh));
+				else if (object == "en")
+					sprites->AddSprite(new CEnemySprites(static_cast<EnemyType>(type), frame, columns, framew, frameh));
 			}
 		}
 	}

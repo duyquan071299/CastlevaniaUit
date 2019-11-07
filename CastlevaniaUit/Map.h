@@ -6,7 +6,7 @@
 #include "Sprites.h"
 #include"Camera.h"
 #include"Brick.h"
-#include"LargeCandle.h"
+#include"Candle.h"
 #include"Textures.h"
 #include"InvisibleObject.h"
 #define TILE_WIDTH 32

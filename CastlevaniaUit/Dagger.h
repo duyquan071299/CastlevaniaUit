@@ -1,6 +1,7 @@
 #pragma once
 #include"Weapon.h"
 #include"Simon.h"
+#include"Ghost.h"
 
 class CDagger : public CWeapon
 {

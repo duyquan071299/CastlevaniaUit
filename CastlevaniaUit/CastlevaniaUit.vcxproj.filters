@@ -141,9 +141,6 @@
     <ClInclude Include="Dagger.h">
       <Filter>GameObjects\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="LargeCandle.h">
-      <Filter>GameObjects\MapObjects</Filter>
-    </ClInclude>
     <ClInclude Include="CandleSprite.h">
       <Filter>GameObjects\MapObjects</Filter>
     </ClInclude>
@@ -175,6 +172,15 @@
       <Filter>GameObjects\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="InvisibleObject.h">
+      <Filter>GameObjects\MapObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySprites.h">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>GameObjects\MapObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Candle.h">
       <Filter>GameObjects\MapObjects</Filter>
     </ClInclude>
   </ItemGroup>
@@ -285,12 +291,6 @@
     <ClCompile Include="Dagger.cpp">
       <Filter>GameObjects\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="LargeCandle.cpp">
-      <Filter>GameObjects\MapObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="CandleSprite.cpp">
-      <Filter>GameObjects\MapObjects</Filter>
-    </ClCompile>
     <ClCompile Include="Brick.cpp">
       <Filter>GameObjects\MapObjects</Filter>
     </ClCompile>
@@ -308,6 +308,12 @@
     </ClCompile>
     <ClCompile Include="Bat.cpp">
       <Filter>GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>GameObjects\MapObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Candle.cpp">
+      <Filter>GameObjects\MapObjects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

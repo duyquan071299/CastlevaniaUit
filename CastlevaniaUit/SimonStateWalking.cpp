@@ -5,8 +5,17 @@ void CSimonStateWalking::Update(DWORD dt)
 {
 	if (CSimon::GetInstance()->IsOnAnimation)
 	{
-		CSimon::GetInstance()->SetCurrentAnimation(WALKING_RIGHT);
-		CSimon::GetInstance()->vx = 0.05;
+		if ((CSimon::GetInstance()->x > 1344&& CSimon::GetInstance()->vx<0))
+		{
+			CSimon::GetInstance()->SetCurrentAnimation(WALKING_LEFT);
+			CSimon::GetInstance()->vx = -0.05;
+		}
+		else
+		{
+			CSimon::GetInstance()->SetCurrentAnimation(WALKING_RIGHT);
+			CSimon::GetInstance()->vx = 0.05;
+		}
+		
 	
 	}
 };

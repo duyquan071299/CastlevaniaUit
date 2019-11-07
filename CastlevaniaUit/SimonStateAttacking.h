@@ -6,10 +6,10 @@ class CSimonStateAttacking :public CSimonState
 {
 public:
 	CSimonStateAttacking() {};
-	CSimonStateAttacking(SimonState Name) { StateName = Name; };
+	CSimonStateAttacking(State Name) { StateName = Name; };
 	void Update(DWORD dt);
 	void HandleKeyboard(unordered_map<int, bool> keyCode);
-	void SetState(SimonState State) {
+	void SetState(State State) {
 		StateName = State;
 	};
 	void Exit();

@@ -128,8 +128,8 @@ CSimon::CSimon() {
 
 void CSimon::Respawn()
 {
+	//this->y = 217;
 	this->y = 0;
-	this->x = 0;
 	//currentanimation= animations[STANDING_RIGHT];
 	ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 	nx = 1;
@@ -269,7 +269,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CGameObject::Update(dt);
 	
 	// Simple fall down	
-	if (!this->IsJumping && !this->IsFalling && !this->IsAttacking &&!this->isCollect && vy > GAME_GRAVITY * dt+0.2 )
+	if (!this->IsJumping && !this->IsFalling && !this->IsAttacking &&!this->isCollect && vy > GAME_GRAVITY * dt+0.4 )
 	{
 		vy += 20 * GAME_GRAVITY * dt;
 		isFreeFall = true;
@@ -337,8 +337,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	else
 	{
-		
-		
+	
 		float min_tx, min_ty, nx = 0, ny;
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
@@ -348,8 +347,14 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 			y += min_ty * dy + ny * 0.4f;
+
+			if (ny == 1)
+			{
+				y += dy;
+			}
 			
 		}
+	
 		if (dynamic_cast<CInvisibleObject*>(coEventsResult[0]->obj))
 		{
 			//this->IsOnAnimation = true;
@@ -358,23 +363,25 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				//this->x = 1344;
 				this->IsOnAnimation = true;
+				Object->IsDead = true;
 			}
-			else
+			else if(Object->GetType() == 2)
 			{
 
 				this->IsOnAnimation = false;
 				this->IsRespawn = true;
+				Object->IsDead = true;
 			}
 				
 
-			Object->IsDead = true;
+			
 			
 		}
 
-		if (!dynamic_cast<CInvisibleObject*>(coEventsResult[0]->obj))
+		if (!dynamic_cast<CInvisibleObject*>(coEventsResult[0]->obj)&& !dynamic_cast<CItem*>(coEventsResult[0]->obj))
 		{
 			if (nx != 0) vx = 0;
-			if (ny != 0) vy = 0;
+			if (ny ==-1) vy = 0;
 		}
 		
 		for (UINT i = 0; i < coEventsResult.size(); i++)
@@ -404,7 +411,18 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					Item->IsDead = true;
 			
 			}
-			else
+			else if (dynamic_cast<CEnemy *>(e->obj))
+			{
+				if (nx < 0)
+				{
+					vx = -0.2;
+				}
+				else
+					vx = 0.2;
+				
+				vy = -SIMON_JUMPING_SPEED;
+			}
+				
 				this->isCollect = false;
 		}
 

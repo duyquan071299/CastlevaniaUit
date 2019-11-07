@@ -6,10 +6,10 @@ class CSimonStateWalking :public CSimonState
 {
 public:
 	CSimonStateWalking() {};
-	CSimonStateWalking(SimonState Name) { StateName = Name; };
+	CSimonStateWalking(State Name) { StateName = Name; };
 	void Update(DWORD dt);
 	void HandleKeyboard(unordered_map<int, bool> keyCode);
-	void SetState(SimonState State) {
+	void SetState(State State) {
 		StateName= State;
 	};
 	void Exit();

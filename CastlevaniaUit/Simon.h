@@ -14,10 +14,10 @@ class CSimon :public CGameObject
 {
 private:
 	static CSimon* instance;
-	unordered_map<SimonState, LPANIMATION> animations;
+	unordered_map<State, LPANIMATION> animations;
 	LPANIMATION currentanimation;
 	CSimonState* currentstate;
-	SimonState StateName;
+	State StateName;
 	bool Untouchable;
 	DWORD Untouchable_Time;
 	DWORD Landing_Time;
@@ -38,14 +38,14 @@ public:
 	bool IsOnAnimation;
 	bool IsRespawn;
 	void ChangeState(CSimonState* State);
-	void SetStateName(SimonState Name)
+	void SetStateName(State Name)
 	{
 		StateName = Name;
 	}
 	void StartUntouchable() { Untouchable = true; Untouchable_Time = GetTickCount(); }
 	void StartLanding() { Landing = true; Landing_Time = GetTickCount(); }
 
-	void SetCurrentAnimation(SimonState Name)
+	void SetCurrentAnimation(State Name)
 	{
 		currentanimation = animations[Name];
 	}

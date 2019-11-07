@@ -5,7 +5,7 @@ class CSimonSprites : public CSprite
 {
 public:
 	CSimonSprites() {};
-	CSimonSprites(SimonState state,  int framenum, int columns,int framew,int frameh)
+	CSimonSprites(State state,  int framenum, int columns,int framew,int frameh)
 	{
 		type = PLAYER;
 		texture = CTextureDatabase::GetInstance()->GetTexture(PLAYER);

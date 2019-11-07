@@ -154,7 +154,7 @@ vector<LPGAMEOBJECT> CMap::LoadMapObject(LPCSTR fileItemMap)
 			{
 			case 1:
 			{
-				CLargeCandle* LargeCandle = new CLargeCandle(x, y, static_cast<HolderType>(holder),1);
+				CCandle* LargeCandle = new CCandle(x, y, static_cast<HolderType>(holder),1);
 				LargeCandle->SetWH(width, height);
 				listObject.push_back(LargeCandle);
 				break;
@@ -173,7 +173,7 @@ vector<LPGAMEOBJECT> CMap::LoadMapObject(LPCSTR fileItemMap)
 			}
 			case 3:
 			{
-				CLargeCandle* LargeCandle = new CLargeCandle(x, y, static_cast<HolderType>(holder), 2);
+				CCandle* LargeCandle = new CCandle(x, y, static_cast<HolderType>(holder), 2);
 				LargeCandle->SetWH(width, height);
 				listObject.push_back(LargeCandle);
 				break;
