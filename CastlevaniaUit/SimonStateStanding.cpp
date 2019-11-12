@@ -1,6 +1,7 @@
 #include"SimonStateStanding.h"
 #include"SimonStateSitting.h"
 #include"SimonStateWalkingOnStair.h"
+
 void CSimonStateStanding::Update(DWORD dt)
 {
 	if (CSimon::GetInstance()->IsOnAnimation)
@@ -17,7 +18,7 @@ void CSimonStateStanding::Update(DWORD dt)
 		}
 			
 		
-		if (abs(CSimon::GetInstance()->x - CSimon::GetInstance()->CheckPoint) <= 0.5)
+		if (abs(CSimon::GetInstance()->x - CSimon::GetInstance()->CheckPoint) <= 1.5)
 		{
 			if (CSimon::GetInstance()->isUP)
 			{
@@ -50,7 +51,7 @@ void CSimonStateStanding::Update(DWORD dt)
 				}
 				else if (CSimon::GetInstance()->DirectionStair == -1)
 				{
-					CSimon::GetInstance()->x = CSimon::GetInstance()->CheckPoint-10;
+					CSimon::GetInstance()->x = CSimon::GetInstance()->CheckPoint;
 					CSimon::GetInstance()->vx = SIMON_ONSTAIR_SPEED * (-CSimon::GetInstance()->DirectionStair);
 					CSimon::GetInstance()->vy = SIMON_ONSTAIR_SPEED;
 					CSimon::GetInstance()->ChangeState(new CSimonStateWalkingOnStair(ONSTAIR_WALKING_DOWN_RIGHT));
@@ -80,10 +81,13 @@ void CSimonStateStanding::HandleKeyboard(unordered_map<int, bool> keyCode)
 				CSimon::GetInstance()->ChangeState(new CSimonStateWalkingOnStair(ONSTAIR_WALKING_DOWN_RIGHT));
 				CSimon::GetInstance()->isUP = false;
 			}
-				
+			
 		}
 		else
+		{
 			CSimon::GetInstance()->ChangeState(new CSimonStateWalking(WALKING_RIGHT));
+			
+		}
 		CSimon::GetInstance()->nx = 1;
 	
 	}
@@ -179,7 +183,7 @@ void CSimonStateStanding::HandleKeyboard(unordered_map<int, bool> keyCode)
 		}
 		else if(CSimon::GetInstance()->isColiableWithStairBottom)
 		{
-			if (abs(CSimon::GetInstance()->x - CSimon::GetInstance()->CheckPoint) > 0.5)
+			if (abs(CSimon::GetInstance()->x - CSimon::GetInstance()->CheckPoint) > 1.5)
 			{
 				CSimon::GetInstance()->IsOnAnimation = true;
 				CSimon::GetInstance()->isUP = true;

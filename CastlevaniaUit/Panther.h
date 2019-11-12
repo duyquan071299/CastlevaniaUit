@@ -8,7 +8,6 @@ protected:
 
 public:
 	CPanther();
-	bool isBurning = false;
 	bool isSitting = true;
 	bool isRunning = false;
 	bool isJumping = false;

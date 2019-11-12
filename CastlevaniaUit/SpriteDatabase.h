@@ -6,6 +6,7 @@
 #include"ItemSprite.h"
 #include"EffectSprite.h"
 #include"EnemySprites.h"
+#include"DoorSprite.h"
 class CSpriteDatabase
 {
 private:

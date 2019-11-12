@@ -5,6 +5,7 @@
 #include"Ghost.h"
 #include "Map.h"
 #include"Panther.h"
+#include"Door.h"
 class CPlayScene : public CScene
 {
 private:
@@ -12,9 +13,11 @@ private:
 	CMap* CurrentMap;
 	CGhost* Ghost;
 	CPanther *Panther;
+	CDoor *Door;
 	int GhostCount;
 	int Level;
-	int MapBound;
+	int MapBoundLeft;
+	int MapBoundRight;
 	vector<LPGAMEOBJECT> listObject;
 	//vector<LPGAMEOBJECT> WallObject;
 public:

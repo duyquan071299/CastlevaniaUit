@@ -4,8 +4,7 @@
 
 class CGhost :public CEnemy
 {
-protected:
-	bool isBurning=false;
+
 public:
 	CGhost();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);

@@ -11,6 +11,7 @@ private:
 
 public:
 
+	bool isWithSimon=true;
 	static CCamera* GetInstance();
 	float x, y;
 	CCamera();
@@ -29,15 +30,15 @@ public:
 	int GetHeight() {
 		return Height;
 	};
-	void Update(int MapWidth)
+	void Update(int MapBoundLeft,int MapBoundRight)
 	{
-		if (this->x < 0)
+		if (this->x < MapBoundLeft)
 		{
-			this->x = 0;
+			this->x = MapBoundLeft;
 		}
-		else if (this->x > MapWidth-this->Width+16)
+		else if (this->x > MapBoundRight -this->Width+16)
 		{
-			this->x = (float)MapWidth - this->Width+16;
+			this->x = (float)MapBoundRight - this->Width+16;
 		}
 	}
 	

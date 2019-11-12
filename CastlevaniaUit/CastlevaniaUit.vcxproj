@@ -158,6 +158,7 @@
     <ClInclude Include="CandleSprite.h" />
     <ClInclude Include="Dagger.h" />
     <ClInclude Include="Door.h" />
+    <ClInclude Include="DoorSprite.h" />
     <ClInclude Include="EffectSprite.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemySprites.h" />
@@ -184,6 +185,7 @@
     <ClInclude Include="SimonState.h" />
     <ClInclude Include="SimonStateAttacking.h" />
     <ClInclude Include="SimonStateFalling.h" />
+    <ClInclude Include="SimonStateInjured.h" />
     <ClInclude Include="SimonStateJumping.h" />
     <ClInclude Include="SimonStateSitting.h" />
     <ClInclude Include="SimonStateStanding.h" />
@@ -233,6 +235,7 @@
     <ClCompile Include="SimonState.cpp" />
     <ClCompile Include="SimonStateAttacking.cpp" />
     <ClCompile Include="SimonStateFalling.cpp" />
+    <ClCompile Include="SimonStateInjured.cpp" />
     <ClCompile Include="SimonStateJumping.cpp" />
     <ClCompile Include="SimonStateSitting.cpp" />
     <ClCompile Include="SimonStateStanding.cpp" />

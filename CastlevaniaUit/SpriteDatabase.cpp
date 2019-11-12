@@ -27,6 +27,8 @@ void CSpriteDatabase::LoadResources()
 					sprites->AddSprite(new CEffectSprite(static_cast<EffectType>(type), frame, columns, framew, frameh));
 				else if (object == "en")
 					sprites->AddSprite(new CEnemySprites(static_cast<EnemyType>(type), frame, columns, framew, frameh));
+				else if(object=="do")
+					sprites->AddSprite(new CDoorSprite(static_cast<GraphicType>(type), frame, columns, framew, frameh));
 			}
 		}
 	}

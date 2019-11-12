@@ -5,16 +5,30 @@ void CSimonStateWalking::Update(DWORD dt)
 {
 	if (CSimon::GetInstance()->IsOnAnimation)
 	{
-		if ((CSimon::GetInstance()->x > 1344&& CSimon::GetInstance()->vx<0))
+		if (abs(CSimon::GetInstance()->x - CSimon::GetInstance()->CheckPoint) >= 1.5)
 		{
-			CSimon::GetInstance()->SetCurrentAnimation(WALKING_LEFT);
-			CSimon::GetInstance()->vx = -0.05;
+			if (CSimon::GetInstance()->x < CSimon::GetInstance()->CheckPoint)
+			{
+				CSimon::GetInstance()->SetCurrentAnimation(WALKING_RIGHT);
+				CSimon::GetInstance()->vx = SIMON_RUNNING_SPEED;
+			}
+			else
+			{
+				CSimon::GetInstance()->SetCurrentAnimation(WALKING_LEFT);
+				CSimon::GetInstance()->vx = -SIMON_RUNNING_SPEED;
+			}
+
+
+
 		}
 		else
 		{
-			CSimon::GetInstance()->SetCurrentAnimation(WALKING_RIGHT);
-			CSimon::GetInstance()->vx = 0.05;
+			CSimon::GetInstance()->IsOnAnimation = false;
+			CSimon::GetInstance()->IsFreeze = true;
+			CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_RIGHT));
+		
 		}
+		
 		
 
 	
@@ -24,7 +38,7 @@ void CSimonStateWalking::HandleKeyboard(unordered_map<int, bool> keyCode)
 {
 	if (keyCode[DIK_DOWN])
 	{
-		if (CSimon::GetInstance()->nx > 0)
+		if (CSimon::GetInstance()->vx > 0)
 			CSimon::GetInstance()->ChangeState(new CSimonStateSitting(SITTING_RIGHT));
 		else
 			CSimon::GetInstance()->ChangeState(new CSimonStateSitting(SITTING_LEFT));
@@ -35,7 +49,7 @@ void CSimonStateWalking::HandleKeyboard(unordered_map<int, bool> keyCode)
 		CSimon::GetInstance()->nx = 1;
 		if (keyCode[DIK_LEFT])
 		{
-			if(CSimon::GetInstance()->nx>0)
+			if(CSimon::GetInstance()->vx>0)
 				CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 			else
 				CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_LEFT));
@@ -55,7 +69,7 @@ void CSimonStateWalking::HandleKeyboard(unordered_map<int, bool> keyCode)
 	}
 	else
 	{
-		if (CSimon::GetInstance()->vx > 0)
+		if (CSimon::GetInstance()->nx >= 0)
 			CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 		else
 			CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_LEFT));

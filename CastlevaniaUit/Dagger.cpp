@@ -51,7 +51,7 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 				
 
 				}
-				else if (dynamic_cast<CGhost*>(e->obj))
+				else if (dynamic_cast<CEnemy*>(e->obj))
 				{
 
 					this->IsDead = true;

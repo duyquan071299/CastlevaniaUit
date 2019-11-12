@@ -14,7 +14,7 @@ void CGameObject::RenderBoundingBox()
 	LPSPRITE boundingbox = new CSprite(BBOX, 0,1 );
 	boundingbox->Settexture(bbox);
 	boundingbox->SetFrameWH((int)framew, (int)frameh);
-	//boundingbox->Draw(x, y,D3DCOLOR_ARGB(200,255,255,255));
+	boundingbox->Draw(x, y,D3DCOLOR_ARGB(200,255,255,255));
 	
 }
 
@@ -91,6 +91,9 @@ void CGameObject::CalcPotentialCollisions(
 				if (dynamic_cast<CSimon*>(this)->isOnStair&&!dynamic_cast<CSimon*>(this)->isUP && dynamic_cast<CSimon*>(this)->isColiableWithStairTop)
 					continue;
 			}
+
+			if (dynamic_cast<CEnemy*>(coObjects->at(i)) && (dynamic_cast<CEnemy*>(coObjects->at(i))->isBurning || dynamic_cast<CSimon*>(this)->isUntouchable()))
+				continue;
 				
 		}
 		else if (dynamic_cast<CEnemy *>(this))

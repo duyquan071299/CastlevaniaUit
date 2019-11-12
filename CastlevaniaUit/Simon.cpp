@@ -3,6 +3,7 @@
 #include"SimonStateJumping.h"
 #include"SimonStateAttacking.h"
 #include"SimonStateSitting.h"
+#include"SimonStateInjured.h"
 
 CSimon * CSimon::instance = NULL;
 
@@ -41,7 +42,7 @@ CSimon::CSimon() {
 	ani->Add(PLAYER, 20);
 	animations[ONSTAIR_STANDING_DOWN_LEFT] = ani;
 
-	ani = new CAnimation(120);
+	ani = new CAnimation(150);
 	ani->Add(PLAYER, 20);
 	ani->Add(PLAYER, 21);
 	animations[ONSTAIR_WALKING_DOWN_LEFT] = ani;
@@ -50,7 +51,7 @@ CSimon::CSimon() {
 	ani->Add(PLAYER, 22);
 	animations[ONSTAIR_STANDING_UP_LEFT] = ani;
 
-	ani = new CAnimation(120);
+	ani = new CAnimation(150);
 	ani->Add(PLAYER, 22);
 	ani->Add(PLAYER, 23);
 	animations[ONSTAIR_WALKING_UP_LEFT] = ani;
@@ -103,7 +104,7 @@ CSimon::CSimon() {
 	ani->Add(PLAYER, 30);
 	animations[ONSTAIR_STANDING_DOWN_RIGHT] = ani;
 
-	ani = new CAnimation(120);
+	ani = new CAnimation(150);
 	ani->Add(PLAYER, 30);
 	ani->Add(PLAYER, 31);
 	animations[ONSTAIR_WALKING_DOWN_RIGHT] = ani;
@@ -112,7 +113,7 @@ CSimon::CSimon() {
 	ani->Add(PLAYER, 32);
 	animations[ONSTAIR_STANDING_UP_RIGHT] = ani;
 
-	ani = new CAnimation(120);
+	ani = new CAnimation(150);
 	ani->Add(PLAYER, 32);
 	ani->Add(PLAYER, 33);
 	animations[ONSTAIR_WALKING_UP_RIGHT] = ani;
@@ -131,6 +132,14 @@ CSimon::CSimon() {
 	ani->Add(PLAYER, 39);
 	animations[ONSTAIR_UP_ATTACK_RIGHT] = ani;
 
+	ani = new CAnimation(100);
+	ani->Add(PLAYER, 40);
+	animations[INJURED_LEFT]=ani;
+
+	ani = new CAnimation(100);
+	ani->Add(PLAYER, 41);
+	animations[INJURED_RIGHT]=ani;
+
 
 
 
@@ -142,8 +151,8 @@ CSimon::CSimon() {
 
 void CSimon::Respawn()
 {
-	//this->y = 217;
-	this->y = 0;
+	this->y = 217;
+	this->x = 0;
 	//currentanimation= animations[STANDING_RIGHT];
 	ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 	nx = 1;
@@ -174,10 +183,15 @@ void CSimon::Render()
 	if (whip != nullptr)
 		whip->Render();
 	D3DCOLOR color = default_color;
-	if (Untouchable == true)
+	if (CollectItem == true)
 	{
 		color = D3DCOLOR_ARGB(255, rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1);
 		currentanimation->GetCurrenrFrame()->Draw(x, y, color);
+	}
+	else if (Untouchable == true && (IsStanding || IsSitting || IsJumping || IsAttacking ))
+	{
+		color = D3DCOLOR_ARGB(rand() % 255 +1, 255, 255, 255 );
+		currentanimation->Render(x, y, color);
 	}
 	else
 		currentanimation->Render(x, y, color);
@@ -189,7 +203,7 @@ void CSimon::Render()
 
 void CSimon::OnKeyDown(int keyCode)
 {
-	if (Untouchable == true)
+	if (isCollect == true)
 		return;
 	switch (keyCode)
 	{
@@ -287,26 +301,41 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	// reset untouchable timer if untouchable time has passed
 	DWORD now = GetTickCount();
-	if (GetTickCount() - Untouchable_Time > COLLECT_ITEM_TIME)
+	if (GetTickCount() - CollectItem_Time > COLLECT_ITEM_TIME)
+	{
+		CollectItem = false;
+	
+		CollectItem_Time = 0;
+
+	}
+
+	if (GetTickCount() -  Untouchable_Time> UNTOUCHABLE_TIME)
 	{
 		Untouchable = false;
 		Untouchable_Time = 0;
 
 	}
+
 	if (GetTickCount() - Landing_Time > LANDING_TIME)
 	{
 		Landing = false;
+		isInjured = false;
 		Landing_Time = 0;
 
 	}
-	if (Untouchable == true)
+	if (CollectItem == true)
 		return;
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 	
+	if (isInjured)
+	{
+		isFreeFall = true;
+	}
 	// Simple fall down	
 	if (!this->IsJumping && !this->IsFalling && !this->IsAttacking &&!this->isCollect &&!this->isOnStair && vy > GAME_GRAVITY * dt+0.4 &&vy<1000 )
 	{
+
 		vy += 20 * GAME_GRAVITY * dt;
 		isFreeFall = true;
 	}
@@ -355,7 +384,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						this->Heart += 5;
 					else if (Item->GetHolderType() == WHIP)
 					{
-						StartUntouchable();
+						StartCollectItem();
 						this->WhipLevel += 1;
 					}
 					else if (Item->GetHolderType() == DAGGER)
@@ -372,6 +401,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() == 4)
 					{
+						if (isColiableWithStairTop)
+							continue;
 						isColiableWithStairBottom = true;
 						DirectionStair = 1;
 						CheckPoint = dynamic_cast<CInvisibleObject *>(coObjects->at(i))->x + 5;
@@ -387,7 +418,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 								ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 							}
 							y -= 2;
-							vy = 9999999.0f;
+							vy = 9999.0f;
 							vx = 0.0f;
 						}
 						else
@@ -415,7 +446,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 								ChangeState(new CSimonStateStanding(STANDING_LEFT));
 							}
 							y -= 2;
-							vy = 9999999.0f;
+							vy = 9999.0f;
 							vx = 0.0f;
 						}
 						else
@@ -460,7 +491,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				
 
 			}
-				
+			
+			
+
 			if (ny == 1)
 			{
 				y += dy;
@@ -468,34 +501,43 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			
 		}
 	
-		if (dynamic_cast<CInvisibleObject*>(coEventsResult[0]->obj))
-		{
-			//this->IsOnAnimation = true;
-			CInvisibleObject*Object = dynamic_cast<CInvisibleObject *>(coEventsResult[0]->obj);
-			if (Object->GetType() == 1)
-			{
-				//this->x = 1344;
-				this->IsOnAnimation = true;
-				Object->IsDead = true;
-			}
-			else if(Object->GetType() == 2)
-			{
-
-				this->IsOnAnimation = false;
-				this->IsRespawn = true;
-				Object->IsDead = true;
-			}
 				
 
 			
 			
-		}
+
 
 		if (!dynamic_cast<CInvisibleObject*>(coEventsResult[0]->obj)&& !dynamic_cast<CItem*>(coEventsResult[0]->obj))
 		{
 			if (nx != 0) vx = 0;
 			if (ny ==-1) vy = 0;
 		}
+
+
+		if (dynamic_cast<CInvisibleObject*>(coEventsResult[0]->obj))
+		{
+			//this->IsOnAnimation = true;
+			CInvisibleObject*Object = dynamic_cast<CInvisibleObject *>(coEventsResult[0]->obj);
+			if (Object->GetType() == 1)
+			{
+				CCamera::GetInstance()->isWithSimon = false;
+				CheckPoint = 3160;
+				Object->IsDead = true;
+				ChangeState(new CSimonStateStanding(STANDING_RIGHT));
+				IsFreeze = true;
+				
+			}
+			else if (Object->GetType() == 2)
+			{
+
+				this->IsOnAnimation = false;
+				this->IsRespawn = true;
+				Object->IsDead = true;
+			}
+			
+		}
+
+
 		
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
@@ -510,7 +552,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						this->Heart += 5;
 					else if (Item->GetHolderType() == WHIP)
 					{
-						StartUntouchable();
+						StartCollectItem();
 						this->WhipLevel += 1;
 					}
 						
@@ -526,14 +568,23 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 			else if (dynamic_cast<CEnemy *>(e->obj))
 			{
-				if (nx < 0)
+				if (nx <= 0 && ny<=0)
 				{
-					vx = -0.2;
+					vx = -0.1;
 				}
 				else
-					vx = 0.2;
+					vx = 0.1;
 				
-				vy = -SIMON_JUMPING_SPEED;
+				vy = -0.5;
+				isInjured = true;
+
+				if (vx <= 0)
+					CSimon::GetInstance()->ChangeState(new CSimonStateInjured(INJURED_LEFT));
+				else
+					CSimon::GetInstance()->ChangeState(new CSimonStateInjured(INJURED_RIGHT));
+				
+					
+		
 			}
 				
 				this->isCollect = false;
@@ -546,6 +597,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
+	
 	if (whip != nullptr)
 		whip->Update(dt, coObjects);
 	currentstate->Update(dt);
@@ -555,7 +607,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CSimon::HandleKeyboard(unordered_map<int, bool> keys)
 {
-	if(!IsOnAnimation)
+	if(!IsOnAnimation && !isCollect)
 		currentstate->HandleKeyboard(keys);
 }
 

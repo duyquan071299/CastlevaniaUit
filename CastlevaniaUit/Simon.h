@@ -7,7 +7,7 @@
 #include"Dagger.h"
 #include"Brick.h"
 #include"InvisibleObject.h"
-
+#include"Camera.h"
 class CSimonState;
 class Whip;
 class CSimon :public CGameObject
@@ -19,8 +19,10 @@ private:
 	CSimonState* currentstate;
 	State StateName;
 	bool Untouchable;
+	bool CollectItem;
 	DWORD Untouchable_Time;
 	DWORD Landing_Time;
+	DWORD CollectItem_Time;
 	int Heart;
 
 
@@ -33,11 +35,13 @@ public:
 	bool Landing;
 	int DirectionStair;
 	int CheckPoint;
+	int PreviousX, PreviousY;
 	bool IsKeyDownZ;
 	int count=0;
 	int WhipLevel = 1;
-	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false,isThrowing=false,isHitting=false,isFreeFall=false,isCollect=false,isOnStair=false,isUP;
+	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false,isThrowing=false,isHitting=false,isFreeFall=false,isCollect=false,isOnStair=false,isUP,isInjured;
 	bool IsOnAnimation;
+	bool IsFreeze=false;
 	bool isColiableWithStairBottom;
 	bool isColiableWithStairTop;
 
@@ -48,8 +52,9 @@ public:
 		StateName = Name;
 	}
 	void StartUntouchable() { Untouchable = true; Untouchable_Time = GetTickCount(); }
+	void StartCollectItem() { CollectItem = true; CollectItem_Time = GetTickCount(); }
 	void StartLanding() { Landing = true; Landing_Time = GetTickCount(); }
-
+	bool isUntouchable() { return Untouchable; }
 	void SetCurrentAnimation(State Name)
 	{
 		currentanimation = animations[Name];

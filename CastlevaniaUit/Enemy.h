@@ -6,7 +6,9 @@ class CEnemy:public CGameObject
 protected:
 	unordered_map<State, CAnimation*> animations;
 	LPANIMATION curAnimation;
+
 public:
+	bool isBurning;
 	CEnemy(){}
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL){}
 	~CEnemy(){}
