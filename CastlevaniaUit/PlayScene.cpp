@@ -32,11 +32,11 @@ void CPlayScene::Loadresources(int level) {
 		CurrentMap = new CMap("Resources\\Maps\\Scene2.txt", "Resources\\Maps\\Scene_2.png", "Resources\\Maps\\Scene2_Object.txt");
 		this->listObject = CurrentMap->GetListObject();
 		Door = new CDoor(3056, 32);
-		Simon->x =3400;
+		Simon->x =3700;
 		Simon->y = 0;
 		this->Level = level;
 		MapBoundLeft = 0;
-		//MapBoundRight = 3072;
+		MapBoundRight = 3072;
 		MapBoundRight = 5000;
 
 		GhostRespawn();
@@ -117,8 +117,19 @@ void CPlayScene::Update(DWORD dt)
 {
 	if (CCamera::GetInstance()->isWithSimon)
 	{
-		CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 + 40, 0);
-		CCamera::GetInstance()->Update(MapBoundLeft,MapBoundRight);
+		if (Simon->y < SCREEN_HEIGHT-100)
+		{
+			CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 + 40, 0);
+			CCamera::GetInstance()->Update(MapBoundLeft, MapBoundRight);
+		}
+		else
+		{
+			
+			CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2+40, SCREEN_HEIGHT);
+			CCamera::GetInstance()->Update(UnderGroundMapBoundLeft, UnderGroundMapBoundRight);
+		}
+	
+		
 	}
 	else
 	{

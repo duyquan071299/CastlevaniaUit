@@ -18,6 +18,8 @@ private:
 	int Level;
 	int MapBoundLeft;
 	int MapBoundRight;
+	int UnderGroundMapBoundLeft=3136;
+	int UnderGroundMapBoundRight=4160;
 	vector<LPGAMEOBJECT> listObject;
 	//vector<LPGAMEOBJECT> WallObject;
 public:
