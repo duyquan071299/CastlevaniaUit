@@ -81,7 +81,9 @@ void CGameObject::CalcPotentialCollisions(
 				continue;
 			else if (dynamic_cast<CInvisibleObject *>(coObjects->at(i)))
 			{
-				if(dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() >2)
+				if(dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() !=2 && dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != 1 && dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != 8)
+					continue;
+				if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() == 2 && !dynamic_cast<CSimon*>(this)->IsOnAnimation)
 					continue;
 			}
 			else if (dynamic_cast<CBrick*>(coObjects->at(i)))
@@ -93,6 +95,8 @@ void CGameObject::CalcPotentialCollisions(
 			}
 
 			if (dynamic_cast<CEnemy*>(coObjects->at(i)) && (dynamic_cast<CEnemy*>(coObjects->at(i))->isBurning || dynamic_cast<CSimon*>(this)->isUntouchable()))
+				continue;
+			if (dynamic_cast<CEnemyBullet*>(coObjects->at(i)) && dynamic_cast<CSimon*>(this)->isUntouchable())
 				continue;
 				
 		}

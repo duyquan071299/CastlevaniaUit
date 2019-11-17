@@ -24,6 +24,9 @@ void CPlayScene::Loadresources(int level) {
 		this->listObject = CurrentMap->GetListObject();
 		MapBoundRight= CurrentMap->GetMapWidth();
 		MapBoundLeft = 0;
+		Simon->x = 1430;
+		this->Level = level;
+		Simon->AtLevel = level;
 		break;
 	}
 	case 1:
@@ -32,14 +35,15 @@ void CPlayScene::Loadresources(int level) {
 		CurrentMap = new CMap("Resources\\Maps\\Scene2.txt", "Resources\\Maps\\Scene_2.png", "Resources\\Maps\\Scene2_Object.txt");
 		this->listObject = CurrentMap->GetListObject();
 		Door = new CDoor(3056, 32);
-		Simon->x =3700;
+		Simon->x =0;
 		Simon->y = 0;
 		this->Level = level;
+		Simon->AtLevel = level;
 		MapBoundLeft = 0;
 		MapBoundRight = 3072;
 		MapBoundRight = 5000;
 
-		GhostRespawn();
+		//GhostRespawn();
 	}
 	}
 	
@@ -56,6 +60,7 @@ void CPlayScene::OnKeyDown(int KeyCode)
 		{
 			delete CurrentMap;
 			Loadresources(1);
+			
 
 
 		}
@@ -64,6 +69,10 @@ void CPlayScene::OnKeyDown(int KeyCode)
 			Panther->isRunning = true;
 			Panther->isSitting = false;
 			Panther->ChangeAni();
+		}
+		else if (KeyCode == DIK_Q)
+		{
+			GhostRespawn();
 		}
 
 	}
@@ -115,69 +124,92 @@ void CPlayScene::Render()
 
 void CPlayScene::Update(DWORD dt)
 {
-	if (CCamera::GetInstance()->isWithSimon)
+	if (this->Level == 1)
 	{
-		if (Simon->y < SCREEN_HEIGHT-100)
+		if (CCamera::GetInstance()->isWithSimon)
 		{
-			CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 + 40, 0);
-			CCamera::GetInstance()->Update(MapBoundLeft, MapBoundRight);
+			if (Simon->y < SCREEN_HEIGHT - 100)
+			{
+				CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 + 40, 0);
+				CCamera::GetInstance()->Update(MapBoundLeft, MapBoundRight);
+			}
+			else
+			{
+
+				CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 + 40, SCREEN_HEIGHT);
+				CCamera::GetInstance()->Update(UnderGroundMapBoundLeft, UnderGroundMapBoundRight);
+			}
+
+
 		}
 		else
 		{
-			
-			CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2+40, SCREEN_HEIGHT);
-			CCamera::GetInstance()->Update(UnderGroundMapBoundLeft, UnderGroundMapBoundRight);
+			if (CCamera::GetInstance()->x + SCREEN_WIDTH / 2 < Simon->x)
+				CCamera::GetInstance()->SetPosition((int)CCamera::GetInstance()->x + 0.1 *dt, 0);
+			else  if (Simon->IsFreeze && Door->x > Simon->x && Door->GetCurrentState() != OPEN)
+			{
+				Door->ChangeState(OPENNING);
+			}
+			else if (Door->GetCurrentState() == OPEN)
+			{
+				if (Simon->x > Door->x)
+				{
+					Door->ChangeState(CLOSING);
+				}
+				else
+				{
+					Simon->IsFreeze = false;
+					Simon->IsOnAnimation = true;
+					Simon->ChangeState(new CSimonStateWalking(WALKING_RIGHT));
+				}
+
+
+			}
+			else if (Door->GetCurrentState() == CLOSE)
+			{
+				if ((int)CCamera::GetInstance()->x >= Door->x + 16)
+				{
+					Simon->IsFreeze = false;
+					MapBoundLeft = Door->x + 16;
+					MapBoundRight = 6000;
+					CCamera::GetInstance()->isWithSimon = true;
+				}
+				else
+				{
+					CCamera::GetInstance()->SetPosition((int)CCamera::GetInstance()->x + 0.1 *dt, 0);
+				}
+
+			}
+
+
 		}
-	
-		
+
 	}
 	else
 	{
-		if(CCamera::GetInstance()->x+ SCREEN_WIDTH / 2  < Simon->x)
-			CCamera::GetInstance()->SetPosition((int)CCamera::GetInstance()->x+0.1 *dt,0);
-		else  if(Simon->IsFreeze && Door->x> Simon->x && Door->GetCurrentState() != OPEN)
-		{
-			Door->ChangeState(OPENNING);
-		}
-		else if (Door->GetCurrentState() == OPEN)
-		{	
-			if (Simon->x > Door->x)
-			{
-				Door->ChangeState(CLOSING);
-			}
-			else
-			{
-				Simon->IsFreeze = false;
-				Simon->IsOnAnimation = true;
-				Simon->ChangeState(new CSimonStateWalking(WALKING_RIGHT));
-			}
-		
-			
-		}
-		else if (Door->GetCurrentState() == CLOSE)
-		{
-			if ((int)CCamera::GetInstance()->x >= Door->x + 16)
-			{
-				Simon->IsFreeze = false;
-				MapBoundLeft = Door->x + 16;
-				MapBoundRight = 6000;
-				CCamera::GetInstance()->isWithSimon = true;
-			}
-			else
-			{
-				CCamera::GetInstance()->SetPosition((int)CCamera::GetInstance()->x + 0.1 *dt, 0);
-			}
-		
-		}
-		
-			
+		CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 + 40, 0);
+		CCamera::GetInstance()->Update(MapBoundLeft, MapBoundRight);
 	}
-
-	UpdateSimon();
 	
 
-	if (GhostCount == 0 && this->Level)
-		GhostRespawn();
+	UpdateSimon();
+	for (int i = 0; i < listObject.size(); i++)
+	{
+		if (dynamic_cast<CKappa *>(listObject[i]))
+		{
+			if (dynamic_cast<CKappa *>(listObject[i])->isAtacking && dynamic_cast<CKappa *>(listObject[i])->isFire == false)
+			{
+				dynamic_cast<CKappa *>(listObject[i])->isFire = true;
+				listObject.push_back(new CEnemyBullet(listObject[i]->x, listObject[i]->y+10, listObject[i]->nx));
+			}
+			
+		}
+			
+
+	}
+
+	/*if (GhostCount == 0 && this->Level)
+		GhostRespawn();*/
 	
 
 	vector<LPGAMEOBJECT> coObjects;
@@ -219,6 +251,7 @@ void CPlayScene::Update(DWORD dt)
 			listObject.erase(listObject.begin() + i);
 			coObjects.erase(coObjects.begin() + i);
 		}
+		
 		
 	}
 	if (!Simon->IsFreeze)
@@ -267,6 +300,21 @@ void CPlayScene::UpdateSimon()
 	else
 		Simon->count = 0;
 
+	if (Simon->y < SCREEN_HEIGHT - 100)
+	{
+		if (Simon->vx < 0 && Simon->x < MapBoundLeft - 9)
+			Simon->x = MapBoundLeft - 10;
+		else if(Simon->vx>=0 && Simon->x > MapBoundRight -48)
+			Simon->x = MapBoundRight - 48;
+			
+	}
+	else
+	{
+		if (Simon->vx < 0 && Simon->x < UnderGroundMapBoundLeft - 9)
+			Simon->x = UnderGroundMapBoundLeft - 10;
+	}
+
+
 	if (Simon->isThrowing)
 	{
 		bool allow = true;
@@ -288,14 +336,19 @@ void CPlayScene::UpdateSimon()
 
 void CPlayScene::GhostRespawn()
 {
-	for (int i = 0; i < 3; i++)
+	/*for (int i = 0; i < 3; i++)
 	{
 		Ghost = new CGhost();
 		Ghost->SetPosition(CCamera::GetInstance()->x+SCREEN_WIDTH+i*30, 255);
 		Ghost->Respawn(-1);
 		GhostCount++;
 		listObject.push_back(Ghost);
-	}
+	}*/
+
+	Bat = new CBat();
+	Bat->SetPosition(CCamera::GetInstance()->x + SCREEN_WIDTH -70, 270);
+	Bat->Respawn(-1);
+	listObject.push_back(Bat);
 	/*Panther = new CPanther();
 	Panther->SetPosition(1376, 159);
 	Panther->Respawn(-1);

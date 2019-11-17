@@ -22,7 +22,6 @@ void CGhost::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 	else
 		vx = -0.05;
 	vy += GAME_GRAVITY * dt;
-	CGameObject::Update(dt);
 
 
 

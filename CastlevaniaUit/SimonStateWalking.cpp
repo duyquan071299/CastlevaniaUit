@@ -10,12 +10,18 @@ void CSimonStateWalking::Update(DWORD dt)
 			if (CSimon::GetInstance()->x < CSimon::GetInstance()->CheckPoint)
 			{
 				CSimon::GetInstance()->SetCurrentAnimation(WALKING_RIGHT);
-				CSimon::GetInstance()->vx = SIMON_RUNNING_SPEED;
+				if (CSimon::GetInstance()->AtLevel == 0)
+					CSimon::GetInstance()->vx = 0.05;
+				else
+					CSimon::GetInstance()->vx = SIMON_RUNNING_SPEED;
 			}
 			else
 			{
 				CSimon::GetInstance()->SetCurrentAnimation(WALKING_LEFT);
-				CSimon::GetInstance()->vx = -SIMON_RUNNING_SPEED;
+				if (CSimon::GetInstance()->AtLevel == 0)
+					CSimon::GetInstance()->vx = -0.05;
+				else
+					CSimon::GetInstance()->vx = -SIMON_RUNNING_SPEED;
 			}
 
 
@@ -23,9 +29,15 @@ void CSimonStateWalking::Update(DWORD dt)
 		}
 		else
 		{
-			CSimon::GetInstance()->IsOnAnimation = false;
-			CSimon::GetInstance()->IsFreeze = true;
-			CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_RIGHT));
+			if (CSimon::GetInstance()->vx < 0)
+				CSimon::GetInstance()->CheckPoint += 300;
+			else
+			{
+				CSimon::GetInstance()->IsOnAnimation = false;
+				CSimon::GetInstance()->IsFreeze = true;
+				CSimon::GetInstance()->ChangeState(new CSimonStateStanding(STANDING_RIGHT));
+			}
+			
 		
 		}
 		

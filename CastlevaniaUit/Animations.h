@@ -27,7 +27,10 @@ public:
 	int GetFrameSize() { return frames.size(); };
 	void Add(GraphicType type, int index, DWORD time = 0);
 	void Render(float x, float y, D3DCOLOR color);
-	void SetIsLastFrame(bool lastfr) { isLastFrame = lastfr; }
+	void SetIsLastFrame(bool lastfr) { 
+		isLastFrame = lastfr;
+		currentFrame = -1;
+	}
 	bool IsLastFrame() { return isLastFrame; }
 	int GetCurrentFrame() { return currentFrame; }
 	LPSPRITE GetCurrenrFrame() { return frames[currentFrame]->GetSprite(); }

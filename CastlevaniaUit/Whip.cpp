@@ -69,6 +69,10 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					dynamic_cast<CEnemy*>(coObjects->at(i))->ChangeAnimation();
 				}
+				else if (dynamic_cast<CEnemyBullet*>(coObjects->at(i)))
+				{
+					dynamic_cast<CEnemyBullet*>(coObjects->at(i))->ChangeAnimation();
+				}
 			}
 		}
 	}

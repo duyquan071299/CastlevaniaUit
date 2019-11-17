@@ -8,6 +8,7 @@
 #include"Brick.h"
 #include"InvisibleObject.h"
 #include"Camera.h"
+#include"EnemyBullet.h"
 class CSimonState;
 class Whip;
 class CSimon :public CGameObject
@@ -44,7 +45,7 @@ public:
 	bool IsFreeze=false;
 	bool isColiableWithStairBottom;
 	bool isColiableWithStairTop;
-
+	int AtLevel;
 	bool IsRespawn;
 	void ChangeState(CSimonState* State);
 	void SetStateName(State Name)

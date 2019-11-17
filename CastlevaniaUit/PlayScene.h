@@ -5,6 +5,8 @@
 #include"Ghost.h"
 #include "Map.h"
 #include"Panther.h"
+#include"Kappa.h"
+#include"Bat.h"
 #include"Door.h"
 class CPlayScene : public CScene
 {
@@ -12,6 +14,8 @@ private:
 	CSimon* Simon;
 	CMap* CurrentMap;
 	CGhost* Ghost;
+	CKappa* Kappa;
+	CBat* Bat;
 	CPanther *Panther;
 	CDoor *Door;
 	int GhostCount;

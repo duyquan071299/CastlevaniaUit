@@ -18,7 +18,7 @@ using namespace std;
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0,0 )
 #define MAX_FRAME_RATE 120
 #define KEYBOARD_BUFFER_SIZE 1024
-#define SIMON_RUNNING_SPEED 0.15f
+#define SIMON_RUNNING_SPEED 0.18f
 #define SIMON_JUMPING_SPEED 0.53f
 #define SIMON_ONSTAIR_SPEED 0.1f
 #define DAGGER_SPEED 0.025f
@@ -26,12 +26,11 @@ using namespace std;
 #define UNTOUCHABLE_TIME 3000
 #define LANDING_TIME 300
 #define ITEM_LIFE_TIME 3000
+#define ENEMY_BULLET_SPEED 0.015
 #define CAM_X 0.0f
 #define CAM_Y 0.0f
 #define GAME_GRAVITY 0.002f
-#define PI 3.14159
-#define FREQUENCY 50
-#define AMP 100
+
 
 
 

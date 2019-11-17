@@ -153,6 +153,9 @@ void CSimon::Respawn()
 {
 	this->y = 217;
 	this->x = 0;
+	SecondWeapon = nullptr;
+	WhipLevel = 1;
+	Heart = 0;
 	//currentanimation= animations[STANDING_RIGHT];
 	ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 	nx = 1;
@@ -503,8 +506,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	
 				
 
-			
-			
+		
 
 
 		if (!dynamic_cast<CInvisibleObject*>(coEventsResult[0]->obj)&& !dynamic_cast<CItem*>(coEventsResult[0]->obj))
@@ -518,7 +520,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			//this->IsOnAnimation = true;
 			CInvisibleObject*Object = dynamic_cast<CInvisibleObject *>(coEventsResult[0]->obj);
-			if (Object->GetType() == 1)
+			if (Object->GetType() == 8)
 			{
 				CCamera::GetInstance()->isWithSimon = false;
 				CheckPoint = 3160;
@@ -527,9 +529,28 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				IsFreeze = true;
 				
 			}
+			else if (Object->GetType() == 1)
+			{
+				IsOnAnimation = true;
+				if(vx>0)
+					CheckPoint = x + 200;
+				else
+					CheckPoint = x - 35;
+				if (vy != 0)
+				{
+					vy = 99999.0f;
+					y -= 2;
+					if(vx>0)
+						ChangeState(new CSimonStateWalking(WALKING_RIGHT));
+					else
+						ChangeState(new CSimonStateWalking(WALKING_LEFT));
+				}
+					
+
+				Object->IsDead = true;
+			}
 			else if (Object->GetType() == 2)
 			{
-
 				this->IsOnAnimation = false;
 				this->IsRespawn = true;
 				Object->IsDead = true;
@@ -566,7 +587,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					Item->IsDead = true;
 			
 			}
-			else if (dynamic_cast<CEnemy *>(e->obj))
+			else if (dynamic_cast<CEnemy *>(e->obj) || dynamic_cast<CEnemyBullet *>(e->obj))
 			{
 				if (nx <= 0 && ny<=0)
 				{
