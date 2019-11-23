@@ -7,17 +7,38 @@ void CSimonStateWalkingOnStair::Update(DWORD dt)
 	{
 		if (CSimon::GetInstance()->DirectionStair == 1)
 		{
-			if (CSimon::GetInstance()->x > CSimon::GetInstance()->CheckPoint + 14 && CSimon::GetInstance()->isUP)
+			if (CSimon::GetInstance()->x > CSimon::GetInstance()->CheckPoint+15  && CSimon::GetInstance()->isUP)
+			{
+				CSimon::GetInstance()->getCurrentAnimation()->SetIsLastFrame(true);
 				CSimon::GetInstance()->IsOnAnimation = false;
+			}
+			
 			else if (CSimon::GetInstance()->x < CSimon::GetInstance()->CheckPoint - 17 && !CSimon::GetInstance()->isUP)
+			{
+				CSimon::GetInstance()->getCurrentAnimation()->SetIsLastFrame(true);
 				CSimon::GetInstance()->IsOnAnimation = false;
+			}
+				
 		}
 		else
 		{
-			if (CSimon::GetInstance()->x < CSimon::GetInstance()->CheckPoint - 17 && CSimon::GetInstance()->isUP)
+		
+
+			if (CSimon::GetInstance()->x < CSimon::GetInstance()->CheckPoint +30&& CSimon::GetInstance()->isUP)
+			{
 				CSimon::GetInstance()->IsOnAnimation = false;
-			else if (CSimon::GetInstance()->x > CSimon::GetInstance()->CheckPoint + 5 && !CSimon::GetInstance()->isUP)
+
+				CSimon::GetInstance()->getCurrentAnimation()->SetIsLastFrame(true);
+			}
+				
+			else if (CSimon::GetInstance()->x > CSimon::GetInstance()->CheckPoint + 10 && !CSimon::GetInstance()->isUP)
+			{
 				CSimon::GetInstance()->IsOnAnimation = false;
+				CSimon::GetInstance()->getCurrentAnimation()->SetIsLastFrame(true);
+
+
+			}
+				
 		}
 		if (!CSimon::GetInstance()->IsOnAnimation)
 		{
@@ -26,6 +47,78 @@ void CSimonStateWalkingOnStair::Update(DWORD dt)
 		}
 
 
+	}
+	else
+	{
+		if (CSimon::GetInstance()->DirectionStair == 1)
+		{
+			if (CSimon::GetInstance()->y - CSimon::GetInstance()->PreviousY >= 16 && CSimon::GetInstance()->PreviousX - CSimon::GetInstance()->x >= 16)
+			{
+				if (CSimon::GetInstance()->PreviousX - CSimon::GetInstance()->x > 16)
+				{
+					CSimon::GetInstance()->x = CSimon::GetInstance()->PreviousX - 16;
+				}
+				if (CSimon::GetInstance()->y - CSimon::GetInstance()->PreviousY > 16)
+				{
+					CSimon::GetInstance()->y = CSimon::GetInstance()->PreviousY + 16;
+				}
+				CSimon::GetInstance()->PreviousX = CSimon::GetInstance()->x;
+				CSimon::GetInstance()->PreviousY = CSimon::GetInstance()->y;
+
+				CSimon::GetInstance()->getCurrentAnimation()->SetIsLastFrame(true);
+
+			}
+			else if (CSimon::GetInstance()->PreviousY - CSimon::GetInstance()->y >= 16 && CSimon::GetInstance()->x - CSimon::GetInstance()->PreviousX >= 16)
+			{
+				if (CSimon::GetInstance()->PreviousY - CSimon::GetInstance()->y > 16)
+				{
+					CSimon::GetInstance()->y = CSimon::GetInstance()->PreviousY - 16;
+				}
+				if (CSimon::GetInstance()->x - CSimon::GetInstance()->PreviousX > 16)
+				{
+					CSimon::GetInstance()->x = CSimon::GetInstance()->PreviousX + 16;
+				}
+				CSimon::GetInstance()->PreviousX = CSimon::GetInstance()->x;
+				CSimon::GetInstance()->PreviousY = CSimon::GetInstance()->y;
+
+				CSimon::GetInstance()->getCurrentAnimation()->SetIsLastFrame(true);
+			}
+		}
+		else
+		{
+			if (CSimon::GetInstance()->x - CSimon::GetInstance()->PreviousX >= 16 && CSimon::GetInstance()->y - CSimon::GetInstance()->PreviousY >= 16)
+			{
+				if (CSimon::GetInstance()->x - CSimon::GetInstance()->PreviousX > 16)
+				{
+					CSimon::GetInstance()->x = CSimon::GetInstance()->PreviousX + 16;
+				}
+				if (CSimon::GetInstance()->y - CSimon::GetInstance()->PreviousY > 16)
+				{
+					CSimon::GetInstance()->y = CSimon::GetInstance()->PreviousY + 16;
+				}
+				CSimon::GetInstance()->PreviousX = CSimon::GetInstance()->x;
+				CSimon::GetInstance()->PreviousY = CSimon::GetInstance()->y;
+
+				CSimon::GetInstance()->getCurrentAnimation()->SetIsLastFrame(true);
+
+			}
+			else if (CSimon::GetInstance()->PreviousY - CSimon::GetInstance()->y >= 16 && CSimon::GetInstance()->PreviousX - CSimon::GetInstance()->x >= 16)
+			{
+				if (CSimon::GetInstance()->PreviousY - CSimon::GetInstance()->y > 16)
+				{
+					CSimon::GetInstance()->y = CSimon::GetInstance()->PreviousY - 16;
+				}
+				if (CSimon::GetInstance()->PreviousX - CSimon::GetInstance()->x> 16)
+				{
+					CSimon::GetInstance()->x = CSimon::GetInstance()->PreviousX - 16;
+				}
+				CSimon::GetInstance()->PreviousX = CSimon::GetInstance()->x;
+				CSimon::GetInstance()->PreviousY = CSimon::GetInstance()->y;
+
+				CSimon::GetInstance()->getCurrentAnimation()->SetIsLastFrame(true);
+			}
+		}
+		
 	}
 
 }
@@ -52,8 +145,7 @@ void CSimonStateWalkingOnStair::HandleKeyboard(unordered_map<int, bool> keyCode)
 			CSimon::GetInstance()->vy = -SIMON_ONSTAIR_SPEED;
 			CSimon::GetInstance()->isUP = true;
 			CSimon::GetInstance()->SetCurrentAnimation(ONSTAIR_WALKING_UP_RIGHT);
-			CSimon::GetInstance()->PreviousX = CSimon::GetInstance()->x;
-			CSimon::GetInstance()->PreviousY = CSimon::GetInstance()->y;
+	
 			
 		}
 		else
@@ -112,6 +204,7 @@ void CSimonStateWalkingOnStair::HandleKeyboard(unordered_map<int, bool> keyCode)
 			CSimon::GetInstance()->vy = SIMON_ONSTAIR_SPEED;
 			CSimon::GetInstance()->SetCurrentAnimation(ONSTAIR_WALKING_DOWN_LEFT);
 			CSimon::GetInstance()->isUP = false;
+		
 		}
 		else
 		{
@@ -119,43 +212,46 @@ void CSimonStateWalkingOnStair::HandleKeyboard(unordered_map<int, bool> keyCode)
 			CSimon::GetInstance()->vy = SIMON_ONSTAIR_SPEED;
 			CSimon::GetInstance()->SetCurrentAnimation(ONSTAIR_WALKING_DOWN_RIGHT);
 			CSimon::GetInstance()->isUP = false;
+			
 		}
 	}
 	else
 	{
-		if (CSimon::GetInstance()->getCurrentAnimation()->IsLastFrame())
-		{
-			if (CSimon::GetInstance()->DirectionStair == 1)
+			if (CSimon::GetInstance()->getCurrentAnimation()->IsLastFrame())
 			{
-				if (CSimon::GetInstance()->vx > 0)
+				if (CSimon::GetInstance()->DirectionStair == 1)
 				{
+					if (CSimon::GetInstance()->vx > 0)
+					{
 
-					CSimon::GetInstance()->ChangeState(new CSimonStateStanding(ONSTAIR_STANDING_UP_RIGHT));
-					CSimon::GetInstance()->isUP = true;
+						CSimon::GetInstance()->ChangeState(new CSimonStateStanding(ONSTAIR_STANDING_UP_RIGHT));
+						CSimon::GetInstance()->isUP = true;
+
+					}
+					else if (CSimon::GetInstance()->vx < 0)
+					{
+						CSimon::GetInstance()->ChangeState(new CSimonStateStanding(ONSTAIR_STANDING_DOWN_LEFT));
+						CSimon::GetInstance()->isUP = false;
+					}
 
 				}
-				else if (CSimon::GetInstance()->vx < 0)
+				else
 				{
-					CSimon::GetInstance()->ChangeState(new CSimonStateStanding(ONSTAIR_STANDING_DOWN_LEFT));
-					CSimon::GetInstance()->isUP = false;
-				}
+					if (CSimon::GetInstance()->vx > 0)
+					{
+						CSimon::GetInstance()->ChangeState(new CSimonStateStanding(ONSTAIR_STANDING_DOWN_RIGHT));
+						CSimon::GetInstance()->isUP = false;
+					
+					}
+					else if (CSimon::GetInstance()->vx < 0)
+					{
+						CSimon::GetInstance()->ChangeState(new CSimonStateStanding(ONSTAIR_STANDING_UP_LEFT));
+						CSimon::GetInstance()->isUP = true;
+					}
 
+				}
 			}
-			else
-			{
-				if (CSimon::GetInstance()->vx > 0)
-				{
-					CSimon::GetInstance()->ChangeState(new CSimonStateStanding(ONSTAIR_STANDING_DOWN_RIGHT));
-					CSimon::GetInstance()->isUP = false;
-				}
-				else if (CSimon::GetInstance()->vx < 0)
-				{
-					CSimon::GetInstance()->ChangeState(new CSimonStateStanding(ONSTAIR_STANDING_UP_LEFT));
-					CSimon::GetInstance()->isUP = true;
-				}
 
-			}
-		}
 		
 		
 	}

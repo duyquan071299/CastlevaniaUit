@@ -9,7 +9,7 @@ void CSimonStateAttacking::Update(DWORD dt)
 
 		if (CSimon::GetInstance()->isOnStair == true)
 		{
-			if (CSimon::GetInstance()->DirectionStair)
+			if (CSimon::GetInstance()->DirectionStair==1)
 			{
 				
 				if (CSimon::GetInstance()->isUP)
@@ -98,7 +98,7 @@ void CSimonStateAttacking::Update(DWORD dt)
 
 		if (CSimon::GetInstance()->isOnStair)
 		{
-			if (CSimon::GetInstance()->DirectionStair)
+			if (CSimon::GetInstance()->DirectionStair==1)
 			{
 				if (CSimon::GetInstance()->isUP)
 					CSimon::GetInstance()->ChangeState(new CSimonStateStanding(ONSTAIR_STANDING_UP_RIGHT));

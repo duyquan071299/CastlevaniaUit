@@ -10,6 +10,7 @@ private:
 
 public:
 	CKappa();
+	CKappa(float x, float y, int direction);
 	bool isOnGround;
 	bool isWalking;
 	bool isAtacking;
@@ -17,7 +18,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	void Respawn(int Direction)
 	{
-		nx = Direction;
+		this->nx = Direction;
 		if (Direction > 0)
 			this->curAnimation = animations[STANDING_RIGHT];
 		else

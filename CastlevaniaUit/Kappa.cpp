@@ -2,6 +2,13 @@
 
 CKappa::CKappa()
 {
+	
+	
+
+}
+
+CKappa::CKappa(float x, float y, int direction)
+{
 	LPANIMATION ani = new CAnimation(500);
 	ani->Add(ENEMY, 5);
 	ani->Add(ENEMY, 6);
@@ -31,9 +38,10 @@ CKappa::CKappa()
 	this->vy = -0.6;
 	this->isOnGround = false;
 	this->isFire = false;
-	
-
-
+	this->IsDead = false;
+	this->isIncamera = true;
+	SetPosition(x, y);
+	Respawn(direction);
 }
 
 void CKappa::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
@@ -48,7 +56,7 @@ void CKappa::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 	{
 		isWalking = true;
 		isAtacking = false;
-		if (nx >= 0)
+		if (nx > 0)
 		{
 			CurrentState = WALKING_RIGHT;
 			vx = 0.05;
@@ -102,9 +110,6 @@ void CKappa::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 
 	vy += 0.001 * dt;
 
-
-
-	
 
 
 

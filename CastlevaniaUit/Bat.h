@@ -7,9 +7,11 @@ class CBat :public CEnemy
 
 public:
 	CBat();
+	CBat(float x, float y, int direction);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	void Respawn(int Direction)
 	{
+		this->nx = Direction;
 		if (Direction > 0)
 			this->curAnimation = animations[WALKING_RIGHT];
 		else

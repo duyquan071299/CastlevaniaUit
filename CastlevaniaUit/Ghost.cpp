@@ -1,7 +1,13 @@
 #include"Ghost.h"
-
+#include"Brick.h"
+#include"Camera.h"
 
 CGhost::CGhost()
+{
+	
+}
+
+CGhost::CGhost(float fx, float fy, int direction)
 {
 	LPANIMATION ani = new CAnimation(100);
 	ani->Add(ENEMY, 0);
@@ -11,7 +17,9 @@ CGhost::CGhost()
 	ani->Add(ENEMY, 2);
 	ani->Add(ENEMY, 3);
 	animations[WALKING_RIGHT] = ani;
-
+	SetPosition(fx, fy);
+	Respawn(direction);
+	isIncamera = true;
 }
 
 void CGhost::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
@@ -20,9 +28,22 @@ void CGhost::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 	if (isBurning)
 		vx = 0;
 	else
-		vx = -0.05;
+	{
+		if (nx > 0)
+			vx = 0.1;
+		else
+			vx = -0.1;
+	}
+		
 	vy += GAME_GRAVITY * dt;
 
+	if (CCamera::GetInstance()->x == (float)3072 - CCamera::GetInstance()->GetWidth() + 16)
+	{
+		if (this->nx == -1 && this->x < CCamera::GetInstance()->x )
+		{
+			Respawn(1);
+		}
+	}
 
 
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -50,6 +71,18 @@ void CGhost::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 		
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
+
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CBrick *>(e->obj))
+			{
+				if (dynamic_cast<CBrick *>(e->obj)->GetType() == 2)
+				{
+					Respawn(-this->nx);
+				}
+			}
+		}
 	}
 }
 

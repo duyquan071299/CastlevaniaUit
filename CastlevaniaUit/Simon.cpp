@@ -42,18 +42,18 @@ CSimon::CSimon() {
 	ani->Add(PLAYER, 20);
 	animations[ONSTAIR_STANDING_DOWN_LEFT] = ani;
 
-	ani = new CAnimation(150);
+	ani = new CAnimation(100);
 	ani->Add(PLAYER, 20);
-	ani->Add(PLAYER, 21);
+	ani->Add(PLAYER, 21, 5000);
 	animations[ONSTAIR_WALKING_DOWN_LEFT] = ani;
 
 	ani = new CAnimation(100);
 	ani->Add(PLAYER, 22);
 	animations[ONSTAIR_STANDING_UP_LEFT] = ani;
 
-	ani = new CAnimation(150);
+	ani = new CAnimation(100);
 	ani->Add(PLAYER, 22);
-	ani->Add(PLAYER, 23);
+	ani->Add(PLAYER, 23, 5000);
 	animations[ONSTAIR_WALKING_UP_LEFT] = ani;
 
 	ani = new CAnimation(100);
@@ -104,18 +104,19 @@ CSimon::CSimon() {
 	ani->Add(PLAYER, 30);
 	animations[ONSTAIR_STANDING_DOWN_RIGHT] = ani;
 
-	ani = new CAnimation(150);
+	ani = new CAnimation(100);
 	ani->Add(PLAYER, 30);
-	ani->Add(PLAYER, 31);
+	ani->Add(PLAYER, 31, 5000);
 	animations[ONSTAIR_WALKING_DOWN_RIGHT] = ani;
+
 
 	ani = new CAnimation(100);
 	ani->Add(PLAYER, 32);
 	animations[ONSTAIR_STANDING_UP_RIGHT] = ani;
 
-	ani = new CAnimation(150);
+	ani = new CAnimation(100);
 	ani->Add(PLAYER, 32);
-	ani->Add(PLAYER, 33);
+	ani->Add(PLAYER, 33,5000);
 	animations[ONSTAIR_WALKING_UP_RIGHT] = ani;
 
 	ani = new CAnimation(100);
@@ -589,21 +590,30 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 			else if (dynamic_cast<CEnemy *>(e->obj) || dynamic_cast<CEnemyBullet *>(e->obj))
 			{
-				if (nx <= 0 && ny<=0)
+				if (isOnStair)
 				{
-					vx = -0.1;
+					StartUntouchable();
+					isInjured = true;
 				}
 				else
-					vx = 0.1;
-				
-				vy = -0.5;
-				isInjured = true;
+				{
+					if (nx <= 0 && ny <= 0)
+					{
+						vx = -0.1;
+					}
+					else
+						vx = 0.1;
 
-				if (vx <= 0)
-					CSimon::GetInstance()->ChangeState(new CSimonStateInjured(INJURED_LEFT));
-				else
-					CSimon::GetInstance()->ChangeState(new CSimonStateInjured(INJURED_RIGHT));
-				
+					vy = -0.5;
+					isInjured = true;
+
+					if (vx <= 0)
+						CSimon::GetInstance()->ChangeState(new CSimonStateInjured(INJURED_LEFT));
+					else
+						CSimon::GetInstance()->ChangeState(new CSimonStateInjured(INJURED_RIGHT));
+
+				}
+			
 					
 		
 			}
@@ -644,19 +654,42 @@ void CSimon::ChangeState(CSimonState* State) {
 
 void CSimon::GetBoundingBox(float &x, float &y, float &framew, float &frameh)
 {
-	if (nx > 0)
+	if (isOnStair)
 	{
-		x = this->x + 16;
-		y = this->y + 4;
-		framew = 32;
-		frameh = 60;
+		if (nx > 0)
+		{
+			x = this->x + 16;
+			y = this->y + 4;
+			framew = 32;
+			frameh = 63;
+		}
+		else
+		{
+			x = this->x + 12;
+			y = this->y + 4;
+			framew = 32;
+			frameh = 63;
+		}
 	}
 	else
 	{
-		x = this->x+12;
-		y = this->y+4;
-		framew = 32;
-		frameh = 60;
+		if (nx > 0)
+		{
+			x = this->x + 16;
+			y = this->y + 4;
+			framew = 32;
+			frameh = 60;
+		}
+		else
+		{
+			x = this->x + 12;
+			y = this->y + 4;
+			framew = 32;
+			frameh = 60;
+		}
 	}
+	
+
+	
 	
 }

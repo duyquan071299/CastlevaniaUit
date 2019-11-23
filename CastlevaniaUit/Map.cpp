@@ -163,6 +163,7 @@ vector<LPGAMEOBJECT> CMap::LoadMapObject(LPCSTR fileItemMap)
 			{
 				CBrick* brick = new CBrick(x,y);
 				brick->SetWH(width, height);
+				brick->SetType(holder);
 				listObject.push_back(brick);
 				brick->dx = 0;
 				brick->dy = 0;

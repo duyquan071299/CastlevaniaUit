@@ -51,7 +51,7 @@ void CSimonStateStanding::Update(DWORD dt)
 				}
 				else if (CSimon::GetInstance()->DirectionStair == -1)
 				{
-					CSimon::GetInstance()->x = CSimon::GetInstance()->CheckPoint;
+					CSimon::GetInstance()->x = CSimon::GetInstance()->CheckPoint-5;
 					CSimon::GetInstance()->vx = SIMON_ONSTAIR_SPEED * (-CSimon::GetInstance()->DirectionStair);
 					CSimon::GetInstance()->vy = SIMON_ONSTAIR_SPEED;
 					CSimon::GetInstance()->ChangeState(new CSimonStateWalkingOnStair(ONSTAIR_WALKING_DOWN_RIGHT));

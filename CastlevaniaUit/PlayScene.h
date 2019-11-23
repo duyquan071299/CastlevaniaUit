@@ -4,6 +4,7 @@
 #include"Simon.h"
 #include"Ghost.h"
 #include "Map.h"
+#include"Enemy.h"
 #include"Panther.h"
 #include"Kappa.h"
 #include"Bat.h"
@@ -13,18 +14,26 @@ class CPlayScene : public CScene
 private:
 	CSimon* Simon;
 	CMap* CurrentMap;
-	CGhost* Ghost;
 	CKappa* Kappa;
-	CBat* Bat;
 	CPanther *Panther;
 	CDoor *Door;
 	int GhostCount;
+	int BatCount;
+	int KappaCount;
 	int Level;
 	int MapBoundLeft;
 	int MapBoundRight;
 	int UnderGroundMapBoundLeft=3136;
 	int UnderGroundMapBoundRight=4160;
+	vector<CEnemy*> listEnemy;
 	vector<LPGAMEOBJECT> listObject;
+	DWORD TimeBetWeenGhostRespawn;
+	DWORD TimeBetWeenBatRespawn;
+	DWORD TimeBetWeenKappaRespawn;
+	bool AllowRespawnKappa;
+	bool AllowRespawnGhost;
+	bool AllowRespawnBat;
+	bool SetUpTime=true;
 	//vector<LPGAMEOBJECT> WallObject;
 public:
 	CPlayScene() { Loadresources(0); };

@@ -102,13 +102,19 @@ void CGameObject::CalcPotentialCollisions(
 		}
 		else if (dynamic_cast<CEnemy *>(this))
 		{
-			if (dynamic_cast<CCandle *>(coObjects->at(i)) || dynamic_cast<CItem *>(coObjects->at(i))|| dynamic_cast<CEnemy *>(coObjects->at(i)))
+			if (dynamic_cast<CCandle *>(coObjects->at(i)) || dynamic_cast<CItem *>(coObjects->at(i)) || dynamic_cast<CEnemy *>(coObjects->at(i)))
 				continue;
+			else if (dynamic_cast<CBrick *>(coObjects->at(i)))
+			{
+				if (dynamic_cast<CBrick *>(coObjects->at(i))->GetType() == 3)
+					continue;
+			}
 			else if (dynamic_cast<CInvisibleObject *>(coObjects->at(i)))
 			{
 				if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() > 3)
 					continue;
 			}
+			
 		}
 		else if(dynamic_cast<CDagger *>(this))
 		{
