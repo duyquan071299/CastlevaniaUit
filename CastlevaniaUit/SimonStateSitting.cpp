@@ -17,7 +17,7 @@ void CSimonStateSitting::HandleKeyboard(unordered_map<int, bool> keyCode)
 };
 
 void CSimonStateSitting::Exit() {
-	//CSimon::GetInstance()->IsSitting = false;
+	CSimon::GetInstance()->IsSitting = false;
 };
 void CSimonStateSitting::Enter() 
 {

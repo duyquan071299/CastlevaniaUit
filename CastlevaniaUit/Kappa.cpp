@@ -1,5 +1,5 @@
 #include"Kappa.h"
-
+#include"Simon.h"
 CKappa::CKappa()
 {
 	
@@ -35,7 +35,7 @@ CKappa::CKappa(float x, float y, int direction)
 	ani->Add(ENEMY, 7);
 	animations[ATTACKING_STAND_RIGHT] = ani;
 
-	this->vy = -0.6;
+	this->vy = -0.7;
 	this->isOnGround = false;
 	this->isFire = false;
 	this->IsDead = false;
@@ -85,7 +85,19 @@ void CKappa::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 	if (isAtacking && curAnimation->IsLastFrame())
 	{
 		isAtacking = false;
-		nx = -nx;
+		if (CSimon::GetInstance()->y > y-1.5 )
+		{
+			if (CSimon::GetInstance()->x > x && nx > 0)
+				nx = nx;
+			else if (CSimon::GetInstance()->x > x && nx < 0)
+				nx = -nx;
+			else if (CSimon::GetInstance()->x < x && nx > 0)
+				nx = -nx;
+			else if (CSimon::GetInstance()->x < x && nx < 0)
+				nx = nx;
+		}
+		else
+			nx = -nx;
 		curAnimation->SetIsLastFrame(false);
 		KappaStep = 0;
 		isFire = false;
@@ -155,11 +167,21 @@ void CKappa::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 
 void  CKappa::GetBoundingBox(float &x, float &y, float &framew, float &frameh)
 {
+	if (!this->isOnGround)
+	{
+		x = this->x+16;
+		y = this->y + 5;
+		framew = 2;
+		frameh = 59;
+	}
+	else
+	{
+		x = this->x;
+		y = this->y + 5;
+		framew = 32;
+		frameh = 59;
+	}
 
-	x = this->x;
-	y = this->y;
-	framew = 32;
-	frameh = 64;
 
 
 }

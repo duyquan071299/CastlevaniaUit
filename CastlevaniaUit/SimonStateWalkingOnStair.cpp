@@ -24,7 +24,7 @@ void CSimonStateWalkingOnStair::Update(DWORD dt)
 		{
 		
 
-			if (CSimon::GetInstance()->x < CSimon::GetInstance()->CheckPoint +30&& CSimon::GetInstance()->isUP)
+			if (CSimon::GetInstance()->x < CSimon::GetInstance()->CheckPoint -16&& CSimon::GetInstance()->isUP)
 			{
 				CSimon::GetInstance()->IsOnAnimation = false;
 

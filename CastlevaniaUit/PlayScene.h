@@ -14,7 +14,6 @@ class CPlayScene : public CScene
 private:
 	CSimon* Simon;
 	CMap* CurrentMap;
-	CKappa* Kappa;
 	CPanther *Panther;
 	CDoor *Door;
 	int GhostCount;
@@ -27,6 +26,7 @@ private:
 	int UnderGroundMapBoundRight=4160;
 	vector<CEnemy*> listEnemy;
 	vector<LPGAMEOBJECT> listObject;
+	vector<CEnemyBullet*> listEnemyBullet;
 	DWORD TimeBetWeenGhostRespawn;
 	DWORD TimeBetWeenBatRespawn;
 	DWORD TimeBetWeenKappaRespawn;
@@ -34,6 +34,8 @@ private:
 	bool AllowRespawnGhost;
 	bool AllowRespawnBat;
 	bool SetUpTime=true;
+	bool FirstRespawn;
+	DWORD TimeLimit;
 	//vector<LPGAMEOBJECT> WallObject;
 public:
 	CPlayScene() { Loadresources(0); };
@@ -43,7 +45,6 @@ public:
 	void OnKeyUp(int KeyCode);
 	void Render();
 	void Update(DWORD dt);
-	void GhostRespawn();
 	bool IsInCamera(LPGAMEOBJECT object);
 	unordered_map<int, bool> keys;
 

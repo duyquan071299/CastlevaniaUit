@@ -43,8 +43,8 @@ CSimon::CSimon() {
 	animations[ONSTAIR_STANDING_DOWN_LEFT] = ani;
 
 	ani = new CAnimation(100);
+	ani->Add(PLAYER, 21);
 	ani->Add(PLAYER, 20);
-	ani->Add(PLAYER, 21, 5000);
 	animations[ONSTAIR_WALKING_DOWN_LEFT] = ani;
 
 	ani = new CAnimation(100);
@@ -52,8 +52,8 @@ CSimon::CSimon() {
 	animations[ONSTAIR_STANDING_UP_LEFT] = ani;
 
 	ani = new CAnimation(100);
+	ani->Add(PLAYER, 23);
 	ani->Add(PLAYER, 22);
-	ani->Add(PLAYER, 23, 5000);
 	animations[ONSTAIR_WALKING_UP_LEFT] = ani;
 
 	ani = new CAnimation(100);
@@ -105,8 +105,8 @@ CSimon::CSimon() {
 	animations[ONSTAIR_STANDING_DOWN_RIGHT] = ani;
 
 	ani = new CAnimation(100);
+	ani->Add(PLAYER, 31);
 	ani->Add(PLAYER, 30);
-	ani->Add(PLAYER, 31, 5000);
 	animations[ONSTAIR_WALKING_DOWN_RIGHT] = ani;
 
 
@@ -115,8 +115,8 @@ CSimon::CSimon() {
 	animations[ONSTAIR_STANDING_UP_RIGHT] = ani;
 
 	ani = new CAnimation(100);
+	ani->Add(PLAYER, 33);
 	ani->Add(PLAYER, 32);
-	ani->Add(PLAYER, 33,5000);
 	animations[ONSTAIR_WALKING_UP_RIGHT] = ani;
 
 	ani = new CAnimation(100);
@@ -337,7 +337,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		isFreeFall = true;
 	}
 	// Simple fall down	
-	if (!this->IsJumping && !this->IsFalling && !this->IsAttacking &&!this->isCollect &&!this->isOnStair && vy > GAME_GRAVITY * dt+0.4 &&vy<1000 )
+	if (!this->IsJumping && !this->IsFalling && !this->IsAttacking &&!this->isCollect &&!this->isOnStair && vy > GAME_GRAVITY * dt+0.4 &&vy<1000  )
 	{
 
 		vy += 20 * GAME_GRAVITY * dt;
@@ -525,6 +525,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				CCamera::GetInstance()->isWithSimon = false;
 				CheckPoint = 3160;
+				this->y = 63;
 				Object->IsDead = true;
 				ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 				IsFreeze = true;
@@ -594,6 +595,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					StartUntouchable();
 					isInjured = true;
+					vx = 0;
+					vy = 0;
 				}
 				else
 				{
@@ -606,7 +609,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 					vy = -0.5;
 					isInjured = true;
-
+					this->IsJumping=false;
 					if (vx <= 0)
 						CSimon::GetInstance()->ChangeState(new CSimonStateInjured(INJURED_LEFT));
 					else
@@ -669,6 +672,23 @@ void CSimon::GetBoundingBox(float &x, float &y, float &framew, float &frameh)
 			y = this->y + 4;
 			framew = 32;
 			frameh = 63;
+		}
+	}
+	else if(IsSitting)
+	{
+		if (nx > 0)
+		{
+			x = this->x + 16;
+			y = this->y + 20;
+			framew = 32;
+			frameh = 44;
+		}
+		else
+		{
+			x = this->x + 12;
+			y = this->y + 20;
+			framew = 32;
+			frameh = 44;
 		}
 	}
 	else

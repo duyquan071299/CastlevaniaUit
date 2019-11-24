@@ -35,9 +35,9 @@ void CPlayScene::Loadresources(int level) {
 		CurrentMap = new CMap("Resources\\Maps\\Scene2.txt", "Resources\\Maps\\Scene_2.png", "Resources\\Maps\\Scene2_Object.txt");
 		this->listObject = CurrentMap->GetListObject();
 		Door = new CDoor(3056, 32);
-		Simon->x =3300;
+		Simon->x =3000;
 		Simon->y = RESPAWN_POSITION_Y;
-		Simon->y = 430;
+		Simon->y = 0;
 		this->Level = level;
 		Simon->AtLevel = level;
 		MapBoundLeft = 0;
@@ -61,6 +61,7 @@ void CPlayScene::OnKeyDown(int KeyCode)
 		{
 			delete CurrentMap;
 			Loadresources(1);
+			TimeLimit = 3000;
 			
 
 
@@ -272,26 +273,147 @@ void CPlayScene::Update(DWORD dt)
 			}
 		}
 		//Create Kappa mechanism
-		if (AllowRespawnKappa)
+		if (AllowRespawnKappa && KappaCount<2)
 		{
-			if (Now - TimeBetWeenKappaRespawn >= 3000)
+			if (Now - TimeBetWeenKappaRespawn >= TimeLimit)
 			{
-				if (Simon->x >= KAPPA_RESPAWN_REGION_1_LEFT && Simon->x <= KAPPA_RESPAWN_REGION_1_RIGHT && Simon->y >= SCREEN_HEIGHT +32)
+				if (Simon->x >= KAPPA_RESPAWN_REGION_1_LEFT && Simon->x <= KAPPA_RESPAWN_REGION_1_RIGHT && Simon->y >= SCREEN_HEIGHT)
 				{
-					if (KappaCount < 2)
+
+					if (FirstRespawn)
 					{
-					
-						if(Simon->nx>1)
-							listEnemy.push_back(new CKappa(3300, 600,1));
-						else
-							listEnemy.push_back(new CKappa(3500, 600, -1));
-						KappaCount++;
-						if (KappaCount == 2)
+						FirstRespawn = false;
+						TimeLimit = 2000;
+
+						if (Simon->x >= KAPPA_RESPAWN_X_1 - 90 && Simon->x <= KAPPA_RESPAWN_X_1 + 64)
 						{
-							AllowRespawnKappa = false;
+						
+							listEnemy.push_back(new CKappa(KAPPA_RESPAWN_X_2, 600, Simon->x > KAPPA_RESPAWN_X_2 ? 1 : -1));
+							listEnemy.push_back(new CKappa(KAPPA_RESPAWN_X_3, 600, Simon->x > KAPPA_RESPAWN_X_1 ? 1 : -1));
+							KappaCount = 2;
+							
 						}
-						TimeBetWeenKappaRespawn = GetTickCount();
+						else if (Simon->x >= KAPPA_RESPAWN_X_2 - 64 && Simon->x <= KAPPA_RESPAWN_X_2 + 51)
+						{
+							listEnemy.push_back(new CKappa(KAPPA_RESPAWN_X_1, 600, Simon->x > KAPPA_RESPAWN_X_1 ? 1 : -1));
+							listEnemy.push_back(new CKappa(KAPPA_RESPAWN_X_3, 600, Simon->x > KAPPA_RESPAWN_X_3 ? 1 : -1));
+							KappaCount = 2;
+							
+						}
+						else if (Simon->x >= KAPPA_RESPAWN_X_3 - 51 && Simon->x <= KAPPA_RESPAWN_X_3 + 75)
+						{
+							listEnemy.push_back(new CKappa(KAPPA_RESPAWN_X_1, 600, Simon->x > KAPPA_RESPAWN_X_1 ? 1 : -1));
+							listEnemy.push_back(new CKappa(KAPPA_RESPAWN_X_2, 600, Simon->x > KAPPA_RESPAWN_X_2 ? 1 : -1));
+							KappaCount = 2;
+							
+						}
+
+
+						
 					}
+					else if (KappaCount < 2)
+					{
+						int random;
+						if (Simon->x >= KAPPA_RESPAWN_X_1-90 && Simon->x <= KAPPA_RESPAWN_X_1+64)
+						{
+							random = rand() % 3;
+							if (random == 0)
+								random = KAPPA_RESPAWN_X_2;
+							else if (random == 1)
+								random = KAPPA_RESPAWN_X_3;
+							else
+								random = KAPPA_RESPAWN_X_4;
+							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
+							KappaCount++;
+						}
+						else if (Simon->x >= KAPPA_RESPAWN_X_2-64 && Simon->x <= KAPPA_RESPAWN_X_2+51)
+						{
+							random = rand() % 3;
+							if (random == 0)
+								random = KAPPA_RESPAWN_X_1;
+							else if (random == 1)
+								random = KAPPA_RESPAWN_X_3;
+							else
+								random = KAPPA_RESPAWN_X_4;
+							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
+							KappaCount++;
+						}
+						else if (Simon->x >= KAPPA_RESPAWN_X_3 - 51 && Simon->x <= KAPPA_RESPAWN_X_3 + 75)
+						{
+							random = rand() % 3;
+							if (random == 0)
+								random = KAPPA_RESPAWN_X_2;
+							else if (random == 1)
+								random = KAPPA_RESPAWN_X_4;
+							else
+								random = KAPPA_RESPAWN_X_5;
+							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
+							KappaCount++;
+						}
+						else if (Simon->x >= KAPPA_RESPAWN_X_4 - 75 && Simon->x <= KAPPA_RESPAWN_X_4 + 60)
+						{
+							random = rand() % 3;
+							if (random == 0)
+								random = KAPPA_RESPAWN_X_2;
+							else if (random == 1)
+								random = KAPPA_RESPAWN_X_3;
+							else
+								random = KAPPA_RESPAWN_X_5;
+							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
+							KappaCount++;
+						}
+						else if (Simon->x >= KAPPA_RESPAWN_X_5 - 60 && Simon->x <= KAPPA_RESPAWN_X_5 + 68)
+						{
+							random = rand() % 3;
+							if (random == 0)
+								random = KAPPA_RESPAWN_X_3;
+							else if (random == 1)
+								random = KAPPA_RESPAWN_X_4;
+							else
+								random = KAPPA_RESPAWN_X_6;
+							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
+							KappaCount++;
+						}
+						else if (Simon->x >= KAPPA_RESPAWN_X_6 - 68 && Simon->x <= KAPPA_RESPAWN_X_6 + 48)
+						{
+							random = rand() % 3;
+							if (random == 0)
+								random = KAPPA_RESPAWN_X_4;
+							else if (random == 1)
+								random = KAPPA_RESPAWN_X_5;
+							else
+								random = KAPPA_RESPAWN_X_7;
+							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
+							KappaCount++;
+						}
+						else if (Simon->x >= KAPPA_RESPAWN_X_7 - 48 && Simon->x <= KAPPA_RESPAWN_X_7 + 90)
+						{
+							random = rand() % 2;
+							if (random == 0)
+								random = KAPPA_RESPAWN_X_5;
+							else if (random == 1)
+								random = KAPPA_RESPAWN_X_6;
+							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
+							KappaCount++;
+						}
+						else
+						{
+							random = rand() % 3;
+							if (random == 0)
+								random = KAPPA_RESPAWN_X_5;
+							else if (random == 1)
+								random = KAPPA_RESPAWN_X_6;
+							else
+								random = KAPPA_RESPAWN_X_7;
+							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
+							KappaCount++;
+						}
+
+					}
+
+
+						TimeBetWeenKappaRespawn = GetTickCount();
+					
 				}
 			}
 
@@ -313,18 +435,20 @@ void CPlayScene::Update(DWORD dt)
 		}
 		else
 		{
-			
 			if (listEnemy[i]->IsDead == true || !listEnemy[i]->isIncamera)
 			{
 				if (dynamic_cast<CGhost *>(listEnemy[i]))
 				{
 					GhostCount--;
 					listEnemy.erase(listEnemy.begin() + i);
+					i--;
+					
 					if (GhostCount == 0)
 					{
 						TimeBetWeenGhostRespawn = GetTickCount();
 						AllowRespawnGhost = true;
 					}
+					continue;
 				}
 				else if (dynamic_cast<CBat *>(listEnemy[i]))
 				{
@@ -332,17 +456,30 @@ void CPlayScene::Update(DWORD dt)
 					listEnemy.erase(listEnemy.begin() + i);
 					TimeBetWeenBatRespawn = GetTickCount();
 					AllowRespawnBat = true;
+					continue;
+					i--;
 				}
 				else if (dynamic_cast<CKappa*>(listEnemy[i]))
 				{
-					KappaCount--;
 					listEnemy.erase(listEnemy.begin() + i);
-					if (KappaCount == 0)
-					{
-						AllowRespawnKappa = true;
-					}
+					KappaCount--;
+					i--;
+					continue;
 					
 				}
+			}
+
+			if (dynamic_cast<CKappa *>(listEnemy[i]))
+			{
+
+				if (dynamic_cast<CKappa *>(listEnemy[i])->isAtacking && dynamic_cast<CKappa *>(listEnemy[i])->isFire == false)
+				{
+					dynamic_cast<CKappa *>(listEnemy[i])->isFire = true;
+					listEnemyBullet.push_back(new CEnemyBullet(listEnemy[i]->x, listEnemy[i]->y + 5, listEnemy[i]->nx));
+				}
+
+
+
 			}
 		
 		}
@@ -351,7 +488,15 @@ void CPlayScene::Update(DWORD dt)
 
 	}
 
-
+	for (int i = 0; i < listEnemyBullet.size(); i++)
+	{
+		if (listEnemyBullet[i]->IsDead == true || !listEnemyBullet[i]->isIncamera)
+		{
+			listEnemyBullet.erase(listEnemyBullet.begin() + i);
+			i--;
+		}
+		
+	}
 		
 	vector<LPGAMEOBJECT> coObjects;
 	for (int i = 0; i < listObject.size(); i++)
@@ -363,12 +508,19 @@ void CPlayScene::Update(DWORD dt)
 			i--;
 
 		}
+		else if (dynamic_cast<CEnemyBullet *>(listObject[i]))
+		{
+
+			listObject.erase(listObject.begin() + i);
+			i--;
+		}
 		
 			
 	}
 	
 
 	listObject.insert(listObject.end(), listEnemy.begin(), listEnemy.end());
+	listObject.insert(listObject.end(), listEnemyBullet.begin(), listEnemyBullet.end());
 
 
 	
@@ -411,18 +563,7 @@ void CPlayScene::Update(DWORD dt)
 			listObject.erase(listObject.begin() + i);
 			coObjects.erase(coObjects.begin() + i);
 		}
-		else if (dynamic_cast<CKappa *>(coObjects[i]))
-		{
-		
-				if (dynamic_cast<CKappa *>(coObjects[i])->isAtacking && dynamic_cast<CKappa *>(coObjects[i])->isFire == false)
-				{
-					dynamic_cast<CKappa *>(coObjects[i])->isFire = true;
-					listObject.push_back(new CEnemyBullet(coObjects[i]->x, coObjects[i]->y + 10, coObjects[i]->nx));
-				}
-
-			
-
-		}
+	
 		
 	}
 
@@ -478,8 +619,10 @@ void CPlayScene::UpdateSimon()
 			Simon->x = MapBoundLeft - 10;
 		else if(Simon->vx>=0 && Simon->x > MapBoundRight -48)
 			Simon->x = MapBoundRight - 48;
-
-			
+		SetUpTime = true;
+		FirstRespawn = true;
+		KappaCount = 0;
+	
 	}
 	else
 	{
@@ -488,7 +631,9 @@ void CPlayScene::UpdateSimon()
 		{
 			AllowRespawnKappa = true;
 			TimeBetWeenKappaRespawn = GetTickCount();
+			FirstRespawn = true;
 			SetUpTime = false;
+			TimeLimit = 3000;
 		}
 		if (Simon->vx < 0 && Simon->x < UnderGroundMapBoundLeft - 9)
 			Simon->x = UnderGroundMapBoundLeft - 10;
@@ -516,23 +661,3 @@ void CPlayScene::UpdateSimon()
 
 }
 
-void CPlayScene::GhostRespawn()
-{
-	
-
-
-	/*Panther = new CPanther();
-	Panther->SetPosition(1376, 159);
-	Panther->Respawn(-1);
-	listObject.push_back(Panther);*/
-
-	//Panther = new CPanther();
-	//Panther->SetPosition(1860, 159);
-	//Panther->Respawn(-1);
-	//listObject.push_back(Panther);
-
-	//Panther = new CPanther();
-	//Panther->SetPosition(1772, 95);
-	//Panther->Respawn(-1);
-	//listObject.push_back(Panther);
-}
