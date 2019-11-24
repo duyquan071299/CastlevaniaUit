@@ -192,7 +192,7 @@ void CSimon::Render()
 		color = D3DCOLOR_ARGB(255, rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1);
 		currentanimation->GetCurrenrFrame()->Draw(x, y, color);
 	}
-	else if (Untouchable == true && (IsStanding || IsSitting || IsJumping || IsAttacking ))
+	else if (Untouchable == true && (IsStanding || IsSitting || IsJumping || IsAttacking||isOnStair||IsMoving ))
 	{
 		color = D3DCOLOR_ARGB(rand() % 255 +1, 255, 255, 255 );
 		currentanimation->Render(x, y, color);
@@ -315,6 +315,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (GetTickCount() -  Untouchable_Time> UNTOUCHABLE_TIME)
 	{
+		if (Untouchable == true)
+			isInjured = false;
 		Untouchable = false;
 		Untouchable_Time = 0;
 
@@ -323,7 +325,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (GetTickCount() - Landing_Time > LANDING_TIME)
 	{
 		Landing = false;
-		isInjured = false;
+		//isInjured = false;
 		Landing_Time = 0;
 
 	}
@@ -332,12 +334,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 	
-	if (isInjured)
-	{
-		isFreeFall = true;
-	}
+	
 	// Simple fall down	
-	if (!this->IsJumping && !this->IsFalling && !this->IsAttacking &&!this->isCollect &&!this->isOnStair && vy > GAME_GRAVITY * dt+0.4 &&vy<1000  )
+	if ((!this->IsJumping && !this->IsFalling && !this->IsAttacking &&!this->isCollect &&!this->isOnStair && vy > GAME_GRAVITY * dt+0.4 &&vy<1000)||isInjured&&vy==0&&!isOnStair  )
 	{
 
 		vy += 20 * GAME_GRAVITY * dt;
@@ -365,7 +364,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
  		x += dx;
 		y += dy;
 		isColiableWithStairBottom = isColiableWithStairTop = false;
-		if (isFreeFall)
+		if (isFreeFall )
 		{
 			StartLanding();
 			isFreeFall = false;
@@ -374,6 +373,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			else
 				ChangeState(new CSimonStateSitting(SITTING_LEFT));
 		}
+		
 
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
@@ -416,6 +416,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						if (isOnStair)
 						{
 							isOnStair = false;
+							isInjured = false;
 							if (DirectionStair)
 							{
 								nx = 1;
@@ -444,6 +445,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						if (isOnStair)
 						{
 							isOnStair = false;
+							isInjured = false;
 							if (DirectionStair)
 							{
 								nx = -1;
@@ -485,12 +487,14 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				{
 					nx = -1;
 					ChangeState(new CSimonStateStanding(STANDING_LEFT));
+					CSimon::GetInstance()->isInjured = false;
 
 				}
 				else if (DirectionStair == -1)
 				{
 					nx = 1;
 					ChangeState(new CSimonStateStanding(STANDING_RIGHT));
+					CSimon::GetInstance()->isInjured = false;
 				}
 				
 
@@ -608,7 +612,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						vx = 0.1;
 
 					vy = -0.5;
-					isInjured = true;
+					
 					this->IsJumping=false;
 					if (vx <= 0)
 						CSimon::GetInstance()->ChangeState(new CSimonStateInjured(INJURED_LEFT));

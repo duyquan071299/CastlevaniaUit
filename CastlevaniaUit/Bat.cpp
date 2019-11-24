@@ -36,9 +36,9 @@ CBat::CBat(float x, float y, int direction)
 void CBat::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 {
 	if (nx > 0)
-		vx = 0.008*dt;
+		vx = 0.01*dt;
 	else
-		vx = -0.008* dt;
+		vx = -0.01* dt;
 	CGameObject::Update(dt);
 	if (isBurning)
 	{

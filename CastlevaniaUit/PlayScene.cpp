@@ -253,15 +253,15 @@ void CPlayScene::Update(DWORD dt)
 					{
 						if (CCamera::GetInstance()->x == MapBoundLeft)
 						{
-							listEnemy.push_back(new CBat(CCamera::GetInstance()->x + SCREEN_WIDTH - 20, Simon->y, -1));
+							listEnemy.push_back(new CBat(CCamera::GetInstance()->x + SCREEN_WIDTH - 20, Simon->y+16, -1));
 						}
 						else if (Simon->nx > 0)
 						{
-							listEnemy.push_back(new CBat(CCamera::GetInstance()->x + SCREEN_WIDTH - 20, Simon->y, -1));
+							listEnemy.push_back(new CBat(CCamera::GetInstance()->x + SCREEN_WIDTH - 20, Simon->y+16, -1));
 						}
 						else if (Simon->nx < 0)
 						{
-							listEnemy.push_back(new CBat(CCamera::GetInstance()->x + 20, Simon->y, 1));
+							listEnemy.push_back(new CBat(CCamera::GetInstance()->x + 20, Simon->y+16, 1));
 						}
 						BatCount++;
 						if (BatCount == 1)

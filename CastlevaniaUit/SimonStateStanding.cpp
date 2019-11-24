@@ -129,6 +129,8 @@ void CSimonStateStanding::HandleKeyboard(unordered_map<int, bool> keyCode)
 			{
 				CSimon::GetInstance()->IsOnAnimation = true;
 				CSimon::GetInstance()->isUP = false;
+				CSimon::GetInstance()->isInjured = false;
+
 			}
 			else
 			{
@@ -187,6 +189,7 @@ void CSimonStateStanding::HandleKeyboard(unordered_map<int, bool> keyCode)
 			{
 				CSimon::GetInstance()->IsOnAnimation = true;
 				CSimon::GetInstance()->isUP = true;
+				CSimon::GetInstance()->isInjured = false;
 			}	
 			else
 			{
