@@ -9,6 +9,7 @@ protected:
 
 public:
 	bool isBurning;
+	bool isFrozen;
 	CEnemy(){}
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL){}
 	~CEnemy(){}

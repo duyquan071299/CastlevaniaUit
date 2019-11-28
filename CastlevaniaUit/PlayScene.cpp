@@ -21,29 +21,30 @@ void CPlayScene::Loadresources(int level) {
 	{
 		Simon->Respawn();
 		CurrentMap = new CMap("Resources\\Maps\\Scene1.txt", "Resources\\Maps\\Scene_1.png", "Resources\\Maps\\Scene1_Object.txt");
-		this->listObject = CurrentMap->GetListObject();
 		MapBoundRight= CurrentMap->GetMapWidth();
 		MapBoundLeft = 0;
 		Simon->x = 0;
 		this->Level = level;
 		Simon->AtLevel = level;
+		Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight());
 		break;
 	}
 	case 1:
 	{
 		Simon->Respawn();
-		CurrentMap = new CMap("Resources\\Maps\\Scene2.txt", "Resources\\Maps\\Scene_2.png", "Resources\\Maps\\Scene2_Object.txt");
-		this->listObject = CurrentMap->GetListObject();
+		//CurrentMap = new CMap("Resources\\Maps\\Scene2.txt", "Resources\\Maps\\Scene_2.png", "Resources\\Maps\\Scene2_Object.txt");
 		Door = new CDoor(3056, 32);
-		Simon->x =3000;
+		//Simon->x =3200;
 		Simon->y = RESPAWN_POSITION_Y;
-		Simon->y = 0;
+		//Simon->y = 300;
 		this->Level = level;
 		Simon->AtLevel = level;
 		MapBoundLeft = 0;
 		MapBoundRight = 3072;
 		MapBoundRight = 5000;
 		TimeBetWeenGhostRespawn = GetTickCount();
+		//Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight());
+		
 		AllowRespawnGhost = true;
 	}
 	}
@@ -53,7 +54,7 @@ void CPlayScene::Loadresources(int level) {
 
 void CPlayScene::OnKeyDown(int KeyCode)
 {
-	if (!Simon->IsFreeze && !Simon->IsOnAnimation)
+	if (!Simon->IsFreeze && !Simon->IsOnAnimation &&!Simon->CollectItem)
 	{
 		keys[KeyCode] = true;
 		Simon->OnKeyDown(KeyCode);
@@ -93,13 +94,6 @@ void CPlayScene::Render()
 	{
 		if(!IsInCamera(listObject[i]))
 		{
-			if (dynamic_cast<CWeapon *>(listObject[i]))
-			{
-				listObject[i]->IsDead = true;
-				listObject.erase(listObject.begin() + i);
-				
-			}
-				
 			continue;
 		}
 		
@@ -122,9 +116,12 @@ void CPlayScene::Render()
 
 void CPlayScene::Update(DWORD dt)
 {
+	
+	unordered_set<LPGAMEOBJECT> list = Grid->GetListObjectCanContactWith(Simon);
 	//Walking through door mechanism
 	if (this->Level == 1)
 	{
+		
 		if (CCamera::GetInstance()->isWithSimon)
 		{
 			if (Simon->y < SCREEN_HEIGHT - 116)
@@ -194,6 +191,27 @@ void CPlayScene::Update(DWORD dt)
 		CCamera::GetInstance()->Update(MapBoundLeft, MapBoundRight);
 	}
 	
+	if (Simon->isUsingStopWatch &&FrozenTime==0)
+	{
+		FrozenTime = GetTickCount();
+	}
+
+	if (Simon->isUsingCross && CrossTime == 0)
+	{
+		CrossTime = GetTickCount();
+	}
+	DWORD Now = GetTickCount();
+	if (Now - FrozenTime >= FROZEN_TIME)
+	{
+		Simon->isUsingStopWatch = false;
+		FrozenTime = 0;
+	}
+	
+	if (Now - CrossTime >= CROSS_TIME)
+	{
+		Simon->isUsingCross = false;
+		CrossTime = 0;
+	}
 
 	//Create Enemy mechanism
 	if (this->Level == 1)
@@ -203,7 +221,7 @@ void CPlayScene::Update(DWORD dt)
 		if (AllowRespawnGhost)
 		{
 		
-			if (Now - TimeBetWeenGhostRespawn >= 1000)
+			if (Now - TimeBetWeenGhostRespawn >= GHOST_RESPAWN_TIME)
 			{
 				if ((Simon->x >= GHOST_RESPAWN_REGION_1_LEFT && Simon->x <= GHOST_RESPAWN_REGION_1_RIGHT)||(Simon->x >= GHOST_RESPAWN_REGION_2_LEFT && Simon->x <= GHOST_RESPAWN_REGION_2_RIGHT))
 				{
@@ -245,7 +263,7 @@ void CPlayScene::Update(DWORD dt)
 		//Create Bat mechanism
 		if (AllowRespawnBat)
 		{
-			if (Now - TimeBetWeenBatRespawn >= 1500)
+			if (Now - TimeBetWeenBatRespawn >= BAT_RESPAWN_TIME)
 			{
 				if (Simon->x >= BAT_RESPAWN_REGION_LEFT && Simon->x <= BAT_RESPAWN_REGION_RIGHT && Simon->y < SCREEN_HEIGHT - 100)
 				{
@@ -314,7 +332,7 @@ void CPlayScene::Update(DWORD dt)
 					else if (KappaCount < 2)
 					{
 						int random;
-						if (Simon->x >= KAPPA_RESPAWN_X_1-90 && Simon->x <= KAPPA_RESPAWN_X_1+64)
+						if (Simon->x >= KAPPA_RESPAWN_ZONE_1 && Simon->x <= KAPPA_RESPAWN_ZONE_2)
 						{
 							random = rand() % 3;
 							if (random == 0)
@@ -326,7 +344,7 @@ void CPlayScene::Update(DWORD dt)
 							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
 							KappaCount++;
 						}
-						else if (Simon->x >= KAPPA_RESPAWN_X_2-64 && Simon->x <= KAPPA_RESPAWN_X_2+51)
+						else if (Simon->x >= KAPPA_RESPAWN_ZONE_1 && Simon->x <= KAPPA_RESPAWN_ZONE_3)
 						{
 							random = rand() % 3;
 							if (random == 0)
@@ -338,7 +356,7 @@ void CPlayScene::Update(DWORD dt)
 							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
 							KappaCount++;
 						}
-						else if (Simon->x >= KAPPA_RESPAWN_X_3 - 51 && Simon->x <= KAPPA_RESPAWN_X_3 + 75)
+						else if (Simon->x >= KAPPA_RESPAWN_ZONE_3 && Simon->x <= KAPPA_RESPAWN_ZONE_4)
 						{
 							random = rand() % 3;
 							if (random == 0)
@@ -350,7 +368,7 @@ void CPlayScene::Update(DWORD dt)
 							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
 							KappaCount++;
 						}
-						else if (Simon->x >= KAPPA_RESPAWN_X_4 - 75 && Simon->x <= KAPPA_RESPAWN_X_4 + 60)
+						else if (Simon->x >= KAPPA_RESPAWN_ZONE_4 && Simon->x <= KAPPA_RESPAWN_ZONE_5)
 						{
 							random = rand() % 3;
 							if (random == 0)
@@ -362,7 +380,7 @@ void CPlayScene::Update(DWORD dt)
 							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
 							KappaCount++;
 						}
-						else if (Simon->x >= KAPPA_RESPAWN_X_5 - 60 && Simon->x <= KAPPA_RESPAWN_X_5 + 68)
+						else if (Simon->x >= KAPPA_RESPAWN_ZONE_5 && Simon->x <= KAPPA_RESPAWN_ZONE_6)
 						{
 							random = rand() % 3;
 							if (random == 0)
@@ -374,7 +392,7 @@ void CPlayScene::Update(DWORD dt)
 							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
 							KappaCount++;
 						}
-						else if (Simon->x >= KAPPA_RESPAWN_X_6 - 68 && Simon->x <= KAPPA_RESPAWN_X_6 + 48)
+						else if (Simon->x >= KAPPA_RESPAWN_ZONE_6 && Simon->x <= KAPPA_RESPAWN_ZONE_7)
 						{
 							random = rand() % 3;
 							if (random == 0)
@@ -386,7 +404,7 @@ void CPlayScene::Update(DWORD dt)
 							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
 							KappaCount++;
 						}
-						else if (Simon->x >= KAPPA_RESPAWN_X_7 - 48 && Simon->x <= KAPPA_RESPAWN_X_7 + 90)
+						else if (Simon->x >= KAPPA_RESPAWN_ZONE_7 && Simon->x <= KAPPA_RESPAWN_ZONE_8)
 						{
 							random = rand() % 2;
 							if (random == 0)
@@ -481,6 +499,19 @@ void CPlayScene::Update(DWORD dt)
 
 
 			}
+
+			if (Simon->isUsingStopWatch)
+			{
+				listEnemy[i]->isFrozen = true;
+			}
+			else
+			{
+				listEnemy[i]->isFrozen = false;
+			}
+			if (Simon->isUsingCross)
+			{
+				listEnemy[i]->ChangeAnimation();
+			}
 		
 		}
 		
@@ -530,12 +561,22 @@ void CPlayScene::Update(DWORD dt)
 			listObject[i]->isIncamera = false;
 		else
 			listObject[i]->isIncamera = true;
+		if (!IsInCamera(listObject[i]))
+		{
+			if (dynamic_cast<CWeapon *>(listObject[i]))
+			{
+				listObject[i]->IsDead = true;
+
+			}
+
+			
+		}
 		coObjects.push_back(listObject[i]);
 	}
 	for (int i = 0; i < listObject.size(); i++)
 	{
 		
-			listObject[i]->Update(dt, &coObjects);
+		listObject[i]->Update(dt, &coObjects);
 
 	}	
 
@@ -560,6 +601,10 @@ void CPlayScene::Update(DWORD dt)
 				continue;
 					
 			}
+			else if (dynamic_cast<CWeapon *>(coObjects[i]))
+			{
+				Simon->AllowThrow = true;
+			}
 			listObject.erase(listObject.begin() + i);
 			coObjects.erase(coObjects.begin() + i);
 		}
@@ -571,7 +616,7 @@ void CPlayScene::Update(DWORD dt)
 	{
 		if(!Simon->IsOnAnimation)
 			Simon->HandleKeyboard(keys);
-		Simon->Update(dt, &coObjects);
+		Simon->Update(dt, &list);
 	}
 	if (Door != nullptr)
 		Door->Update(dt, &coObjects);
@@ -637,23 +682,27 @@ void CPlayScene::UpdateSimon()
 		}
 		if (Simon->vx < 0 && Simon->x < UnderGroundMapBoundLeft - 9)
 			Simon->x = UnderGroundMapBoundLeft - 10;
+		else if (Simon->vx >= 0 && Simon->x > UnderGroundMapBoundRight - 64)
+			Simon->x = UnderGroundMapBoundRight - 64;
 	}
 
 	
+	
 
-
-	if (Simon->isThrowing)
+	if (Simon->isThrowing && Simon->WeaponType!=WATCH)
 	{
-		bool allow = true;
+		Simon->AllowThrow = true;
+		Simon->isThrowing = false;
 		for (int i = 0; i < listObject.size(); i++)
 		{
 			if (dynamic_cast<CWeapon *>(listObject[i]))
-				allow = false;
+				Simon->AllowThrow = false;
+			
 
 		}
-		if (allow&&Simon->SecondWeapon->IsDead == false)
+		if (Simon->AllowThrow )
 		{
-			listObject.push_back(Simon->SecondWeapon);
+			listObject.push_back(Simon->CreateSecondWeapond());
 
 		}
 	}

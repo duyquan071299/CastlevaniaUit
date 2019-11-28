@@ -1,11 +1,9 @@
 #include "Map.h"
 
-
 CMap::CMap(LPCSTR fileMatrixMap, LPCSTR fileTileSet, LPCSTR fileItemMap)
 {
 	TileWidth = TILE_WIDTH;
 	TileHeight = TILE_HEIGHT;
-	//currentBackground = 0;
 
 	if (fileMatrixMap != "")
 	{
@@ -19,7 +17,6 @@ CMap::CMap(LPCSTR fileMatrixMap, LPCSTR fileTileSet, LPCSTR fileItemMap)
 		//mapWidth = ViewPort::GetInstance()->GetCameraWidth();
 		//mapHeight = ViewPort::GetInstance()->GetCameraHeight();
 	}
-	 this->listObject = LoadMapObject(fileItemMap);
 	
 
 }
@@ -68,52 +65,39 @@ void CMap::DrawTileBackground()
 	//D3DXVECTOR2 trans = D3DXVECTOR2(SCREEN_WIDTH / 2 - CCamera::GetInstance()->GetPosition().x,
 	//	SCREEN_HEIGHT / 2 - CCamera::GetInstance()->GetPosition().y);
 	
-		for (int i = 0; i < Rows; i++)
-			for (int j = 0; j < Columns; j++)
-			{
+	for (int i = 0; i < Rows; i++)
+		for (int j = 0; j < Columns; j++)
+		{
 
-				//D3DXVECTOR3 position(j * TileWidth + TileWidth / 2, i * TileHeight + tileHeight / 2, 0);
+			//D3DXVECTOR3 position(j * TileWidth + TileWidth / 2, i * TileHeight + tileHeight / 2, 0);
 
-				RECT objRECT;
-				objRECT.left = j*32;	
-				objRECT.top =  i*32;
-				objRECT.right = objRECT.left+TileWidth;
-				objRECT.bottom = objRECT.top+TileHeight;
+			RECT objRECT;
+			objRECT.left = j * 32;
+			objRECT.top = i * 32;
+			objRECT.right = objRECT.left + TileWidth;
+			objRECT.bottom = objRECT.top + TileHeight;
 
-				//neu nam ngoai camera thi khong Draw
-				if (!isContain(objRECT, CCamera::GetInstance()->GetBound()))
-					continue;
-				delete TileSet;
-					TileSet = new CSprite(MAP, Matrix[i][j] - 1, MapCol);
-					TileSet->Settexture(TileTexture);
-					TileSet->SetFrameWH(32, 32);
-					TileSet->Draw((float)j * 32, (float)i * 32, default_color);
-				
-			
+			//neu nam ngoai camera thi khong Draw
+			if (!isContain(objRECT, CCamera::GetInstance()->GetBound()))
+				continue;
+			delete TileSet;
+			TileSet = new CSprite(MAP, Matrix[i][j] - 1, MapCol);
+			TileSet->Settexture(TileTexture);
+			TileSet->SetFrameWH(32, 32);
+			TileSet->Draw((float)j * 32, (float)i * 32, default_color);
 
-				
-			}
+
+
+
+		}
+	
 
 	
 
 
 }
 
-void CMap::DrawObject()
-{
-	for (int i = 0; i < listObject.size(); i++)
-	{
-		RECT objRECT;
-		objRECT.left = listObject[i]->x;
-		objRECT.top = listObject[i]->y;
-		objRECT.right = objRECT.left + TileWidth;
-		objRECT.bottom = objRECT.top + TileHeight;
-		if (!isContain(objRECT, CCamera::GetInstance()->GetBound()))
-			continue;
-		if (listObject[i]->IsDead == false)
-			listObject[i]->Render();
-	}
-}
+
 
 void CMap::Draw()
 {
@@ -142,62 +126,5 @@ bool CMap::isContain(RECT rect1, RECT rect2)
 
 	return true;
 }
-vector<LPGAMEOBJECT> CMap::LoadMapObject(LPCSTR fileItemMap)
-{
-	int type, x, y, holder,width,height;
-	vector<LPGAMEOBJECT> listObject;
-	ifstream ifs(fileItemMap);
-	if (ifs.is_open()) {
-		while (ifs.good()) {
-			ifs >> type >> x >> y>>width>>height>>holder;
-			switch (type)
-			{
-			case 1:
-			{
-				CCandle* LargeCandle = new CCandle(x, y, static_cast<HolderType>(holder),1);
-				LargeCandle->SetWH(width, height);
-				listObject.push_back(LargeCandle);
-				break;
-			}
-			case 2:
-			{
-				CBrick* brick = new CBrick(x,y);
-				brick->SetWH(width, height);
-				brick->SetType(holder);
-				listObject.push_back(brick);
-				brick->dx = 0;
-				brick->dy = 0;
-				brick->vx = 0;
-				brick->vy = 0;
 
-				break;
-			}
-			case 3:
-			{
-				CCandle* LargeCandle = new CCandle(x, y, static_cast<HolderType>(holder), 2);
-				LargeCandle->SetWH(width, height);
-				listObject.push_back(LargeCandle);
-				break;
-			}
-			case 4:
-			{
-				CInvisibleObject* Invisible = new CInvisibleObject(x, y);
-				Invisible->SetType(holder);
-				Invisible->SetWH(width, height);
-				Invisible->dx = 0;
-				Invisible->dy = 0;
-				Invisible->vx = 0;
-				Invisible->vy = 0;
-				listObject.push_back(Invisible);
-				break;
-			}
-			}
-		}
-		ifs.close();
-	}
-
-
-
-	return listObject;
-}
 

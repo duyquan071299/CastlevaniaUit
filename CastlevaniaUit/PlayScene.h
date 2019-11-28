@@ -9,6 +9,7 @@
 #include"Kappa.h"
 #include"Bat.h"
 #include"Door.h"
+#include"Grid.h"
 class CPlayScene : public CScene
 {
 private:
@@ -17,6 +18,7 @@ private:
 	CPanther *Panther;
 	CDoor *Door;
 	int GhostCount;
+	CGrid * Grid;
 	int BatCount;
 	int KappaCount;
 	int Level;
@@ -36,6 +38,8 @@ private:
 	bool SetUpTime=true;
 	bool FirstRespawn;
 	DWORD TimeLimit;
+	DWORD FrozenTime;
+	DWORD CrossTime;
 	//vector<LPGAMEOBJECT> WallObject;
 public:
 	CPlayScene() { Loadresources(0); };

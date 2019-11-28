@@ -24,18 +24,29 @@ CGhost::CGhost(float fx, float fy, int direction)
 
 void CGhost::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 {
+	
 	CGameObject::Update(dt);
 	if (isBurning)
+	{
 		vx = 0;
+		vy += GAME_GRAVITY * dt;
+	}
+		
+	else if(isFrozen)
+	{
+		vx = 0;
+		vy = 0;
+	}
 	else
 	{
 		if (nx > 0)
 			vx = 0.1;
 		else
 			vx = -0.1;
+		vy += GAME_GRAVITY * dt;
 	}
 		
-	vy += GAME_GRAVITY * dt;
+	
 
 	if (CCamera::GetInstance()->x == (float)3072 - CCamera::GetInstance()->GetWidth() + 16)
 	{
@@ -45,7 +56,11 @@ void CGhost::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 		}
 	}
 
-
+	if (curAnimation->IsLastFrame() == true && curAnimation->GetFrameSize() == 3)
+	{
+		IsDead = true;
+		isColiable = false;
+	}
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -65,8 +80,12 @@ void CGhost::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		// block 
-		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-		y += min_ty * dy + ny * 0.4f;
+		if (dynamic_cast<CBrick *>(coEventsResult[0]->obj))
+		{
+			x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+			y += min_ty * dy + ny * 0.4f;
+		}
+		
 		
 		
 		if (nx != 0) vx = 0;

@@ -3,8 +3,8 @@
 CDagger::CDagger()
 {
 	animation = new CAnimation(100);
-	this->IsDead = true;
-
+	this->IsDead = false;
+	WeaponType = DAGGER;
 }
 
 
@@ -15,7 +15,7 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 		
 		CGameObject::Update(dt);
 		
-		vx = nx*DAGGER_SPEED * dt;
+		vx = nx*DAGGER_SPEED;
 
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
@@ -38,8 +38,7 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 			x += min_tx * dx + nx * 0.4f;		
 			y += min_ty * dy + ny * 0.4f;
 
-			/*if (nx != 0) vx = 0;
-			if (ny != 0) vy = 0;*/
+		
 			
 			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
@@ -55,7 +54,8 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 				{
 
 					this->IsDead = true;
-					e->obj->IsDead = true;
+					dynamic_cast<CEnemy *>(e->obj)->ChangeAnimation();
+
 
 				}
 

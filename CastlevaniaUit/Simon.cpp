@@ -145,7 +145,6 @@ CSimon::CSimon() {
 
 
 
-
 	
 }
 
@@ -154,7 +153,6 @@ void CSimon::Respawn()
 {
 	this->y = 217;
 	this->x = 0;
-	SecondWeapon = nullptr;
 	WhipLevel = 1;
 	Heart = 0;
 	//currentanimation= animations[STANDING_RIGHT];
@@ -300,12 +298,12 @@ void CSimon::OnKeyUp(int keyCode)
 		CSimon::GetInstance()->IsKeyDownZ = false;
 }
 
-void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> coObjects)
 {
 
 	// reset untouchable timer if untouchable time has passed
 	DWORD now = GetTickCount();
-	if (GetTickCount() - CollectItem_Time > COLLECT_ITEM_TIME)
+	if (GetTickCount() - CollectItem_Time > COLLECT_ITEM_TIME && CollectItem_Time!=0)
 	{
 		CollectItem = false;
 	
@@ -325,7 +323,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (GetTickCount() - Landing_Time > LANDING_TIME)
 	{
 		Landing = false;
-		//isInjured = false;
 		Landing_Time = 0;
 
 	}
@@ -393,12 +390,21 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}
 					else if (Item->GetHolderType() == DAGGER)
 					{
-						if (this->SecondWeapon == nullptr)
-							this->SecondWeapon = new CDagger();
-						else
-							ChangeSecondWeapon(new CDagger());
+						
+							ChangeSecondWeapon(DAGGER);
 					}
-
+					else if (Item->GetHolderType() == WATCH)
+					{
+						ChangeSecondWeapon(WATCH);
+					}
+					else if (Item->GetHolderType() == CROSS)
+					{
+						isUsingCross = true;
+					}
+					else if (Item->GetHolderType() == HOLYWATER)
+					{
+						ChangeSecondWeapon(HOLYWATER);
+					}
 					Item->IsDead = true;
 				}
 				else if (dynamic_cast<CInvisibleObject *>(coObjects->at(i)))
@@ -464,6 +470,39 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}
 						
 				}
+				else if (dynamic_cast<CEnemy *>(coObjects->at(i)) || dynamic_cast<CEnemyBullet *>(coObjects->at(i)))
+				{
+					if (Untouchable || isInjured)
+						continue;
+					if (dynamic_cast<CBat *>(coObjects->at(i)))
+						dynamic_cast<CBat *>(coObjects->at(i))->ChangeAnimation();
+
+					if (isOnStair)
+					{
+						StartUntouchable();
+						isInjured = true;
+						vx = 0;
+						vy = 0;
+					}
+					else
+					{
+						
+						vx = -nx*0.1;
+						
+	
+						vy = -0.5;
+
+						this->IsJumping = false;
+						if (vx <= 0)
+							CSimon::GetInstance()->ChangeState(new CSimonStateInjured(INJURED_LEFT));
+						else
+							CSimon::GetInstance()->ChangeState(new CSimonStateInjured(INJURED_RIGHT));
+
+					}
+
+
+
+				}
 			}
 		}
 		
@@ -516,7 +555,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		if (!dynamic_cast<CInvisibleObject*>(coEventsResult[0]->obj)&& !dynamic_cast<CItem*>(coEventsResult[0]->obj))
 		{
-			if (nx != 0) vx = 0;
+			if (nx != 0)
+			{
+				if(vy>0)
+					vx = 0;
+			}
 			if (ny ==-1) vy = 0;
 		}
 
@@ -581,20 +624,32 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					{
 						StartCollectItem();
 						this->WhipLevel += 1;
-					}
-						
+					}	
 					else if (Item->GetHolderType() == DAGGER)
 					{
-						if (this->SecondWeapon == nullptr)
-							this->SecondWeapon = new CDagger();
-						else
-							ChangeSecondWeapon(new CDagger());
+							ChangeSecondWeapon(DAGGER);
+					}
+					else if (Item->GetHolderType() == WATCH)
+					{
+						
+							ChangeSecondWeapon(WATCH);
+					}
+					else if (Item->GetHolderType() == CROSS)
+					{
+						isUsingCross = true;
+					}
+					else if (Item->GetHolderType() == HOLYWATER)
+					{
+						ChangeSecondWeapon(HOLYWATER);
 					}
 					Item->IsDead = true;
 			
 			}
 			else if (dynamic_cast<CEnemy *>(e->obj) || dynamic_cast<CEnemyBullet *>(e->obj))
 			{
+				if (dynamic_cast<CBat *>(e->obj))
+					dynamic_cast<CBat *>(e->obj)->ChangeAnimation();
+
 				if (isOnStair)
 				{
 					StartUntouchable();
@@ -715,5 +770,131 @@ void CSimon::GetBoundingBox(float &x, float &y, float &framew, float &frameh)
 	
 
 	
+}
+CWeapon* CSimon::CreateSecondWeapond()
+{
+	CWeapon* NewWeapon;
+
+	switch (WeaponType)
+	{
+	case DAGGER:
+	{
+		CDagger* Dagger = new CDagger();
+		Dagger->SetPosition(x + 8, y);
+		if (isOnStair)
+		{
+			if (DirectionStair == 1)
+			{
+				if (isUP)
+				{
+					Dagger->ChangeAnimation(20);
+					Dagger->nx = 1;
+				}
+				else
+				{
+					Dagger->ChangeAnimation(19);
+					Dagger->nx = -1;
+				}
+
+			}
+			else
+			{
+
+				if (isUP)
+				{
+					Dagger->ChangeAnimation(19);
+					Dagger->nx = -1;
+				}
+				else
+				{
+					Dagger->ChangeAnimation(20);
+					Dagger->nx = 1;
+				}
+			}
+		}
+		else
+		{
+			if (nx > 0)
+			{
+				Dagger->ChangeAnimation(20);
+				Dagger->nx = 1;
+			}
+			else
+			{
+				Dagger->ChangeAnimation(19);
+				Dagger->nx = -1;
+			}
+
+		}
+		return Dagger;
+	}
+	case WATCH:
+		break;
+	case CROSS:
+		break;
+	case AXE:
+		break;
+	case POTION:
+		break;
+	case CHEST_1:
+		break;
+	case CHEST_2:
+		break;
+	case HOLYWATER:
+	{
+		CHolyWater * HolyWater = new CHolyWater();
+		HolyWater->Currentstate = 0;
+		HolyWater->SetPosition(x +8, y+32);
+		if (isOnStair)
+		{
+			if (DirectionStair==1)
+			{
+				if (isUP)
+				{
+
+					HolyWater->nx = 1;
+				}
+				else
+				{
+					HolyWater->nx = -1;
+				}
+
+			}
+			else
+			{
+
+				if (isUP)
+				{
+
+					HolyWater->nx = -1;
+				}
+				else
+				{
+					HolyWater->nx = 1;
+				}
+			}
+		}
+		else
+		{
+			if (nx > 0)
+			{
+				HolyWater->nx = 1;
+			}
+			else
+			{
+
+				HolyWater->nx = -1;
+			}
+
+		}
+		return HolyWater;
+	}
+	case CHICKEN:
+		break;
+	default:
+		break;
+	}
 	
+
+		
 }

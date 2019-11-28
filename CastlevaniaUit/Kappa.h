@@ -28,14 +28,7 @@ public:
 	void ChangeAnimation();
 	void Render()
 	{
-		if (curAnimation->IsLastFrame() == true && curAnimation->GetFrameSize() == 3)
-		{
-			IsDead = true;
-			isColiable = false;
-		}
-
-	
-
+		
 		curAnimation->Render(x, y, default_color);
 		RenderBoundingBox();
 	}

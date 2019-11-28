@@ -36,11 +36,7 @@ public:
 		if (isBurning)
 		{
 			curAnimation->Render(x, y-16, default_color);
-			if (curAnimation->IsLastFrame())
-			{
-				IsDead = true;
-				isColiable = false;
-			}
+			
 		}
 		else
 		{

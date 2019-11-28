@@ -33,6 +33,7 @@ public:
 	}
 	bool IsLastFrame() { return isLastFrame; }
 	int GetCurrentFrame() { return currentFrame; }
+	void SetCurrentFrame(int NewFrame) { currentFrame = NewFrame; }
 	LPSPRITE GetCurrenrFrame() { return frames[currentFrame]->GetSprite(); }
 };
 

@@ -114,9 +114,6 @@
     <ClInclude Include="SimonStateWalking.h">
       <Filter>GameObjects\Simon</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerData.h">
-      <Filter>GameObjects\Simon</Filter>
-    </ClInclude>
     <ClInclude Include="SimonStateJumping.h">
       <Filter>GameObjects\Simon</Filter>
     </ClInclude>
@@ -203,6 +200,12 @@
     </ClInclude>
     <ClInclude Include="EnemyBullet.h">
       <Filter>GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="StopWatch.h">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="HolyWater.h">
+      <Filter>GameObjects\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -350,6 +353,12 @@
     </ClCompile>
     <ClCompile Include="EnemyBullet.cpp">
       <Filter>GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="StopWatch.cpp">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="HolyWater.cpp">
+      <Filter>GameObjects\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

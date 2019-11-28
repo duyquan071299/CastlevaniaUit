@@ -44,6 +44,16 @@ void CBat::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 	{
 		vx = 0;
 		vy = 0;
+		if (curAnimation->IsLastFrame() == true && curAnimation->GetFrameSize() == 3 )
+		{
+			IsDead = true;
+			isColiable = false;
+		}
+	}
+	else if (isFrozen)
+	{
+		vx = 0;
+		vy = 0;
 	}
 	else
 	{

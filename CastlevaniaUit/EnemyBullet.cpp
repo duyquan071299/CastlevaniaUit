@@ -25,7 +25,14 @@ void CEnemyBullet::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 
 		CGameObject::Update(dt);
 		if (isBurning)
+		{
+			if (animation->IsLastFrame())
+			{
+				IsDead = true;
+			}
 			vx = 0;
+		}
+			
 		else
 			vx = nx * ENEMY_BULLET_SPEED * dt;
 		x += dx;
@@ -71,10 +78,7 @@ void CEnemyBullet::Render()
 	if (isBurning)
 	{
 		animation->Render(x, y - 32, default_color);
-		if (animation->IsLastFrame())
-		{
-			IsDead = true;
-		}
+	
 	}
 	else
 	{

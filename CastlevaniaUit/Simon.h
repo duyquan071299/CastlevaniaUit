@@ -5,10 +5,13 @@
 #include"Whip.h"
 #include"Item.h"
 #include"Dagger.h"
+#include"StopWatch.h"
 #include"Brick.h"
 #include"InvisibleObject.h"
 #include"Camera.h"
 #include"EnemyBullet.h"
+#include"Bat.h"
+#include"HolyWater.h"
 class CSimonState;
 class Whip;
 class CSimon :public CGameObject
@@ -20,7 +23,7 @@ private:
 	CSimonState* currentstate;
 	State StateName;
 	bool Untouchable;
-	bool CollectItem;
+	
 	DWORD Untouchable_Time;
 	DWORD Landing_Time;
 	DWORD CollectItem_Time;
@@ -32,8 +35,9 @@ public:
 	~CSimon();
 	LPANIMATION getCurrentAnimation() { return currentanimation; }
 	CWhip* whip;
-	CWeapon* SecondWeapon;
+	HolderType WeaponType;
 	bool Landing;
+	bool CollectItem;
 	int DirectionStair;
 	int CheckPoint;
 	int PreviousX, PreviousY;
@@ -42,6 +46,9 @@ public:
 	int WhipLevel = 1;
 	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false,isThrowing=false,isHitting=false,isFreeFall=false,isCollect=false,isOnStair=false,isUP,isInjured;
 	bool IsOnAnimation;
+	bool isUsingStopWatch;
+	bool isUsingCross;
+	bool AllowThrow=true;
 	bool IsFreeze=false;
 	bool isColiableWithStairBottom;
 	bool isColiableWithStairTop;
@@ -53,7 +60,9 @@ public:
 		StateName = Name;
 	}
 	void StartUntouchable() { Untouchable = true; Untouchable_Time = GetTickCount(); }
-	void StartCollectItem() { CollectItem = true; CollectItem_Time = GetTickCount(); }
+	void StartCollectItem() {
+		CollectItem = true;
+		CollectItem_Time = GetTickCount(); }
 	void StartLanding() { Landing = true; Landing_Time = GetTickCount(); }
 	bool isUntouchable() { return Untouchable; }
 	void SetCurrentAnimation(State Name)
@@ -75,12 +84,14 @@ public:
 		return true;
 	}
 	static CSimon* GetInstance();
-	void ChangeSecondWeapon(CWeapon* type)
+	void ChangeSecondWeapon(HolderType type)
 	{
-		delete SecondWeapon;
-		SecondWeapon = type;
+		WeaponType = type;
+		
 	}
 	void Render();
 
 	virtual void GetBoundingBox(float &x, float &y, float &framew, float &frameh);
+
+	CWeapon * CreateSecondWeapond();
 };

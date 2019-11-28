@@ -15,12 +15,12 @@ public:
 	CGrid(int MapWidth, int MapHeight);
 	void AddObject(LPGAMEOBJECT Object);
 
-	void BuildGrid(vector<LPGAMEOBJECT> listObject);
 
-	vector<LPGAMEOBJECT> GetListMapObject();
 
-	vector<LPGAMEOBJECT> GetListObjectCanContactWith(LPGAMEOBJECT object);
+	unordered_set<LPGAMEOBJECT> GetListMapObject();
 
-	vector<CEnemy *> GetListEnemies();
+	unordered_set<LPGAMEOBJECT> GetListObjectCanContactWith(LPGAMEOBJECT object);
+
+	unordered_set<CEnemy *> GetListEnemies();
 
 };

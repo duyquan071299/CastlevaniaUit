@@ -21,12 +21,11 @@ public:
 	void ChangeAnimation();
 	void Render()
 	{
-		if (curAnimation->IsLastFrame() == true && curAnimation->GetFrameSize() == 3)
+		if (isFrozen && !isBurning)
 		{
-			IsDead = true;
-			isColiable = false;
+			curAnimation->SetCurrentFrame(curAnimation->GetCurrentFrame()- 1);
 		}
-		curAnimation->Render(x,y,default_color);
+		curAnimation->Render(x, y, default_color);
 		RenderBoundingBox();
 	}
 	virtual void GetBoundingBox(float &x, float &y, float &framew, float &frameh);

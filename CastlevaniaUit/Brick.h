@@ -12,6 +12,10 @@ public:
 	CBrick(float x, float y) {
 		this->x = x;
 		this->y = y;
+		this->dx = 0;
+		this->dy = 0;
+		this->vx = 0;
+		this->vy = 0;
 	}
 	void SetType(int type)
 	{

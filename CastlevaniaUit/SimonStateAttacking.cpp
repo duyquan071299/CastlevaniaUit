@@ -1,6 +1,5 @@
 #include"SimonStateAttacking.h"
 #include"SimonStateFalling.h"
-
 void CSimonStateAttacking::Update(DWORD dt)
 {
 	if (CSimon::GetInstance()->whip != nullptr )
@@ -145,70 +144,33 @@ void CSimonStateAttacking::Update(DWORD dt)
 }
 void CSimonStateAttacking::HandleKeyboard(unordered_map<int, bool> keyCode)
 {
-	if (keyCode[DIK_UP] && CSimon::GetInstance()->isHitting==false&& CSimon::GetInstance()->count==1)
+
+
+	if (keyCode[DIK_UP] && CSimon::GetInstance()->isHitting == false && CSimon::GetInstance()->count == 1)
 	{
-		if (CSimon::GetInstance()->SecondWeapon != nullptr &&CSimon::GetInstance()->isThrowing==false && CSimon::GetInstance()->SecondWeapon->IsDead==true)
+		CSimon::GetInstance()->whip = new CWhip();
+		CSimon::GetInstance()->whip->SetType(CSimon::GetInstance()->WhipLevel);
+		if (!CSimon::GetInstance()->isThrowing && CSimon::GetInstance()->AllowThrow&&(CSimon::GetInstance()->WeaponType == DAGGER || CSimon::GetInstance()->WeaponType == HOLYWATER || CSimon::GetInstance()->WeaponType == AXE))
 		{
 			CSimon::GetInstance()->isThrowing = true;
-			CSimon::GetInstance()->SecondWeapon->IsDead = false;
+			CSimon::GetInstance()->isHitting = true;
+			CSimon::GetInstance()->AllowThrow = false;
 			CSimon::GetInstance()->whip = nullptr;
-			int x = CSimon::GetInstance()->x+8;
-			int y = CSimon::GetInstance()->y;
-			CSimon::GetInstance()->SecondWeapon->SetPosition(x,y);
-			CDagger * Dagger= dynamic_cast<CDagger *>(CSimon::GetInstance()->SecondWeapon);
-			if (CSimon::GetInstance()->isOnStair)
-			{
-				if (CSimon::GetInstance()->DirectionStair)
-				{
-					if (CSimon::GetInstance()->isUP)
-					{
-						Dagger->ChangeAnimation(20);
-						Dagger->nx = 1;
-					}
-					else
-					{
-						Dagger->ChangeAnimation(19);
-						Dagger->nx = -1;
-					}
 
-				}
-				else
-				{
-
-
-					if (CSimon::GetInstance()->isUP)
-					{
-						Dagger->ChangeAnimation(19);
-						Dagger->nx = -1;
-					}
-					else
-					{
-						Dagger->ChangeAnimation(20);
-						Dagger->nx = 1;
-					}
-				}
-			}
-			else
-			{
-				if (CSimon::GetInstance()->nx > 0)
-				{
-					Dagger->ChangeAnimation(20);
-					Dagger->nx = 1;
-				}
-				else
-				{
-					Dagger->ChangeAnimation(19);
-					Dagger->nx = -1;
-				}
-
-			}
 			
+			
+
 		}
-			
+		else if (CSimon::GetInstance()->WeaponType == WATCH && !CSimon::GetInstance()->isUsingStopWatch)
+		{
+			CSimon::GetInstance()->isUsingStopWatch = true;
+		}
 
 	}
-	
+		
+		
 
+	
 }
 
 void CSimonStateAttacking::Exit()
@@ -229,5 +191,6 @@ void CSimonStateAttacking::Enter()
 		
 
 	CSimon::GetInstance()->IsAttacking = true;
+	
 
 }

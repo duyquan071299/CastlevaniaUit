@@ -169,6 +169,7 @@
     <ClInclude Include="Ghost.h" />
     <ClInclude Include="GlobalObject.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="HolyWater.h" />
     <ClInclude Include="IntroScene.h" />
     <ClInclude Include="InvisibleObject.h" />
     <ClInclude Include="Item.h" />
@@ -178,7 +179,6 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapDatabase.h" />
     <ClInclude Include="Panther.h" />
-    <ClInclude Include="PlayerData.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene.h" />
@@ -196,6 +196,7 @@
     <ClInclude Include="SimonStateWalkingOnStair.h" />
     <ClInclude Include="SpriteDatabase.h" />
     <ClInclude Include="Sprites.h" />
+    <ClInclude Include="StopWatch.h" />
     <ClInclude Include="TextureDatabase.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Camera.h" />
@@ -224,6 +225,7 @@
     <ClCompile Include="Ghost.cpp" />
     <ClCompile Include="GlobalObject.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="HolyWater.cpp" />
     <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Kappa.cpp" />
@@ -249,6 +251,7 @@
     <ClCompile Include="SimonStateWalkingOnStair.cpp" />
     <ClCompile Include="SpriteDatabase.cpp" />
     <ClCompile Include="Sprites.cpp" />
+    <ClCompile Include="StopWatch.cpp" />
     <ClCompile Include="TextureDatabase.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Camera.cpp" />

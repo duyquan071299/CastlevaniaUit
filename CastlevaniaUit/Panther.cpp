@@ -87,7 +87,12 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 		}
 			
 	}
-		
+	
+	if (curAnimation->IsLastFrame()&& isBurning)
+	{
+		IsDead = true;
+		isColiable = false;
+	}
 		
 	vy += GAME_GRAVITY * dt;
 	CGameObject::Update(dt);

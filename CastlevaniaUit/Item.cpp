@@ -24,7 +24,7 @@ void CItem::GetBoundingBox(float &x, float &y, float &framew, float &frameh)
 	case HEART:
 		framew = frameh = 16;
 		break;
-	case WHIP:case CROSS:case HOLYWATER:
+	case WHIP:case CROSS:case HOLYWATER:case WATCH:
 		framew = frameh = 32;
 		break;
 	case LARGE_HEART:

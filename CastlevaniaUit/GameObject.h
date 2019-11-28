@@ -58,7 +58,7 @@ public:
 	void RenderBoundingBox();
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
-	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
+	void CalcPotentialCollisions(unordered_set<LPGAMEOBJECT> coObjects, vector<LPCOLLISIONEVENT> &coEvents);
 	void FilterCollision(
 		vector<LPCOLLISIONEVENT> &coEvents,
 		vector<LPCOLLISIONEVENT> &coEventsResult,
@@ -84,7 +84,7 @@ public:
 		Bbox.bottom = (long)(y + height);
 		return  Bbox;
 	}
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
+	virtual void Update(DWORD dt, unordered_set<LPGAMEOBJECT> coObjects);
 	virtual void Render() = 0;
 	//virtual void SetState(int state) { this->state = state; }
 

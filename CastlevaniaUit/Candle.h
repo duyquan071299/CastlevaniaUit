@@ -9,9 +9,10 @@ class CCandle:public CGameObject
 	int Width;
 	int Height;
 	int CandleType;
-	bool isBurning;
+
 	
 public:
+	bool isBurning;
 	CCandle(int x,int y,HolderType type, int CandleType);
 	~CCandle(){}
 	CItem * GetHolder() { return Holder; }

@@ -12,7 +12,7 @@ void CAnimation::Add(GraphicType type,int index,DWORD time)
 void CAnimation::Render(float x, float y,  D3DCOLOR color)
 {
 	DWORD now = GetTickCount();
-	if (currentFrame == -1)
+	if (currentFrame <0)
 	{
 		currentFrame = 0;
 		lastFrameTime = now;

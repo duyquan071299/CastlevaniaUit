@@ -25,7 +25,7 @@ private:
 	LPSPRITE TileSet;
 	LPDIRECT3DTEXTURE9 TileTexture;
 
-	vector<LPGAMEOBJECT> listObject;
+
 
 
 
@@ -43,15 +43,8 @@ public:
 	int GetMapCol() { return MapCol; }
 	~CMap();
 
-	/*void AddTileSet(LPCSTR fileMatrixMap, LPCSTR fileTileSet);*/
-	void DrawObject();
-	vector<LPGAMEOBJECT> LoadMapObject(LPCSTR fileItemMap);
 
-	//void SetCurrentBackground(int currentBackground);
-	vector<LPGAMEOBJECT> GetListObject()
-	{
-		return listObject;
-	}
+
 	int** GetMapMat()
 	{
 		return Matrix;
@@ -61,7 +54,6 @@ public:
 	int GetMapWidth() { return this->MapWidth; }
 	int GetMapHeight() { return this->MapHeight; }
 	bool isContain(RECT rect1, RECT rect2);
-	//Grid * GetGrid() { return this->grid; }
 
 	void Update(DWORD dt);
 };

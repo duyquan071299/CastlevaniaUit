@@ -143,7 +143,13 @@ void CGame::Render() {
 	if (d3ddv->BeginScene())
 	{
 		// Clear back buffer with a color
-		d3ddv->ColorFill(backBuffer, NULL, BACKGROUND_COLOR);
+		if (CSimon::GetInstance()->isUsingCross)
+		{
+			D3DCOLOR color = rand() % 2 == 1 ? BACKGROUND_COLOR : BACKGROUND_COLOR_2;
+			d3ddv->ColorFill(backBuffer, NULL, color);
+		}
+		else
+			d3ddv->ColorFill(backBuffer, NULL, BACKGROUND_COLOR);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
