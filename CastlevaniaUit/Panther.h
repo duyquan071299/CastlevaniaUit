@@ -8,13 +8,14 @@ protected:
 
 public:
 	CPanther();
-	bool isSitting = true;
-	bool isRunning = false;
-	bool isJumping = false;
-	bool isOnground = false;
-	bool isOnHigh = true;
-	bool isChange = false;
-	bool isFalling = false;
+	CPanther(float x, float y, int Direction);
+	bool isSitting;
+	bool isRunning;
+	bool isJumping;
+	bool isOnground;
+	bool isOnHigh;
+	int CountJump;
+	bool isFalling;
 	int direction;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	void Respawn(int Direction)
@@ -36,7 +37,6 @@ public:
 		if (isBurning)
 		{
 			curAnimation->Render(x, y-16, default_color);
-			
 		}
 		else
 		{

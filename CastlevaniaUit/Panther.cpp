@@ -3,6 +3,11 @@
 
 CPanther::CPanther()
 {
+	
+}
+
+CPanther::CPanther(float x, float y, int Direction)
+{
 	LPANIMATION ani = new CAnimation(100);
 	ani->Add(ENEMY, 10);
 	animations[SITTING_LEFT] = ani;
@@ -31,27 +36,43 @@ CPanther::CPanther()
 	ani->Add(ENEMY, 17);
 	animations[JUMPING_RIGHT] = ani;
 
-	
+	isSitting = true;
+	isRunning = false;
+	isJumping = false;
+	isOnground = false;
+	isOnHigh = true;
+	CountJump = 0;
+	isFalling = false;
+	isIncamera = true;
+	IsDead = false;
 
+	SetPosition(x, y);
+	Respawn(Direction);
 }
 
 void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 {
 	if (isBurning == true)
+	{
+		if (curAnimation->IsLastFrame())
+		{
+			IsDead = true;
+			isColiable = false;
+		}
 		return;
+	}
+	
 	CGameObject::Update(dt);
 	if (isBurning || isSitting)
 		vx = 0;
 	else if (isJumping)
 	{
-
-
 		vy = -0.4;
 		isJumping = false;
 		isFalling = true;
 		if(direction>=0)
 		{
-			vx = 0.45;
+			vx = 0.4;
 			curAnimation = animations[JUMPING_RIGHT];
 		}
 		else
@@ -59,19 +80,20 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 			vx = -0.4;
 			curAnimation = animations[JUMPING_LEFT];
 		}
-		
-
 	}
 	else if (isOnground && !isFalling)
 	{
-		if (direction >= 0)
+		if (direction > 0)
 			vx = 0.3;
 		else
 			vx = -0.3;
 	}
 	else
 	{
-		vx = -0.45;
+		if (direction > 0)
+			vx = 0.4;
+		else
+			vx = -0.4;
 	}
 
 
@@ -80,20 +102,15 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 	{
 		isOnground = true;
 		isFalling = false;
-		if (!isOnHigh && !isChange)
+		if (!isOnHigh && CountJump%2!=0)
 		{
-			isChange = true;
+			CountJump += 1;
 			direction = -direction;
 		}
 			
 	}
 	
-	if (curAnimation->IsLastFrame()&& isBurning)
-	{
-		IsDead = true;
-		isColiable = false;
-	}
-		
+	
 	vy += GAME_GRAVITY * dt;
 	CGameObject::Update(dt);
 
@@ -150,7 +167,7 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 				isRunning = false;
 				isJumping = true;
 				isOnHigh = false;
-				Object->IsDead = true;
+				CountJump += 1;
 			}
 		
 

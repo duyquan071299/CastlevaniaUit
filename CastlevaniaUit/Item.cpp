@@ -2,9 +2,7 @@
 
 CItem::CItem()
 {
-	LPANIMATION ani = new CAnimation(100);
-	ani->Add(ITEM, 0);
-	animation = ani;
+
 }
 CItem::CItem(HolderType type)
 {
@@ -12,6 +10,8 @@ CItem::CItem(HolderType type)
 	ani->Add(ITEM, type);
 	this->HDType = type;
 	animation= ani;
+	isAppearOnMap = false;
+	IsDead = false;
 }
 
 void CItem::GetBoundingBox(float &x, float &y, float &framew, float &frameh)

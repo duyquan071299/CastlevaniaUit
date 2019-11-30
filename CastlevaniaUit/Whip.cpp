@@ -52,7 +52,7 @@ CWhip::CWhip()
 	animation = animations[WHIP_1_RIGHT];
 	
 }
-void CWhip::Update(DWORD dt, unordered_set<LPGAMEOBJECT> coObjects)
+void CWhip::Update(DWORD dt,vector<LPGAMEOBJECT>* coObjects)
 {
 	if (animation->GetCurrentFrame() == 3)
 	{

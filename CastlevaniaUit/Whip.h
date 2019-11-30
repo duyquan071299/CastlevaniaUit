@@ -18,7 +18,7 @@ public:
 	int GetType() {
 		return this->WhipType;
 	}
-	virtual void Update(DWORD dt, unordered_set<LPGAMEOBJECT> coObjects);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects=NULL);
 	void Render();
 	void ChangeWeaponState(int nx);
 	virtual void GetBoundingBox(float &x, float &y, float &framew, float &frameh);

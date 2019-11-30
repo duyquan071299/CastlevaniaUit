@@ -35,7 +35,7 @@ CKappa::CKappa(float x, float y, int direction)
 	ani->Add(ENEMY, 7);
 	animations[ATTACKING_STAND_RIGHT] = ani;
 
-	this->vy = -0.7;
+	this->vy = -0.5;
 	this->isOnGround = false;
 	this->isFire = false;
 	this->IsDead = false;
@@ -126,9 +126,13 @@ void CKappa::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 
 	}
 	
+	if (vy > 0 && y>= KAPPA_RESPAWN_Y)
+	{
+		this->IsDead = true;
+	}
 
 
-	vy += 0.001 * dt;
+	vy += 0.01;
 
 
 

@@ -16,6 +16,7 @@ public:
 
 	CSprite() {};
 	CSprite(GraphicType type, int framenum, int columns);
+	CSprite(GraphicType type, int framenum, int columns,int Framew,int Frameh);
 
 	void Draw(float x, float y,D3DCOLOR color);
 
@@ -34,5 +35,10 @@ public:
 	{
 		this->texture = texture;
 	}
+	LPDIRECT3DTEXTURE9 GetTexture()
+	{
+		return this->texture;
+	}
+	
 };
 typedef CSprite * LPSPRITE;

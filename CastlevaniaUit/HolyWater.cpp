@@ -24,15 +24,14 @@ CHolyWater::CHolyWater()
 	this->WeaponType = HOLYWATER;
 	Currentstate = 0;
 	this->IsDead = false;
-	this->tag = HOLYWATER_TAG;
+	
 }
 
 
-void CHolyWater::Update(DWORD dt, unordered_set<LPGAMEOBJECT> colliable_objects)
+void CHolyWater::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 {
 	if (this->IsDead == false)
 	{
-
 		CGameObject::Update(dt);
 		if (this->Currentstate == 0)
 		{
@@ -50,19 +49,7 @@ void CHolyWater::Update(DWORD dt, unordered_set<LPGAMEOBJECT> colliable_objects)
 			LifeTime = 0;
 		}
 
-		if (this->Currentstate == 0)
-		{
-			if (nx > 0)
-			{
-				animation = animations[NORMAL_RIGHT];
-			}
-			else
-			{
-				animation = animations[NORMAL_LEFT];
-
-			}
-		}
-		else if (this->Currentstate == 1)
+		if (this->Currentstate == 1)
 		{
 			if (nx > 0)
 			{

@@ -207,6 +207,9 @@
     <ClInclude Include="HolyWater.h">
       <Filter>GameObjects\Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="ScoreBoard.h">
+      <Filter>FrameWork\Game Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CastlevaniaUit.rc">
@@ -261,9 +264,6 @@
     <ClCompile Include="Animations.cpp">
       <Filter>GameGraphics</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationDatabase.cpp">
-      <Filter>GameGraphics</Filter>
-    </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>GameGraphics</Filter>
     </ClCompile>
@@ -283,9 +283,6 @@
       <Filter>GameObjects\Simon</Filter>
     </ClCompile>
     <ClCompile Include="SimonStateWalking.cpp">
-      <Filter>GameObjects\Simon</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerData.cpp">
       <Filter>GameObjects\Simon</Filter>
     </ClCompile>
     <ClCompile Include="SimonStateJumping.cpp">
@@ -359,6 +356,12 @@
     </ClCompile>
     <ClCompile Include="HolyWater.cpp">
       <Filter>GameObjects\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreBoard.cpp">
+      <Filter>FrameWork\Game Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationDatabase.cpp">
+      <Filter>GameGraphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

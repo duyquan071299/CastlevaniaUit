@@ -1,6 +1,5 @@
 #pragma once
 #include "GlobalObject.h"
-
 class CCamera
 {
 private:

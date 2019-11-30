@@ -6,7 +6,14 @@ CSprite::CSprite(GraphicType type, int framenum, int columns)
 	this->Framenum = framenum;
 	this->Columns = columns;
 }
-
+CSprite::CSprite(GraphicType type, int framenum, int columns, int Framew, int Frameh)
+{
+	this->type = type;
+	this->Framenum = framenum;
+	this->Columns = columns;
+	this->Framew = Framew;
+	this->Frameh = Frameh;
+}
 
 void CSprite::Draw(float x, float y, D3DCOLOR color)
 {

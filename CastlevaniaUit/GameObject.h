@@ -35,6 +35,9 @@ public:
 
 	float vx;
 	float vy;
+
+	float PrevX;
+	float PrevY;
 	
 	bool IsDead=false;
 	bool isColiable;
@@ -58,7 +61,7 @@ public:
 	void RenderBoundingBox();
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
-	void CalcPotentialCollisions(unordered_set<LPGAMEOBJECT> coObjects, vector<LPCOLLISIONEVENT> &coEvents);
+	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
 	void FilterCollision(
 		vector<LPCOLLISIONEVENT> &coEvents,
 		vector<LPCOLLISIONEVENT> &coEventsResult,
@@ -84,10 +87,27 @@ public:
 		Bbox.bottom = (long)(y + height);
 		return  Bbox;
 	}
-	virtual void Update(DWORD dt, unordered_set<LPGAMEOBJECT> coObjects);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects=NULL);
 	virtual void Render() = 0;
 	//virtual void SetState(int state) { this->state = state; }
+	bool IsInCamera()
+	{
+		float x, y, framew, frameh;
+		this->GetBoundingBox(x, y, framew, frameh);
+		RECT objRECT;
+		objRECT.left = x;
+		objRECT.top = y;
+		objRECT.right = objRECT.left + framew;
+		objRECT.bottom = objRECT.top + frameh;
+		RECT Camera = CCamera::GetInstance()->GetBound();
+		if (objRECT.left >Camera.right || objRECT.right < Camera.left|| objRECT.top >Camera.bottom|| objRECT.bottom < Camera.top)
+		{
+			return false;
+		}
 
+		return true;
+
+	}
 
 	//~CGameObject();
 };

@@ -29,6 +29,12 @@ void CSpriteDatabase::LoadResources()
 					sprites->AddSprite(new CEnemySprites(static_cast<EnemyType>(type), frame, columns, framew, frameh));
 				else if(object=="do")
 					sprites->AddSprite(new CDoorSprite(static_cast<GraphicType>(type), frame, columns, framew, frameh));
+				else if(object=="sc")
+					sprites->AddSprite(new CSprite(static_cast<GraphicType>(type),frame,columns, framew, frameh));
+				else if (object == "fo")
+					sprites->AddSprite(new CSprite(static_cast<GraphicType>(type), frame, columns, framew, frameh));
+				else if (object == "he")
+					sprites->AddSprite(new CSprite(static_cast<GraphicType>(type), frame, columns, framew, frameh));
 			}
 		}
 	}
@@ -42,6 +48,8 @@ void CSpriteDatabase::AddSprite(LPSPRITE sprite)
 }
 
 LPSPRITE CSpriteDatabase::GetSprite(GraphicType type,int index) {
+	if (sprites[type][index]->GetTexture() == NULL)
+		sprites[type][index]->Settexture(CTextureDatabase::GetInstance()->GetTexture(type));
 	return sprites[type][index];
 
 }

@@ -16,6 +16,7 @@ public:
 
 	vector<LPGAMEOBJECT> GetListObject()
 	{
+		//if(listObject!=NU::)
 		return listObject;
 	}
 	
@@ -25,7 +26,10 @@ public:
 	}
 
 
-	
+	void RemoveObject(LPGAMEOBJECT obj)
+	{
+		listObject.erase(remove(listObject.begin(), listObject.end(), obj), listObject.end());
+	}
 
 
 };

@@ -183,6 +183,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ScoreBoard.h" />
     <ClInclude Include="Simon.h" />
     <ClInclude Include="SimonSprites.h" />
     <ClInclude Include="SimonState.h" />
@@ -234,10 +235,10 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapDatabase.cpp" />
     <ClCompile Include="Panther.cpp" />
-    <ClCompile Include="PlayerData.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ScoreBoard.cpp" />
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="SimonSprites.cpp" />
     <ClCompile Include="SimonState.cpp" />

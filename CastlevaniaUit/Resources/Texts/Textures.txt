@@ -2,8 +2,11 @@
 1 Resources\\Textures\\Item.png
 2 Resources\\Textures\\Weapon.png
 3 Resources\\Textures\\Door.png
+5 Resources\\Textures\\Font.png
 6 Resources\\Textures\\Enemy.png
 7 Resources\\Textures\\bbox.png
 8 Resources\\Textures\\Candle.png
 10 Resources\\Textures\\Effect.png
 12 Resources\\Textures\\Hiding_part.png
+13 Resources\\Textures\\ScoreBoard.png
+14 Resources\\Textures\\Heal.png

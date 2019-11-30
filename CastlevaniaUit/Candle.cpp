@@ -13,11 +13,10 @@ CCandle::CCandle(int x, int y,HolderType HolderType, int CandleType)
 		animation->Add(CANDLE, 2);
 		animation->Add(CANDLE, 3);
 	}
-	Holder = new CItem(HolderType);
+	HDType = HolderType;
 	SetPosition(x, y);
-	Holder->x = this->x + 8;
-	Holder->y = this->y+8;
 	isColiable = true;
+	this->isIncamera = true;
 
 }
 

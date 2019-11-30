@@ -8,7 +8,7 @@ CStopWatch::CStopWatch()
 }
 
 
-void CStopWatch::Update(DWORD dt, unordered_set<LPGAMEOBJECT> coObjects)
+void CStopWatch::Update(DWORD dt, vector<LPGAMEOBJECT>*coObjects)
 {
 	
 }

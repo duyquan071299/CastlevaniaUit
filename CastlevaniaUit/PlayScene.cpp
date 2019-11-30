@@ -3,16 +3,11 @@
 
 
 void CPlayScene::Loadresources(int level) {
-	CCamera::GetInstance()->SetWH(SCREEN_WIDTH, SCREEN_HEIGHT);
+	CCamera::GetInstance()->SetWH(SCREEN_WIDTH, 400);
 	CCamera::GetInstance()->SetPosition(SCREEN_WIDTH / 2,
-		SCREEN_HEIGHT / 2);
+		0 );
 
-	for (int i = 0; i < listObject.size(); i++)
-	{
-		delete listObject[i];
-	}
-	this->listObject.clear();
-	//this->WallObject.clear();
+	
 	Simon = CSimon::GetInstance();
 
 	switch (level)
@@ -20,31 +15,33 @@ void CPlayScene::Loadresources(int level) {
 	case 0:
 	{
 		Simon->Respawn();
-		CurrentMap = new CMap("Resources\\Maps\\Scene1.txt", "Resources\\Maps\\Scene_1.png", "Resources\\Maps\\Scene1_Object.txt");
+		CurrentMap = new CMap("Resources\\Maps\\Scene1.txt", "Resources\\Maps\\Scene_1.png");
 		MapBoundRight= CurrentMap->GetMapWidth();
 		MapBoundLeft = 0;
 		Simon->x = 0;
 		this->Level = level;
 		Simon->AtLevel = level;
-		Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight());
+		Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight(), "Resources\\Maps\\Scene1_Object.txt");
+		ScoreBoard = new CScoreBoard(0.0f, 0.0f);
 		break;
 	}
 	case 1:
 	{
 		Simon->Respawn();
-		//CurrentMap = new CMap("Resources\\Maps\\Scene2.txt", "Resources\\Maps\\Scene_2.png", "Resources\\Maps\\Scene2_Object.txt");
-		Door = new CDoor(3056, 32);
-		//Simon->x =3200;
+		CCamera::GetInstance()->isWithSimon = true;
+		CurrentMap = new CMap("Resources\\Maps\\Scene2.txt", "Resources\\Maps\\Scene_2.png");
+		Door = new CDoor(3056, 112);
+		Simon->x =3200;
 		Simon->y = RESPAWN_POSITION_Y;
-		//Simon->y = 300;
+		Simon->y = 500;
 		this->Level = level;
 		Simon->AtLevel = level;
+		Simon->isInCastle = true;
 		MapBoundLeft = 0;
 		MapBoundRight = 3072;
-		MapBoundRight = 5000;
+		//MapBoundRight = 5000;
 		TimeBetWeenGhostRespawn = GetTickCount();
-		//Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight());
-		
+		Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight(), "Resources\\Maps\\Scene2_Object.txt");
 		AllowRespawnGhost = true;
 	}
 	}
@@ -87,18 +84,21 @@ void  CPlayScene::OnKeyUp(int KeyCode)
 
 void CPlayScene::Render()
 {
-	CurrentMap->Draw();
 	
-
-	for (int i = 0; i < listObject.size(); i++)
+	CurrentMap->Draw();
+	ScoreBoard->Render();
+	
+	
+	if (CCamera::GetInstance()->isWithSimon  )
 	{
-		if(!IsInCamera(listObject[i]))
+		auto list = Grid->GetListMapObject();
+		for (int i = 0; i < list.size(); i++)
 		{
-			continue;
+			list.at(i)->Render();
 		}
-		
-		listObject[i]->Render();
+
 	}
+	
 	if (Door != nullptr)
 		Door->Render();
 
@@ -108,7 +108,7 @@ void CPlayScene::Render()
 		LPSPRITE TileSet = new CSprite(MAP, 0, 1);
 		TileSet->Settexture(CTextureDatabase::GetInstance()->GetTexture(HIDING_OBJECT));
 		TileSet->SetFrameWH(96, 128);
-		TileSet->Draw((float)1408, (float)160, default_color);
+		TileSet->Draw((float)1408, (float)240, default_color);
 	}
 	
 
@@ -116,23 +116,32 @@ void CPlayScene::Render()
 
 void CPlayScene::Update(DWORD dt)
 {
+
 	
-	unordered_set<LPGAMEOBJECT> list = Grid->GetListObjectCanContactWith(Simon);
+	vector<LPGAMEOBJECT> Objects = Grid->GetListMapObject();
+	for (int i = 0; i < Objects.size(); i++)
+	{
+		Objects.at(i)->Update(dt, &Grid->GetListObjectCanContactWithMapObject(Objects.at(i)));
+		Grid->MoveObject(Objects.at(i), Objects.at(i)->PrevX, Objects.at(i)->PrevY);
+	}
+
 	//Walking through door mechanism
-	if (this->Level == 1)
+	if (Simon->isInCastle==true)
 	{
 		
 		if (CCamera::GetInstance()->isWithSimon)
 		{
-			if (Simon->y < SCREEN_HEIGHT - 116)
+			if (Simon->y < SCREEN_HEIGHT - 36)
 			{
+				CScoreBoard::GetInstance()->y = 0;
 				CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 + 40, 0);
 				CCamera::GetInstance()->Update(MapBoundLeft, MapBoundRight);
 			}
 			else
 			{
-
+				CScoreBoard::GetInstance()->y = SCREEN_HEIGHT;
 				CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 + 40, SCREEN_HEIGHT);
+	
 				CCamera::GetInstance()->Update(UnderGroundMapBoundLeft, UnderGroundMapBoundRight);
 			}
 
@@ -190,7 +199,7 @@ void CPlayScene::Update(DWORD dt)
 		CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 + 40, 0);
 		CCamera::GetInstance()->Update(MapBoundLeft, MapBoundRight);
 	}
-	
+	ScoreBoard->Update();
 	if (Simon->isUsingStopWatch &&FrozenTime==0)
 	{
 		FrozenTime = GetTickCount();
@@ -214,13 +223,12 @@ void CPlayScene::Update(DWORD dt)
 	}
 
 	//Create Enemy mechanism
-	if (this->Level == 1)
+	if (Simon->isInCastle)
 	{
 		DWORD Now = GetTickCount();
 		//Create Ghost mechanism
 		if (AllowRespawnGhost)
 		{
-		
 			if (Now - TimeBetWeenGhostRespawn >= GHOST_RESPAWN_TIME)
 			{
 				if ((Simon->x >= GHOST_RESPAWN_REGION_1_LEFT && Simon->x <= GHOST_RESPAWN_REGION_1_RIGHT)||(Simon->x >= GHOST_RESPAWN_REGION_2_LEFT && Simon->x <= GHOST_RESPAWN_REGION_2_RIGHT))
@@ -229,25 +237,30 @@ void CPlayScene::Update(DWORD dt)
 					{
 						if (CCamera::GetInstance()->x == MapBoundLeft)
 						{
-							listEnemy.push_back(new CGhost(CCamera::GetInstance()->x + SCREEN_WIDTH - 30, RESPAWN_POSITION_Y, -1));
+							Grid->AddObject(new CGhost(CCamera::GetInstance()->x + SCREEN_WIDTH - 30, RESPAWN_POSITION_Y, -1));
+							GhostCount++;
 						}
 						else if (CCamera::GetInstance()->x  == (float)MapBoundRight - CCamera::GetInstance()->GetWidth() + 16)
 						{
-							listEnemy.push_back(new CGhost(CCamera::GetInstance()->x +  30, RESPAWN_POSITION_Y, 1));
+							Grid->AddObject(new CGhost(CCamera::GetInstance()->x +  30, RESPAWN_POSITION_Y, 1));
+							GhostCount++;
 						}
 						else if (Simon->vx > 0)
 						{
-							listEnemy.push_back(new CGhost(CCamera::GetInstance()->x + 30, RESPAWN_POSITION_Y, 1));
+							Grid->AddObject(new CGhost(CCamera::GetInstance()->x + 30, RESPAWN_POSITION_Y, 1));
+							GhostCount++;
 						}
 						else if (Simon->vx < 0)
 						{
-							listEnemy.push_back(new CGhost(CCamera::GetInstance()->x + SCREEN_WIDTH -30, RESPAWN_POSITION_Y, -1));
+							Grid->AddObject(new CGhost(CCamera::GetInstance()->x + SCREEN_WIDTH -30, RESPAWN_POSITION_Y, -1));
+							GhostCount++;
 						}
 						else if (Simon->vx == 0)
 						{
-							listEnemy.push_back(new CGhost(CCamera::GetInstance()->x + SCREEN_WIDTH -30, RESPAWN_POSITION_Y, -1));
+							Grid->AddObject(new CGhost(CCamera::GetInstance()->x + SCREEN_WIDTH -30, RESPAWN_POSITION_Y, -1));
+							GhostCount++;
 						}
-						GhostCount++;
+					
 						
 						if (GhostCount == 3)
 						{
@@ -271,15 +284,15 @@ void CPlayScene::Update(DWORD dt)
 					{
 						if (CCamera::GetInstance()->x == MapBoundLeft)
 						{
-							listEnemy.push_back(new CBat(CCamera::GetInstance()->x + SCREEN_WIDTH - 20, Simon->y+16, -1));
+							Grid->AddObject(new CBat(CCamera::GetInstance()->x + SCREEN_WIDTH - 20, Simon->y+16, -1));
 						}
 						else if (Simon->nx > 0)
 						{
-							listEnemy.push_back(new CBat(CCamera::GetInstance()->x + SCREEN_WIDTH - 20, Simon->y+16, -1));
+							Grid->AddObject(new CBat(CCamera::GetInstance()->x + SCREEN_WIDTH - 20, Simon->y+16, -1));
 						}
 						else if (Simon->nx < 0)
 						{
-							listEnemy.push_back(new CBat(CCamera::GetInstance()->x + 20, Simon->y+16, 1));
+							Grid->AddObject(new CBat(CCamera::GetInstance()->x + 20, Simon->y+16, 1));
 						}
 						BatCount++;
 						if (BatCount == 1)
@@ -306,27 +319,25 @@ void CPlayScene::Update(DWORD dt)
 						if (Simon->x >= KAPPA_RESPAWN_X_1 - 90 && Simon->x <= KAPPA_RESPAWN_X_1 + 64)
 						{
 						
-							listEnemy.push_back(new CKappa(KAPPA_RESPAWN_X_2, 600, Simon->x > KAPPA_RESPAWN_X_2 ? 1 : -1));
-							listEnemy.push_back(new CKappa(KAPPA_RESPAWN_X_3, 600, Simon->x > KAPPA_RESPAWN_X_1 ? 1 : -1));
+							Grid->AddObject(new CKappa(KAPPA_RESPAWN_X_2, KAPPA_RESPAWN_Y, Simon->x > KAPPA_RESPAWN_X_2 ? 1 : -1));
+							Grid->AddObject(new CKappa(KAPPA_RESPAWN_X_3, KAPPA_RESPAWN_Y, Simon->x > KAPPA_RESPAWN_X_1 ? 1 : -1));
 							KappaCount = 2;
 							
 						}
 						else if (Simon->x >= KAPPA_RESPAWN_X_2 - 64 && Simon->x <= KAPPA_RESPAWN_X_2 + 51)
 						{
-							listEnemy.push_back(new CKappa(KAPPA_RESPAWN_X_1, 600, Simon->x > KAPPA_RESPAWN_X_1 ? 1 : -1));
-							listEnemy.push_back(new CKappa(KAPPA_RESPAWN_X_3, 600, Simon->x > KAPPA_RESPAWN_X_3 ? 1 : -1));
+							Grid->AddObject(new CKappa(KAPPA_RESPAWN_X_1, KAPPA_RESPAWN_Y, Simon->x > KAPPA_RESPAWN_X_1 ? 1 : -1));
+							Grid->AddObject(new CKappa(KAPPA_RESPAWN_X_3, KAPPA_RESPAWN_Y, Simon->x > KAPPA_RESPAWN_X_3 ? 1 : -1));
 							KappaCount = 2;
 							
 						}
 						else if (Simon->x >= KAPPA_RESPAWN_X_3 - 51 && Simon->x <= KAPPA_RESPAWN_X_3 + 75)
 						{
-							listEnemy.push_back(new CKappa(KAPPA_RESPAWN_X_1, 600, Simon->x > KAPPA_RESPAWN_X_1 ? 1 : -1));
-							listEnemy.push_back(new CKappa(KAPPA_RESPAWN_X_2, 600, Simon->x > KAPPA_RESPAWN_X_2 ? 1 : -1));
+							Grid->AddObject(new CKappa(KAPPA_RESPAWN_X_1, KAPPA_RESPAWN_Y, Simon->x > KAPPA_RESPAWN_X_1 ? 1 : -1));
+							Grid->AddObject(new CKappa(KAPPA_RESPAWN_X_2, KAPPA_RESPAWN_Y, Simon->x > KAPPA_RESPAWN_X_2 ? 1 : -1));
 							KappaCount = 2;
 							
 						}
-
-
 						
 					}
 					else if (KappaCount < 2)
@@ -341,7 +352,7 @@ void CPlayScene::Update(DWORD dt)
 								random = KAPPA_RESPAWN_X_3;
 							else
 								random = KAPPA_RESPAWN_X_4;
-							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
+							Grid->AddObject(new CKappa(random, KAPPA_RESPAWN_Y, Simon->x > random ? 1 : -1));
 							KappaCount++;
 						}
 						else if (Simon->x >= KAPPA_RESPAWN_ZONE_1 && Simon->x <= KAPPA_RESPAWN_ZONE_3)
@@ -353,7 +364,7 @@ void CPlayScene::Update(DWORD dt)
 								random = KAPPA_RESPAWN_X_3;
 							else
 								random = KAPPA_RESPAWN_X_4;
-							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
+							Grid->AddObject(new CKappa(random, KAPPA_RESPAWN_Y, Simon->x > random ? 1 : -1));
 							KappaCount++;
 						}
 						else if (Simon->x >= KAPPA_RESPAWN_ZONE_3 && Simon->x <= KAPPA_RESPAWN_ZONE_4)
@@ -365,7 +376,7 @@ void CPlayScene::Update(DWORD dt)
 								random = KAPPA_RESPAWN_X_4;
 							else
 								random = KAPPA_RESPAWN_X_5;
-							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
+							Grid->AddObject(new CKappa(random, KAPPA_RESPAWN_Y, Simon->x > random ? 1 : -1));
 							KappaCount++;
 						}
 						else if (Simon->x >= KAPPA_RESPAWN_ZONE_4 && Simon->x <= KAPPA_RESPAWN_ZONE_5)
@@ -377,7 +388,7 @@ void CPlayScene::Update(DWORD dt)
 								random = KAPPA_RESPAWN_X_3;
 							else
 								random = KAPPA_RESPAWN_X_5;
-							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
+							Grid->AddObject(new CKappa(random, KAPPA_RESPAWN_Y, Simon->x > random ? 1 : -1));
 							KappaCount++;
 						}
 						else if (Simon->x >= KAPPA_RESPAWN_ZONE_5 && Simon->x <= KAPPA_RESPAWN_ZONE_6)
@@ -389,7 +400,7 @@ void CPlayScene::Update(DWORD dt)
 								random = KAPPA_RESPAWN_X_4;
 							else
 								random = KAPPA_RESPAWN_X_6;
-							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
+							Grid->AddObject(new CKappa(random, KAPPA_RESPAWN_Y, Simon->x > random ? 1 : -1));
 							KappaCount++;
 						}
 						else if (Simon->x >= KAPPA_RESPAWN_ZONE_6 && Simon->x <= KAPPA_RESPAWN_ZONE_7)
@@ -401,7 +412,7 @@ void CPlayScene::Update(DWORD dt)
 								random = KAPPA_RESPAWN_X_5;
 							else
 								random = KAPPA_RESPAWN_X_7;
-							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
+							Grid->AddObject(new CKappa(random, KAPPA_RESPAWN_Y, Simon->x > random ? 1 : -1));
 							KappaCount++;
 						}
 						else if (Simon->x >= KAPPA_RESPAWN_ZONE_7 && Simon->x <= KAPPA_RESPAWN_ZONE_8)
@@ -411,7 +422,7 @@ void CPlayScene::Update(DWORD dt)
 								random = KAPPA_RESPAWN_X_5;
 							else if (random == 1)
 								random = KAPPA_RESPAWN_X_6;
-							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
+							Grid->AddObject(new CKappa(random, KAPPA_RESPAWN_Y, Simon->x > random ? 1 : -1));
 							KappaCount++;
 						}
 						else
@@ -423,7 +434,7 @@ void CPlayScene::Update(DWORD dt)
 								random = KAPPA_RESPAWN_X_6;
 							else
 								random = KAPPA_RESPAWN_X_7;
-							listEnemy.push_back(new CKappa(random, 600, Simon->x > random ? 1 : -1));
+							Grid->AddObject(new CKappa(random, KAPPA_RESPAWN_Y, Simon->x > random ? 1 : -1));
 							KappaCount++;
 						}
 
@@ -436,12 +447,81 @@ void CPlayScene::Update(DWORD dt)
 			}
 
 		}
+		//Create Panther mechanism
+		if (PantherCount<3)
+		{
+			
+				if (Simon->x >= PANTHER_RESPAWN_ZONE_X_RIGHT_1)
+				{
+					if (PantherAtX1 == 0)
+					{
+						Grid->AddObject(new CPanther(PANTHER_RESPAWN_X_1, PANTHER_RESPAWN_Y_1, 1));
+						PantherAtX1 = 1;
+						PantherCount++;
+					}
+					
+				}
+				if (Simon->x >= PANTHER_RESPAWN_ZONE_X_RIGHT_2)
+				{
+					if (PantherAtX2 == 0)
+					{
+						Grid->AddObject(new CPanther(PANTHER_RESPAWN_X_2, PANTHER_RESPAWN_Y_2, 1));
+						PantherAtX2 = 1;
+						PantherCount++;
+					}
+					
+				}
+				if (Simon->x >= PANTHER_RESPAWN_ZONE_X_RIGHT_3)
+				{
+					if (PantherAtX3 == 0)
+					{
+						Grid->AddObject(new CPanther(PANTHER_RESPAWN_X_3, PANTHER_RESPAWN_Y_1, 1));
+						PantherAtX3 = 1;
+						PantherCount++;
+					}
+				
+
+				}
+				if (Simon->x <= PANTHER_RESPAWN_ZONE_X_LEFT_1)
+				{
+					if (PantherAtX1 == 0)
+					{
+						Grid->AddObject(new CPanther(PANTHER_RESPAWN_X_1, PANTHER_RESPAWN_Y_1, -1));
+						PantherAtX1 = 1;
+						PantherCount++;
+					}
+					
+				}
+				if (Simon->x <= PANTHER_RESPAWN_ZONE_X_LEFT_2)
+				{
+					if (PantherAtX2 == 0)
+					{
+						Grid->AddObject(new CPanther(PANTHER_RESPAWN_X_2, PANTHER_RESPAWN_Y_2, -1));
+						PantherAtX2 = 1;
+						PantherCount++;
+					}
+				
+				}
+				if (Simon->x <= PANTHER_RESPAWN_ZONE_X_LEFT_3)
+				{
+					if (PantherAtX3 == 0)
+					{
+						Grid->AddObject(new CPanther(PANTHER_RESPAWN_X_3, PANTHER_RESPAWN_Y_1, -1));
+						PantherAtX3 = 1;
+						PantherCount++;
+					}
+					
+				}
+
 		
+				
+
+		}
 	}
 
 	
 
-
+	vector<LPGAMEOBJECT> listEnemy = Grid->GetListEnemies();
 
 	UpdateSimon();
 	for (int i = 0; i < listEnemy.size(); i++)
@@ -449,7 +529,7 @@ void CPlayScene::Update(DWORD dt)
 		if (!CCamera::GetInstance()->isWithSimon)
 		{
 			GhostCount--;
-			listEnemy.erase(listEnemy.begin() + i);
+			Grid->RemoveAll(listEnemy[i]);
 		}
 		else
 		{
@@ -458,9 +538,7 @@ void CPlayScene::Update(DWORD dt)
 				if (dynamic_cast<CGhost *>(listEnemy[i]))
 				{
 					GhostCount--;
-					listEnemy.erase(listEnemy.begin() + i);
-					i--;
-					
+					Grid->RemoveAll(listEnemy[i]);
 					if (GhostCount == 0)
 					{
 						TimeBetWeenGhostRespawn = GetTickCount();
@@ -471,19 +549,24 @@ void CPlayScene::Update(DWORD dt)
 				else if (dynamic_cast<CBat *>(listEnemy[i]))
 				{
 					BatCount--;
-					listEnemy.erase(listEnemy.begin() + i);
+					Grid->RemoveAll(listEnemy[i]);
 					TimeBetWeenBatRespawn = GetTickCount();
 					AllowRespawnBat = true;
 					continue;
-					i--;
+			
 				}
 				else if (dynamic_cast<CKappa*>(listEnemy[i]))
 				{
-					listEnemy.erase(listEnemy.begin() + i);
+					Grid->RemoveAll(listEnemy[i]);
 					KappaCount--;
-					i--;
 					continue;
 					
+				}
+				else if (dynamic_cast<CPanther*>(listEnemy[i]))
+				{
+					Grid->RemoveAll(listEnemy[i]);
+					PantherCount--;
+					continue;
 				}
 			}
 
@@ -493,24 +576,49 @@ void CPlayScene::Update(DWORD dt)
 				if (dynamic_cast<CKappa *>(listEnemy[i])->isAtacking && dynamic_cast<CKappa *>(listEnemy[i])->isFire == false)
 				{
 					dynamic_cast<CKappa *>(listEnemy[i])->isFire = true;
-					listEnemyBullet.push_back(new CEnemyBullet(listEnemy[i]->x, listEnemy[i]->y + 5, listEnemy[i]->nx));
+					Grid->AddObject(new CEnemyBullet(listEnemy[i]->x, listEnemy[i]->y + 5, listEnemy[i]->nx));
 				}
 
+			}
+			else if (dynamic_cast<CPanther *>(listEnemy[i])&& dynamic_cast<CPanther *>(listEnemy[i])->isSitting)
+			{
+				if (Simon->x > PANTHER_RUNNING_X_LEFT_1 && Simon->x < PANTHER_RUNNING_X_RIGHT_1 && listEnemy[i]->x> PANTHER_RUNNING_X_LEFT_1 &&  listEnemy[i]->x < PANTHER_RUNNING_X_RIGHT_1)
+				{
+					dynamic_cast<CPanther *>(listEnemy[i])->isRunning = true;
+					dynamic_cast<CPanther *>(listEnemy[i])->isSitting = false;
+					dynamic_cast<CPanther *>(listEnemy[i])->ChangeAni();
+					PantherAtX1 = 0;
 
+				}
+				else if (Simon->x > PANTHER_RUNNING_X_LEFT_2 && Simon->x < PANTHER_RUNNING_X_RIGHT_2 && listEnemy[i]->x> PANTHER_RUNNING_X_LEFT_2 &&  listEnemy[i]->x < PANTHER_RUNNING_X_RIGHT_2)
+				{
+					dynamic_cast<CPanther *>(listEnemy[i])->isRunning = true;
+					dynamic_cast<CPanther *>(listEnemy[i])->isSitting = false;
+					dynamic_cast<CPanther *>(listEnemy[i])->ChangeAni();
+					PantherAtX2 = 0;
+
+				}
+				else if (Simon->x > PANTHER_RUNNING_X_LEFT_3 && Simon->x < PANTHER_RUNNING_X_RIGHT_3 && listEnemy[i]->x> PANTHER_RUNNING_X_LEFT_3 &&  listEnemy[i]->x < PANTHER_RUNNING_X_RIGHT_3)
+				{
+					dynamic_cast<CPanther *>(listEnemy[i])->isRunning = true;
+					dynamic_cast<CPanther *>(listEnemy[i])->isSitting = false;
+					dynamic_cast<CPanther *>(listEnemy[i])->ChangeAni();
+					PantherAtX3 = 0;
+				}
 
 			}
 
 			if (Simon->isUsingStopWatch)
 			{
-				listEnemy[i]->isFrozen = true;
+				dynamic_cast<CEnemy *>(listEnemy[i])->isFrozen = true;
 			}
 			else
 			{
-				listEnemy[i]->isFrozen = false;
+				dynamic_cast<CEnemy *>(listEnemy[i])->isFrozen = false;
 			}
 			if (Simon->isUsingCross)
 			{
-				listEnemy[i]->ChangeAnimation();
+				dynamic_cast<CEnemy *>(listEnemy[i])->ChangeAnimation();
 			}
 		
 		}
@@ -519,129 +627,28 @@ void CPlayScene::Update(DWORD dt)
 
 	}
 
-	for (int i = 0; i < listEnemyBullet.size(); i++)
-	{
-		if (listEnemyBullet[i]->IsDead == true || !listEnemyBullet[i]->isIncamera)
-		{
-			listEnemyBullet.erase(listEnemyBullet.begin() + i);
-			i--;
-		}
-		
-	}
-		
-	vector<LPGAMEOBJECT> coObjects;
-	for (int i = 0; i < listObject.size(); i++)
-	{
-		if (dynamic_cast<CEnemy *>(listObject[i]))
-		{
-		
-			listObject.erase(listObject.begin() + i);
-			i--;
-
-		}
-		else if (dynamic_cast<CEnemyBullet *>(listObject[i]))
-		{
-
-			listObject.erase(listObject.begin() + i);
-			i--;
-		}
-		
-			
-	}
-	
-
-	listObject.insert(listObject.end(), listEnemy.begin(), listEnemy.end());
-	listObject.insert(listObject.end(), listEnemyBullet.begin(), listEnemyBullet.end());
 
 
-	
-	for (int i = 0; i < listObject.size(); i++)
-	{
-		if (!IsInCamera(listObject[i]))
-			listObject[i]->isIncamera = false;
-		else
-			listObject[i]->isIncamera = true;
-		if (!IsInCamera(listObject[i]))
-		{
-			if (dynamic_cast<CWeapon *>(listObject[i]))
-			{
-				listObject[i]->IsDead = true;
-
-			}
-
-			
-		}
-		coObjects.push_back(listObject[i]);
-	}
-	for (int i = 0; i < listObject.size(); i++)
-	{
-		
-		listObject[i]->Update(dt, &coObjects);
-
-	}	
 
 
-	for (int i = 0; i < coObjects.size(); i++)
-	{
-		if (dynamic_cast<CCandle *>(coObjects[i]))
-		{
-			if (coObjects[i]->IsDead == true)
-			{
-				listObject.push_back(dynamic_cast<CCandle *>(coObjects[i])->GetHolder());
-				dynamic_cast<CCandle *>(coObjects[i])->GetHolder()->AppearOnMap();
-				listObject.erase(listObject.begin() + i);	
-				coObjects.erase(coObjects.begin() + i);
-			}
-				
-		}
-		else if(coObjects[i]->IsDead && !dynamic_cast<CBrick*>(coObjects[i]))
-		{
-			if (dynamic_cast<CEnemy *>(coObjects[i]))
-			{
-				continue;
-					
-			}
-			else if (dynamic_cast<CWeapon *>(coObjects[i]))
-			{
-				Simon->AllowThrow = true;
-			}
-			listObject.erase(listObject.begin() + i);
-			coObjects.erase(coObjects.begin() + i);
-		}
-	
-		
-	}
 
 	if (!Simon->IsFreeze)
 	{
 		if(!Simon->IsOnAnimation)
 			Simon->HandleKeyboard(keys);
-		Simon->Update(dt, &list);
+		Simon->Update(dt, &(Grid->GetListObjectCanContactWith(Simon)));
+		if (Simon->whip != nullptr)
+			Simon->whip->Update(dt, &(Grid->GetListObjectCanContactWith(Simon->whip)));
 	}
 	if (Door != nullptr)
-		Door->Update(dt, &coObjects);
+		Door->Update(dt, &(Grid->GetListObjectCanContactWith(Door)));
 	CurrentMap->Update(dt);
 	
 	
 }
 
 
-bool CPlayScene::IsInCamera(LPGAMEOBJECT object)
-{
-	float x, y, framew, frameh;
-	object->GetBoundingBox(x, y, framew, frameh);
-	RECT objRECT;
-	objRECT.left = x;
-	objRECT.top = y;
-	objRECT.right = objRECT.left + framew;
-	objRECT.bottom = objRECT.top + frameh;
-	if (!CurrentMap->isContain(objRECT, CCamera::GetInstance()->GetBound()))
-	{
-		return false;
 
-	}
-	return true;
-}
 
 void CPlayScene::UpdateSimon()
 {
@@ -658,8 +665,9 @@ void CPlayScene::UpdateSimon()
 	else
 		Simon->count = 0;
 
-	if (Simon->y < SCREEN_HEIGHT - 116)
+	if (Simon->y < SCREEN_HEIGHT - 36)
 	{
+		
 		if (Simon->vx < 0 && Simon->x < MapBoundLeft - 9)
 			Simon->x = MapBoundLeft - 10;
 		else if(Simon->vx>=0 && Simon->x > MapBoundRight -48)
@@ -693,6 +701,7 @@ void CPlayScene::UpdateSimon()
 	{
 		Simon->AllowThrow = true;
 		Simon->isThrowing = false;
+		auto listObject = Grid->GetListMapObject();
 		for (int i = 0; i < listObject.size(); i++)
 		{
 			if (dynamic_cast<CWeapon *>(listObject[i]))
@@ -700,9 +709,9 @@ void CPlayScene::UpdateSimon()
 			
 
 		}
-		if (Simon->AllowThrow )
+		if (Simon->AllowThrow)
 		{
-			listObject.push_back(Simon->CreateSecondWeapond());
+			Grid->AddObject(Simon->CreateSecondWeapond());
 
 		}
 	}

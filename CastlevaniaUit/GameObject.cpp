@@ -19,11 +19,13 @@ void CGameObject::RenderBoundingBox()
 }
 
 
-void CGameObject::Update(DWORD dt, unordered_set<LPGAMEOBJECT> coObjects)
+void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	this->dt = dt;
 	dx = vx * dt;
 	dy = vy * dt;
+	this->PrevX = x;
+	this->PrevY = y;
 }
 
 LPCOLLISIONEVENT CGameObject::SweptAABBEx(LPGAMEOBJECT coO)
@@ -68,77 +70,24 @@ LPCOLLISIONEVENT CGameObject::SweptAABBEx(LPGAMEOBJECT coO)
 	coEvents: list of potential collisions
 */
 void CGameObject::CalcPotentialCollisions(
-	unordered_set<LPGAMEOBJECT> coObjects,
+	vector<LPGAMEOBJECT> *coObjects,
 	vector<LPCOLLISIONEVENT> &coEvents)
 {
 	
-	auto ob = coObjects.begin();
-	while (ob != coObjects.end())
+	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-
-		/*
-		
-		//if (dynamic_cast<CSimon*>(this))
-		//{
-		//	
-		//	if(dynamic_cast<CCandle *>(coObjects.)|| dynamic_cast<CWeapon *>(coObjects[i]))
-		//		continue;
-		//	else if (dynamic_cast<CInvisibleObject *>(coObjects[i]))
-		//	{
-		//		if(dynamic_cast<CInvisibleObject *>(coObjects[i])->GetType() !=2 && dynamic_cast<CInvisibleObject *>(coObjects[i])->GetType() != 1 && dynamic_cast<CInvisibleObject *>(coObjects[i])->GetType() != 8)
-		//			continue;
-		//		if (dynamic_cast<CInvisibleObject *>(coObjects[i])->GetType() == 2 && !dynamic_cast<CSimon*>(this)->IsOnAnimation)
-		//			continue;
-		//	}
-		//	else if (dynamic_cast<CBrick*>(coObjects[i]))
-		//	{
-		//		if(dynamic_cast<CSimon*>(this)->isOnStair &&dynamic_cast<CSimon*>(this)->isUP&&!dynamic_cast<CSimon*>(this)->isColiableWithStairBottom)
-		//			continue;
-		//		if (dynamic_cast<CSimon*>(this)->isOnStair&&!dynamic_cast<CSimon*>(this)->isUP && dynamic_cast<CSimon*>(this)->isColiableWithStairTop)
-		//			continue;
-
-		//	
-		//	}
-
-		//	if (dynamic_cast<CEnemy*>(coObjects[i]) && (dynamic_cast<CEnemy*>(coObjects[i])->isBurning || dynamic_cast<CSimon*>(this)->isUntouchable()))
-		//		continue;
-		//	if (dynamic_cast<CEnemyBullet*>(coObjects[i]) && dynamic_cast<CSimon*>(this)->isUntouchable())
-		//		continue;
-		//		
-		//}
-		//else if (dynamic_cast<CEnemy *>(this))
-		//{
-		//	if (dynamic_cast<CCandle *>(coObjects[i]) || dynamic_cast<CItem *>(coObjects[i]) || dynamic_cast<CEnemy *>(coObjects[i]))
-		//		continue;
-		//	else if (dynamic_cast<CInvisibleObject *>(coObjects[i]))
-		//	{
-		//		if (dynamic_cast<CInvisibleObject *>(coObjects[i])->GetType() > 3)
-		//			continue;
-		//	}
-		//	
-		//}
-		//else if(dynamic_cast<CDagger *>(this))
-		////{
-		////	if (((dynamic_cast<CCandle *>(coObjects[i])) || dynamic_cast<CItem *>(coObjects[i])) && (/*coObjects[i]->isColiable == false||*/ //!coObjects[i]->isIncamera))
-		//		continue;
-		//	if ((dynamic_cast<CBrick *>(coObjects[i]))|| (dynamic_cast<CInvisibleObject *>(coObjects[i])))
-		//		continue;
-		//}
-		//else if (dynamic_cast<CHolyWater *>(this))
-		//{
-		//	if (dynamic_cast<CInvisibleObject *>(coObjects[i]) || dynamic_cast<CItem *>(coObjects[i]))
-		//		continue;
-		//	if (dynamic_cast<CCandle *>(coObjects[i]) && !dynamic_cast<CCandle *>(coObjects[i])->isBurning)
-		//		continue;
-		//	if (dynamic_cast<CEnemy *>(coObjects[i]) && dynamic_cast<CEnemy *>(coObjects[i])->isBurning)
-		//		continue;
-		//}
-		//else if (dynamic_cast<CItem *>(this))
-		//{
-		//	if(!dynamic_cast<CBrick*>(coObjects[i]))
-		//		continue;
-		//}
-		LPCOLLISIONEVENT e = SweptAABBEx((*ob));
+		if (dynamic_cast<CSimon*>(this))
+		{
+			if (dynamic_cast<CInvisibleObject *>(coObjects->at(i)))
+			{
+				if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != 2 && dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != 1 && dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != 8)
+					continue;
+				if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() == 2 && !dynamic_cast<CSimon*>(this)->IsOnAnimation)
+					continue;
+			}
+		}
+			
+		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
 
 		if (e->t > 0 && e->t <= 1.0f)
 			coEvents.push_back(e);

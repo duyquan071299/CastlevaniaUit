@@ -23,11 +23,10 @@ private:
 	CSimonState* currentstate;
 	State StateName;
 	bool Untouchable;
-	
 	DWORD Untouchable_Time;
 	DWORD Landing_Time;
 	DWORD CollectItem_Time;
-	int Heart;
+	DWORD Count_Time;
 
 
 public:
@@ -47,12 +46,14 @@ public:
 	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false,isThrowing=false,isHitting=false,isFreeFall=false,isCollect=false,isOnStair=false,isUP,isInjured;
 	bool IsOnAnimation;
 	bool isUsingStopWatch;
+	bool isInCastle;
 	bool isUsingCross;
 	bool AllowThrow=true;
 	bool IsFreeze=false;
 	bool isColiableWithStairBottom;
 	bool isColiableWithStairTop;
 	int AtLevel;
+	int Heart, Life,Score,LifeTime,Heal;
 	bool IsRespawn;
 	void ChangeState(CSimonState* State);
 	void SetStateName(State Name)

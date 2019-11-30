@@ -2,5 +2,15 @@
 
 void CCell::AddObject(LPGAMEOBJECT Object)
 {
-	this->listObject.push_back(Object);
+	auto it = find(listObject.begin(), listObject.end(), Object);
+	
+	if (it != listObject.end())
+	{
+		return;
+	}
+	else
+	{
+		this->listObject.push_back(Object);
+	}
+	
 }

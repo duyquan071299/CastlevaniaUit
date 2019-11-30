@@ -10,10 +10,12 @@
 #include"Bat.h"
 #include"Door.h"
 #include"Grid.h"
+#include"ScoreBoard.h"
 class CPlayScene : public CScene
 {
 private:
 	CSimon* Simon;
+	CScoreBoard * ScoreBoard;
 	CMap* CurrentMap;
 	CPanther *Panther;
 	CDoor *Door;
@@ -21,14 +23,18 @@ private:
 	CGrid * Grid;
 	int BatCount;
 	int KappaCount;
+	int PantherCount=3;
+	int PantherAtX1=1;
+	int PantherAtX2=1;
+	int PantherAtX3=1;
 	int Level;
 	int MapBoundLeft;
 	int MapBoundRight;
 	int UnderGroundMapBoundLeft=3136;
 	int UnderGroundMapBoundRight=4160;
-	vector<CEnemy*> listEnemy;
+	/*vector<LPGAMEOBJECT> listEnemy;
 	vector<LPGAMEOBJECT> listObject;
-	vector<CEnemyBullet*> listEnemyBullet;
+	vector<CEnemyBullet*> listEnemyBullet;*/
 	DWORD TimeBetWeenGhostRespawn;
 	DWORD TimeBetWeenBatRespawn;
 	DWORD TimeBetWeenKappaRespawn;
@@ -49,7 +55,6 @@ public:
 	void OnKeyUp(int KeyCode);
 	void Render();
 	void Update(DWORD dt);
-	bool IsInCamera(LPGAMEOBJECT object);
 	unordered_map<int, bool> keys;
 
 };

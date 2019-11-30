@@ -154,7 +154,11 @@ void CSimon::Respawn()
 	this->y = 217;
 	this->x = 0;
 	WhipLevel = 1;
-	Heart = 0;
+	Heart = 5;
+	Life = 3;
+	Heal = 16;
+	LifeTime = 300;
+	Count_Time = GetTickCount();
 	//currentanimation= animations[STANDING_RIGHT];
 	ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 	nx = 1;
@@ -298,7 +302,7 @@ void CSimon::OnKeyUp(int keyCode)
 		CSimon::GetInstance()->IsKeyDownZ = false;
 }
 
-void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> coObjects)
+void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 
 	// reset untouchable timer if untouchable time has passed
@@ -309,6 +313,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> coObjects)
 	
 		CollectItem_Time = 0;
 
+	}
+
+	if (GetTickCount() - Count_Time > 1000)
+	{
+		LifeTime--;
+		Count_Time = GetTickCount();
 	}
 
 	if (GetTickCount() -  Untouchable_Time> UNTOUCHABLE_TIME)
@@ -383,6 +393,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> coObjects)
 					CItem *Item = dynamic_cast<CItem *>(coObjects->at(i));
 					if (Item->GetHolderType() == LARGE_HEART)
 						this->Heart += 5;
+					else if (Item->GetHolderType() == HEART)
+						this->Heart += 1;
 					else if (Item->GetHolderType() == WHIP)
 					{
 						StartCollectItem();
@@ -472,6 +484,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> coObjects)
 				}
 				else if (dynamic_cast<CEnemy *>(coObjects->at(i)) || dynamic_cast<CEnemyBullet *>(coObjects->at(i)))
 				{
+					this->Heal-=1;
 					if (Untouchable || isInjured)
 						continue;
 					if (dynamic_cast<CBat *>(coObjects->at(i)))
@@ -486,12 +499,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> coObjects)
 					}
 					else
 					{
-						
 						vx = -nx*0.1;
-						
-	
 						vy = -0.5;
-
 						this->IsJumping = false;
 						if (vx <= 0)
 							CSimon::GetInstance()->ChangeState(new CSimonStateInjured(INJURED_LEFT));
@@ -572,7 +581,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> coObjects)
 			{
 				CCamera::GetInstance()->isWithSimon = false;
 				CheckPoint = 3160;
-				this->y = 63;
+				this->y = 143;
 				Object->IsDead = true;
 				ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 				IsFreeze = true;
@@ -580,6 +589,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> coObjects)
 			}
 			else if (Object->GetType() == 1)
 			{
+				CCamera::GetInstance()->isWithSimon = false;
 				IsOnAnimation = true;
 				if(vx>0)
 					CheckPoint = x + 200;
@@ -620,6 +630,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> coObjects)
 						continue;
 					if (Item->GetHolderType() == LARGE_HEART)
 						this->Heart += 5;
+					else if (Item->GetHolderType() == HEART)
+						this->Heart += 1;
 					else if (Item->GetHolderType() == WHIP)
 					{
 						StartCollectItem();
@@ -647,6 +659,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> coObjects)
 			}
 			else if (dynamic_cast<CEnemy *>(e->obj) || dynamic_cast<CEnemyBullet *>(e->obj))
 			{
+				this->Heal -= 1;
 				if (dynamic_cast<CBat *>(e->obj))
 					dynamic_cast<CBat *>(e->obj)->ChangeAnimation();
 
@@ -691,8 +704,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> coObjects)
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
 	
-	if (whip != nullptr)
-		whip->Update(dt, coObjects);
+
 	currentstate->Update(dt);
 
 }
@@ -879,14 +891,18 @@ CWeapon* CSimon::CreateSecondWeapond()
 			if (nx > 0)
 			{
 				HolyWater->nx = 1;
+				
+			
 			}
 			else
 			{
 
 				HolyWater->nx = -1;
+			
 			}
 
 		}
+		HolyWater->SetAnimation();
 		return HolyWater;
 	}
 	case CHICKEN:

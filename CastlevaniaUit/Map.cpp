@@ -1,6 +1,6 @@
 #include "Map.h"
 
-CMap::CMap(LPCSTR fileMatrixMap, LPCSTR fileTileSet, LPCSTR fileItemMap)
+CMap::CMap(LPCSTR fileMatrixMap, LPCSTR fileTileSet)
 {
 	TileWidth = TILE_WIDTH;
 	TileHeight = TILE_HEIGHT;
@@ -61,33 +61,27 @@ void CMap::LoadMatrixBackground(LPCSTR fileMatrixMap)
 
 void CMap::DrawTileBackground()
 {
-	//RECT tileRect;
-	//D3DXVECTOR2 trans = D3DXVECTOR2(SCREEN_WIDTH / 2 - CCamera::GetInstance()->GetPosition().x,
-	//	SCREEN_HEIGHT / 2 - CCamera::GetInstance()->GetPosition().y);
+	
 	
 	for (int i = 0; i < Rows; i++)
 		for (int j = 0; j < Columns; j++)
 		{
 
-			//D3DXVECTOR3 position(j * TileWidth + TileWidth / 2, i * TileHeight + tileHeight / 2, 0);
+		
+			//RECT objRECT;
+			//objRECT.left = j * 32;
+			//objRECT.top = i * 32;
+			//objRECT.right = objRECT.left + TileWidth;
+			//objRECT.bottom = objRECT.top + TileHeight;
 
-			RECT objRECT;
-			objRECT.left = j * 32;
-			objRECT.top = i * 32;
-			objRECT.right = objRECT.left + TileWidth;
-			objRECT.bottom = objRECT.top + TileHeight;
-
-			//neu nam ngoai camera thi khong Draw
-			if (!isContain(objRECT, CCamera::GetInstance()->GetBound()))
-				continue;
+			////neu nam ngoai camera thi khong Draw
+			//if (!isContain(objRECT, CCamera::GetInstance()->GetBound()))
+			//	continue;
 			delete TileSet;
 			TileSet = new CSprite(MAP, Matrix[i][j] - 1, MapCol);
 			TileSet->Settexture(TileTexture);
 			TileSet->SetFrameWH(32, 32);
-			TileSet->Draw((float)j * 32, (float)i * 32, default_color);
-
-
-
+			TileSet->Draw((float)j * 32, (float)i * 32 +80, default_color);
 
 		}
 	

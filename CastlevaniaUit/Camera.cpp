@@ -1,5 +1,6 @@
 ﻿#include "Camera.h"
 
+
 CCamera* CCamera::instance = NULL;
 
 CCamera* CCamera::GetInstance()
@@ -27,3 +28,4 @@ RECT CCamera::GetBound()
 
 	return bound;
 }
+

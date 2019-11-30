@@ -14,7 +14,7 @@ CEnemyBullet::CEnemyBullet(float x, float y,int direction)
 	ChangeAnimation(direction);
 	this->IsDead = false;
 	this->isIncamera = true;
-
+	
 }
 
 

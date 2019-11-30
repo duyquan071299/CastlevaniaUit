@@ -38,7 +38,7 @@ public:
 	void DrawTileBackground();
 	RECT rect;
 	vector<LPGAMEOBJECT> WallObject;
-	CMap(LPCSTR fileMatrixMap, LPCSTR fileTileSet, LPCSTR fileItemMap);
+	CMap(LPCSTR fileMatrixMap, LPCSTR fileTileSet);
 	LPDIRECT3DTEXTURE9 GetTileTexture() { return TileTexture; }
 	int GetMapCol() { return MapCol; }
 	~CMap();
@@ -50,7 +50,7 @@ public:
 		return Matrix;
 	}
 	void Draw();
-
+	void SetMapWidth(int MapWidth) { this->MapWidth = MapWidth; }
 	int GetMapWidth() { return this->MapWidth; }
 	int GetMapHeight() { return this->MapHeight; }
 	bool isContain(RECT rect1, RECT rect2);
