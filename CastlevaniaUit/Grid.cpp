@@ -207,7 +207,7 @@ vector<LPGAMEOBJECT> CGrid::GetListMapObject()
 	int startCol = camRect.left / CELL_WIDTH;
 	int endCol = (camRect.right-1) / CELL_WIDTH;
 	int startRow = camRect.top / CELL_HEIGHT;
-	int endRow = (camRect.bottom-1) / CELL_HEIGHT;
+	int endRow = (camRect.bottom-1) / CELL_HEIGHT+1;
 
 	
 
@@ -353,7 +353,7 @@ vector<LPGAMEOBJECT> CGrid::GetListObjectCanContactWith(LPGAMEOBJECT object)
 
 
 
-	for (int i = BottomCell; i <= TopCell; i++)
+	for (int i = TopCell; i <= BottomCell; i++)
 	{
 		if (i < 0 || i >= Rows) continue;
 		for (int j = LeftCell; j <= RightCell; j++)
@@ -504,7 +504,7 @@ vector<LPGAMEOBJECT>  CGrid::GetListEnemies()
 	int startCol = camRect.left / CELL_WIDTH;
 	int endCol = (camRect.right - 1) / CELL_WIDTH;
 	int startRow = camRect.top / CELL_HEIGHT;
-	int endRow = (camRect.bottom - 1) / CELL_HEIGHT;
+	int endRow = ((camRect.bottom -1) / CELL_HEIGHT);
 
 
 

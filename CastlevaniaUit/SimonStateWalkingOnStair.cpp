@@ -10,12 +10,14 @@ void CSimonStateWalkingOnStair::Update(DWORD dt)
 			if (CSimon::GetInstance()->x > CSimon::GetInstance()->CheckPoint+15  && CSimon::GetInstance()->isUP)
 			{
 				CSimon::GetInstance()->getCurrentAnimation()->SetIsLastFrame(true);
+				CSimon::GetInstance()->isWalkingInOutGround = false;
 				CSimon::GetInstance()->IsOnAnimation = false;
 			}
 			
 			else if (CSimon::GetInstance()->x < CSimon::GetInstance()->CheckPoint - 17 && !CSimon::GetInstance()->isUP)
 			{
 				CSimon::GetInstance()->getCurrentAnimation()->SetIsLastFrame(true);
+				CSimon::GetInstance()->isWalkingInOutGround = false;
 				CSimon::GetInstance()->IsOnAnimation = false;
 			}
 				
@@ -27,19 +29,21 @@ void CSimonStateWalkingOnStair::Update(DWORD dt)
 			if (CSimon::GetInstance()->x < CSimon::GetInstance()->CheckPoint -16&& CSimon::GetInstance()->isUP)
 			{
 				CSimon::GetInstance()->IsOnAnimation = false;
-
+				CSimon::GetInstance()->isWalkingInOutGround = false;
 				CSimon::GetInstance()->getCurrentAnimation()->SetIsLastFrame(true);
 			}
 				
 			else if (CSimon::GetInstance()->x > CSimon::GetInstance()->CheckPoint + 10 && !CSimon::GetInstance()->isUP)
 			{
 				CSimon::GetInstance()->IsOnAnimation = false;
+				CSimon::GetInstance()->isWalkingInOutGround = false;
 				CSimon::GetInstance()->getCurrentAnimation()->SetIsLastFrame(true);
 
 
 			}
 				
 		}
+		
 		if (!CSimon::GetInstance()->IsOnAnimation)
 		{
 			CSimon::GetInstance()->PreviousX = CSimon::GetInstance()->x;

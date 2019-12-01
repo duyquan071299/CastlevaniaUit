@@ -152,21 +152,18 @@ void CSimonStateAttacking::HandleKeyboard(unordered_map<int, bool> keyCode)
 		CSimon::GetInstance()->whip->SetType(CSimon::GetInstance()->WhipLevel);
 		if (!CSimon::GetInstance()->isThrowing &&(CSimon::GetInstance()->WeaponType == DAGGER || CSimon::GetInstance()->WeaponType == HOLYWATER || CSimon::GetInstance()->WeaponType == AXE))
 		{
-
+		
 			CSimon::GetInstance()->isThrowing = true;
 			CSimon::GetInstance()->isHitting = true;
-			if (CSimon::GetInstance()->AllowThrow == true)
-			{
-				CSimon::GetInstance()->whip = nullptr;
-				CSimon::GetInstance()->AllowThrow = false;
-			}
-				
-			
-			
-
+			CSimon::GetInstance()->AllowThrow = false;
+		
 		}
 		else if (CSimon::GetInstance()->WeaponType == WATCH && !CSimon::GetInstance()->isUsingStopWatch)
 		{
+			if (CSimon::GetInstance()->Heart < 5)
+				return;
+			else
+				CSimon::GetInstance()->Heart -= 5;
 			CSimon::GetInstance()->isUsingStopWatch = true;
 		}
 

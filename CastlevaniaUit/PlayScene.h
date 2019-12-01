@@ -32,9 +32,6 @@ private:
 	int MapBoundRight;
 	int UnderGroundMapBoundLeft=3136;
 	int UnderGroundMapBoundRight=4160;
-	/*vector<LPGAMEOBJECT> listEnemy;
-	vector<LPGAMEOBJECT> listObject;
-	vector<CEnemyBullet*> listEnemyBullet;*/
 	DWORD TimeBetWeenGhostRespawn;
 	DWORD TimeBetWeenBatRespawn;
 	DWORD TimeBetWeenKappaRespawn;

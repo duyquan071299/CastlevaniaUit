@@ -39,7 +39,6 @@ CScoreBoard::CScoreBoard(float x, float y)
 	this->ClearBoard->Settexture(CTextureDatabase::GetInstance()->GetTexture(SCORE_BOARD));
 	this->Stage = "01";
 	this->BossHeal = 15;
-	//FontSprite->Settexture(CTextureDatabase::GetInstance()->GetTexture(FONT));
 	
 }
 

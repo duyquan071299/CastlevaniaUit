@@ -29,17 +29,18 @@ void CPlayScene::Loadresources(int level) {
 	{
 		Simon->Respawn();
 		CCamera::GetInstance()->isWithSimon = true;
+		//Simon->isUnderGround = true;
 		CurrentMap = new CMap("Resources\\Maps\\Scene2.txt", "Resources\\Maps\\Scene_2.png");
 		Door = new CDoor(3056, 112);
-		Simon->x =3200;
+		Simon->x =3100;
 		Simon->y = RESPAWN_POSITION_Y;
-		Simon->y = 500;
+		Simon->y = 200;
 		this->Level = level;
 		Simon->AtLevel = level;
 		Simon->isInCastle = true;
 		MapBoundLeft = 0;
 		MapBoundRight = 3072;
-		//MapBoundRight = 5000;
+		MapBoundRight = 5000;
 		TimeBetWeenGhostRespawn = GetTickCount();
 		Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight(), "Resources\\Maps\\Scene2_Object.txt");
 		AllowRespawnGhost = true;
@@ -64,12 +65,12 @@ void CPlayScene::OnKeyDown(int KeyCode)
 
 
 		}
-		else if (KeyCode == DIK_B)
+		if (KeyCode == DIK_B)
 		{
-			Panther->isRunning = true;
-			Panther->isSitting = false;
-			Panther->ChangeAni();
+			
+			Simon->isUnderGround == true;
 		}
+	
 
 	}
 
@@ -84,12 +85,15 @@ void  CPlayScene::OnKeyUp(int KeyCode)
 
 void CPlayScene::Render()
 {
-	
+	if (Simon->isWalkingInOutGround)
+	{
+		return;
+	}
 	CurrentMap->Draw();
 	ScoreBoard->Render();
-	
-	
-	if (CCamera::GetInstance()->isWithSimon  )
+
+
+	if (CCamera::GetInstance()->isWithSimon)
 	{
 		auto list = Grid->GetListMapObject();
 		for (int i = 0; i < list.size(); i++)
@@ -98,18 +102,19 @@ void CPlayScene::Render()
 		}
 
 	}
-	
+
 	if (Door != nullptr)
 		Door->Render();
 
 	Simon->Render();
-	if ((Simon->IsOnAnimation||Simon->IsRespawn)&&Simon->vx>0&&!this->Level)
+	if ((Simon->IsOnAnimation || Simon->IsRespawn) && Simon->vx > 0 && !this->Level)
 	{
 		LPSPRITE TileSet = new CSprite(MAP, 0, 1);
 		TileSet->Settexture(CTextureDatabase::GetInstance()->GetTexture(HIDING_OBJECT));
 		TileSet->SetFrameWH(96, 128);
 		TileSet->Draw((float)1408, (float)240, default_color);
 	}
+
 	
 
 }
@@ -131,16 +136,16 @@ void CPlayScene::Update(DWORD dt)
 		
 		if (CCamera::GetInstance()->isWithSimon)
 		{
-			if (Simon->y < SCREEN_HEIGHT - 36)
+			if (!Simon->isUnderGround)
 			{
 				CScoreBoard::GetInstance()->y = 0;
-				CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 + 40, 0);
+				CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 + 40,0);
 				CCamera::GetInstance()->Update(MapBoundLeft, MapBoundRight);
 			}
 			else
 			{
-				CScoreBoard::GetInstance()->y = SCREEN_HEIGHT;
-				CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 + 40, SCREEN_HEIGHT);
+				CScoreBoard::GetInstance()->y = SCREEN_WIDTH;
+				CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 + 40, SCREEN_WIDTH);
 	
 				CCamera::GetInstance()->Update(UnderGroundMapBoundLeft, UnderGroundMapBoundRight);
 			}
@@ -665,7 +670,7 @@ void CPlayScene::UpdateSimon()
 	else
 		Simon->count = 0;
 
-	if (Simon->y < SCREEN_HEIGHT - 36)
+	if (!Simon->isUnderGround)
 	{
 		
 		if (Simon->vx < 0 && Simon->x < MapBoundLeft - 9)
@@ -678,8 +683,7 @@ void CPlayScene::UpdateSimon()
 	
 	}
 	else
-	{
-		
+	{	
 		if (SetUpTime)
 		{
 			AllowRespawnKappa = true;
@@ -711,7 +715,16 @@ void CPlayScene::UpdateSimon()
 		}
 		if (Simon->AllowThrow)
 		{
+			if (Simon->WeaponType == DAGGER || Simon->WeaponType == HOLYWATER)
+			{
+				if (Simon->Heart < 1)
+					return;
+				else
+					Simon->Heart -= 1;
+
+			}
 			Grid->AddObject(Simon->CreateSecondWeapond());
+			Simon->whip = nullptr;
 
 		}
 	}

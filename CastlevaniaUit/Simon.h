@@ -52,6 +52,8 @@ public:
 	bool IsFreeze=false;
 	bool isColiableWithStairBottom;
 	bool isColiableWithStairTop;
+	bool isUnderGround;
+	bool isWalkingInOutGround;
 	int AtLevel;
 	int Heart, Life,Score,LifeTime,Heal;
 	bool IsRespawn;

@@ -482,36 +482,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}
 						
 				}
-				else if (dynamic_cast<CEnemy *>(coObjects->at(i)) || dynamic_cast<CEnemyBullet *>(coObjects->at(i)))
-				{
-					this->Heal-=1;
-					if (Untouchable || isInjured)
-						continue;
-					if (dynamic_cast<CBat *>(coObjects->at(i)))
-						dynamic_cast<CBat *>(coObjects->at(i))->ChangeAnimation();
+			
 
-					if (isOnStair)
-					{
-						StartUntouchable();
-						isInjured = true;
-						vx = 0;
-						vy = 0;
-					}
-					else
-					{
-						vx = -nx*0.1;
-						vy = -0.5;
-						this->IsJumping = false;
-						if (vx <= 0)
-							CSimon::GetInstance()->ChangeState(new CSimonStateInjured(INJURED_LEFT));
-						else
-							CSimon::GetInstance()->ChangeState(new CSimonStateInjured(INJURED_RIGHT));
-
-					}
-
-
-
-				}
 			}
 		}
 		
@@ -558,10 +530,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 	
 				
-
-		
-
-
 		if (!dynamic_cast<CInvisibleObject*>(coEventsResult[0]->obj)&& !dynamic_cast<CItem*>(coEventsResult[0]->obj))
 		{
 			if (nx != 0)
@@ -572,50 +540,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (ny ==-1) vy = 0;
 		}
 
-
-		if (dynamic_cast<CInvisibleObject*>(coEventsResult[0]->obj))
-		{
-			//this->IsOnAnimation = true;
-			CInvisibleObject*Object = dynamic_cast<CInvisibleObject *>(coEventsResult[0]->obj);
-			if (Object->GetType() == 8)
-			{
-				CCamera::GetInstance()->isWithSimon = false;
-				CheckPoint = 3160;
-				this->y = 143;
-				Object->IsDead = true;
-				ChangeState(new CSimonStateStanding(STANDING_RIGHT));
-				IsFreeze = true;
-				
-			}
-			else if (Object->GetType() == 1)
-			{
-				CCamera::GetInstance()->isWithSimon = false;
-				IsOnAnimation = true;
-				if(vx>0)
-					CheckPoint = x + 200;
-				else
-					CheckPoint = x - 35;
-				if (vy != 0)
-				{
-					vy = 99999.0f;
-					y -= 2;
-					if(vx>0)
-						ChangeState(new CSimonStateWalking(WALKING_RIGHT));
-					else
-						ChangeState(new CSimonStateWalking(WALKING_LEFT));
-				}
-					
-
-				Object->IsDead = true;
-			}
-			else if (Object->GetType() == 2)
-			{
-				this->IsOnAnimation = false;
-				this->IsRespawn = true;
-				Object->IsDead = true;
-			}
-			
-		}
 
 
 		
@@ -692,6 +616,85 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					
 		
 			}
+			else if (dynamic_cast<CInvisibleObject*>(e->obj))
+			{
+				//this->IsOnAnimation = true;
+				CInvisibleObject* object = dynamic_cast<CInvisibleObject *>(e->obj);
+				if (object->GetType() == 8)
+				{
+					CCamera::GetInstance()->isWithSimon = false;
+					CheckPoint = 3160;
+					this->y = 143;
+					object->IsDead = true;
+					ChangeState(new CSimonStateStanding(STANDING_RIGHT));
+					IsFreeze = true;
+
+				}
+				else if (object->GetType() == 1)
+				{
+					CCamera::GetInstance()->isWithSimon = false;
+					IsOnAnimation = true;
+					if (vx > 0)
+						CheckPoint = x + 200;
+					else
+						CheckPoint = x - 35;
+					if (vy != 0)
+					{
+						vy = 99999.0f;
+						y -= 2;
+						if (vx > 0)
+							ChangeState(new CSimonStateWalking(WALKING_RIGHT));
+						else
+							ChangeState(new CSimonStateWalking(WALKING_LEFT));
+					}
+
+
+					object->IsDead = true;
+				}
+				else if (object->GetType() == 2)
+				{
+					this->IsOnAnimation = false;
+					this->IsRespawn = true;
+					object->IsDead = true;
+				}
+				else if (object->GetType() == 10)
+				{
+					if (!IsOnAnimation)
+					{
+						x += 96;
+						this->PreviousX += 96;
+						this->IsOnAnimation = true;
+						CheckPoint = object->x - 84;
+						vx = -SIMON_ONSTAIR_SPEED * 4;
+						vy = -SIMON_ONSTAIR_SPEED * 4;
+						isWalkingInOutGround = true;
+					}
+					else
+						this->isUnderGround = true;
+				
+					x += dx;
+				}
+				else if (object->GetType() == 9)
+				{
+					if (!IsOnAnimation)
+					{
+						x -= 96;
+						this->PreviousX -= 96;
+						CheckPoint = object->x+36;
+						vx = SIMON_ONSTAIR_SPEED * 4;
+						vy = SIMON_ONSTAIR_SPEED * 4;
+						this->IsOnAnimation = true;
+						isWalkingInOutGround = true;
+					}
+					else
+						this->isUnderGround = false;
+					x += dx;
+
+				}
+
+
+			}
+
 				
 				this->isCollect = false;
 		}
