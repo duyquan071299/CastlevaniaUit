@@ -502,20 +502,28 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			y += min_ty * dy + ny * 0.4f;
 			if (isOnStair && !isUP)
 			{
-				isOnStair = false;
-				if (DirectionStair==1)
+				if (nx <= 0 && ny>=0)
 				{
-					nx = -1;
-					ChangeState(new CSimonStateStanding(STANDING_LEFT));
-					CSimon::GetInstance()->isInjured = false;
+					x += dx;
+				}
+				else
+				{
+					isOnStair = false;
+					if (DirectionStair == 1)
+					{
+						nx = -1;
+						ChangeState(new CSimonStateStanding(STANDING_LEFT));
+						CSimon::GetInstance()->isInjured = false;
 
+					}
+					else if (DirectionStair == -1)
+					{
+						nx = 1;
+						ChangeState(new CSimonStateStanding(STANDING_RIGHT));
+						CSimon::GetInstance()->isInjured = false;
+					}
 				}
-				else if (DirectionStair == -1)
-				{
-					nx = 1;
-					ChangeState(new CSimonStateStanding(STANDING_RIGHT));
-					CSimon::GetInstance()->isInjured = false;
-				}
+				
 				
 
 			}
@@ -534,7 +542,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			if (nx != 0)
 			{
-				if(vy>0)
+				if(vy>0 &&!isOnStair)
 					vx = 0;
 			}
 			if (ny ==-1) vy = 0;
@@ -623,7 +631,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (object->GetType() == 8)
 				{
 					CCamera::GetInstance()->isWithSimon = false;
-					CheckPoint = 3160;
+					CheckPoint = object->x+104;
 					this->y = 143;
 					object->IsDead = true;
 					ChangeState(new CSimonStateStanding(STANDING_RIGHT));

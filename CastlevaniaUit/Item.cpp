@@ -31,7 +31,7 @@ void CItem::GetBoundingBox(float &x, float &y, float &framew, float &frameh)
 		framew = 24;
 		frameh = 20;
 		break;
-	case MONEY_1:case MONEY_2:case MONEY_3:
+	case MONEY_1:case MONEY_2:case MONEY_3:case AXE:
 		framew = frameh = 30;
 		break;
 	case DAGGER:

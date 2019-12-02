@@ -15,7 +15,7 @@ public:
 	CGrid(int MapWidth, int MapHeight, LPCSTR fileitem);
 	void AddObject(LPGAMEOBJECT Object);
 
-	//void AddObjectToGrid(LPCSTR fileitem);
+	void AddObjectToGrid(LPCSTR fileitem);
 
 	vector<LPGAMEOBJECT> GetListMapObject();
 

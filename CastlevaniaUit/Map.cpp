@@ -68,15 +68,15 @@ void CMap::DrawTileBackground()
 		{
 
 		
-			//RECT objRECT;
-			//objRECT.left = j * 32;
-			//objRECT.top = i * 32;
-			//objRECT.right = objRECT.left + TileWidth;
-			//objRECT.bottom = objRECT.top + TileHeight;
+			RECT objRECT;
+			objRECT.left = j * 32;
+			objRECT.top = i * 32 +80;
+			objRECT.right = objRECT.left + TileWidth;
+			objRECT.bottom = objRECT.top + TileHeight;
 
-			////neu nam ngoai camera thi khong Draw
-			//if (!isContain(objRECT, CCamera::GetInstance()->GetBound()))
-			//	continue;
+			//neu nam ngoai camera thi khong Draw
+			if (!isContain(objRECT, CCamera::GetInstance()->GetBound()))
+				continue;
 			delete TileSet;
 			TileSet = new CSprite(MAP, Matrix[i][j] - 1, MapCol);
 			TileSet->Settexture(TileTexture);

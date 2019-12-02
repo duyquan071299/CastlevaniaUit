@@ -83,76 +83,96 @@ CGrid::CGrid(int MapWidth, int MapHeight, LPCSTR fileitem)
 }
 
 
-//void CGrid::AddObjectToGrid(LPCSTR fileitem)
-//{
-//	int Columns, Rows;
-//	int startRow, endRow, startCol, endCol;
-//	int type, x, y, holder, width, height;
-//
-//	ifstream ifs(fileitem);
-//	if (ifs.is_open()) {
-//		while (ifs.good())
-//		{
-//			for (int i = startRow; i <= endRow; i++)
-//			{
-//				if (i < 0 || i >= Rows) continue;
-//				for (int j = startCol; j <= endCol; j++)
-//				{
-//
-//					if (j < 0 || j >= Columns) continue;
-//					else
-//					{
-//						ifs >> type >> x >> y >> width >> height >> holder;
-//						switch (type)
-//						{
-//						case 1:
-//						{
-//							CCandle* LargeCandle = new CCandle(x, y, static_cast<HolderType>(holder), 1);
-//							LargeCandle->SetWH(width, height);
-//							CellMatrix[i][j].AddObject(LargeCandle);
-//							break;
-//						}
-//						case 2:
-//						{
-//							CBrick* brick = new CBrick(x, y);
-//							brick->SetWH(width, height);
-//							brick->SetType(holder);
-//							CellMatrix[i][j].AddObject(brick);
-//
-//
-//							break;
-//						}
-//						case 3:
-//						{
-//							CCandle* SmallCandle = new CCandle(x, y, static_cast<HolderType>(holder), 2);
-//							SmallCandle->SetWH(width, height);
-//							CellMatrix[i][j].AddObject(SmallCandle);
-//							break;
-//						}
-//						case 4:
-//						{
-//							CInvisibleObject* Invisible = new CInvisibleObject(x, y);
-//							Invisible->SetType(holder);
-//							Invisible->SetWH(width, height);
-//							CellMatrix[i][j].AddObject(Invisible);
-//							break;
-//						}
-//						case 5:
-//						{
-//							CPanther * Panther = new CPanther(x, y, width);
-//							CellMatrix[i][j].AddObject(Panther);
-//							break;
-//
-//						}
-//						}
-//					}
-//				
-//				}
-//			}
-//		}
-//		ifs.close();
-//	}
-//}
+void CGrid::AddObjectToGrid(LPCSTR fileitem)
+{
+	int LeftCell, RightCell, TopCell, BottomCell;
+	int type, x, y, holder, width, height;
+	ifstream ifs(fileitem);
+	ifs >>this->Columns >> this->Rows;
+	CellMatrix = new CCell*[Rows];
+	for (int i = 0; i < Rows; i++)
+	{
+		CellMatrix[i] = new CCell[Columns];
+	}
+
+
+	for (int i = 0; i < Rows; i++)
+	{
+		for (int j = 0; j < Columns; j++)
+		{
+			CellMatrix[i][j].SetID(Columns * i + j);
+		}
+	}
+	if (ifs.is_open()) {
+		while (ifs.good())
+		{
+			ifs >>type >> x >> y >> width >> height >> holder;
+			ifs >> LeftCell >> RightCell >> TopCell >> BottomCell;
+			LPGAMEOBJECT Object;
+			switch (type)
+			{
+			case 1:
+			{
+				CCandle* LargeCandle = new CCandle(x, y, static_cast<HolderType>(holder), 1);
+				LargeCandle->SetWH(width, height);
+				Object = dynamic_cast<CCandle*>(LargeCandle);
+				break;
+			}
+			case 2:
+			{
+				CBrick* brick = new CBrick(x, y);
+				brick->SetWH(width, height);
+				brick->SetType(holder);
+				Object = dynamic_cast<CBrick*>(brick);
+
+
+				break;
+			}
+			case 3:
+			{
+				CCandle* SmallCandle = new CCandle(x, y, static_cast<HolderType>(holder), 2);
+				SmallCandle->SetWH(width, height);
+				Object = dynamic_cast<CCandle*>(SmallCandle);
+				break;
+			}
+			case 4:
+			{
+				CInvisibleObject* Invisible = new CInvisibleObject(x, y);
+				Invisible->SetType(holder);
+				Invisible->SetWH(width, height);
+				Object = dynamic_cast<CInvisibleObject*>(Invisible);
+				break;
+			}
+			case 5:
+			{
+				CPanther * Panther = new CPanther(x, y, width);
+				Object = dynamic_cast<CPanther*>(Panther);
+				break;
+
+			}
+			default:
+				Object = new CBrick(x,y);
+				break;
+			}
+			for (int i = TopCell; i <= BottomCell; i++)
+			{
+				if (i < 0 || i >= Rows) continue;
+				for (int j = LeftCell; j <= RightCell; j++)
+				{
+
+					if (j < 0 || j >= Columns) continue;
+					else
+					{
+					
+						CellMatrix[i][j].AddObject(Object);
+					}
+				
+				}
+			}
+		}
+		ifs.close();
+	}
+}
 
 CGrid::CGrid()
 {
@@ -165,11 +185,7 @@ CGrid::~CGrid()
 {
 	if (CellMatrix)
 	{
-		for (int i = 0; i < Rows; i++)
-		{
-			delete CellMatrix[i];
-		}
-		delete CellMatrix;
+	
 		CellMatrix = nullptr;
 	}
 }
@@ -504,7 +520,7 @@ vector<LPGAMEOBJECT>  CGrid::GetListEnemies()
 	int startCol = camRect.left / CELL_WIDTH;
 	int endCol = (camRect.right - 1) / CELL_WIDTH;
 	int startRow = camRect.top / CELL_HEIGHT;
-	int endRow = ((camRect.bottom -1) / CELL_HEIGHT);
+	int endRow = ((camRect.bottom -1) / CELL_HEIGHT)+1;
 
 
 
@@ -557,7 +573,7 @@ void CGrid::RemoveObject(LPGAMEOBJECT obj)
 	int BottomCell = (rectTop + Height) / CELL_HEIGHT;
 
 
-	for (int i = BottomCell; i <= TopCell; i++)
+	for (int i = TopCell; i <= BottomCell; i++)
 	{
 		if (i < 0 || i >= Rows) continue;
 		for (int j = LeftCell; j <= RightCell; j++)
@@ -568,18 +584,18 @@ void CGrid::RemoveObject(LPGAMEOBJECT obj)
 	}
 }
 void CGrid::RemoveAll(LPGAMEOBJECT obj)
-{
+{/*
 	RECT camRect = CCamera::GetInstance()->GetBound();
 
 	int startCol = (camRect.left / CELL_WIDTH)-2;
 	int endCol = ((camRect.right - 1) / CELL_WIDTH)+2;
 	int startRow = (camRect.top / CELL_HEIGHT)-2;
-	int endRow = ((camRect.bottom - 1) / CELL_HEIGHT)+2;
+	int endRow = ((camRect.bottom - 1) / CELL_HEIGHT)+2;*/
 
-	for (int i = startRow; i <= endRow; i++)
+	for (int i = 0; i < Rows; i++)
 	{
 		if (i < 0 || i >= Rows) continue;
-		for (int j = startCol; j <= endCol; j++)
+		for (int j = 0; j <= Columns; j++)
 		{
 			if (j < 0 || j >= Columns) continue;
 			CellMatrix[i][j].RemoveObject(obj);
@@ -588,6 +604,8 @@ void CGrid::RemoveAll(LPGAMEOBJECT obj)
 }
 void CGrid::MoveObject(LPGAMEOBJECT obj, float OldX, float OldY)
 {
+	if (dynamic_cast<CBrick*>(obj) || dynamic_cast<CInvisibleObject*>(obj))
+		return;
 	float rectLeft, rectTop, Width, Height;
 
 	obj->GetBoundingBox(rectLeft, rectTop, Width, Height);
@@ -595,8 +613,7 @@ void CGrid::MoveObject(LPGAMEOBJECT obj, float OldX, float OldY)
 	int oldRightCell = (OldX +Width) / CELL_WIDTH;
 	int oldTopCell = OldY / CELL_HEIGHT;
 	int oldBottomCell = (OldY + Height) / CELL_HEIGHT;
-
-
+	
 
 
 
@@ -605,10 +622,19 @@ void CGrid::MoveObject(LPGAMEOBJECT obj, float OldX, float OldY)
 	int TopCell = rectTop / CELL_HEIGHT;
 	int BottomCell = (rectTop + Height) / CELL_HEIGHT;
 
+	if (oldLeftCell >= Columns || oldRightCell < 0 || oldTopCell<0 || oldBottomCell>=Rows)
+	{
+		return;
+	}
+	
+
+
 	if (!(oldLeftCell < 0 || oldRightCell >= Columns || oldTopCell >= Rows || oldBottomCell < 0))
 	{
+	
 		if (LeftCell < oldLeftCell)
 		{
+			
 			if (oldTopCell < Rows)
 			{
 				CellMatrix[oldTopCell][oldLeftCell].RemoveObject(obj);
@@ -659,30 +685,32 @@ void CGrid::MoveObject(LPGAMEOBJECT obj, float OldX, float OldY)
 			}
 		}
 
-		if (TopCell < Rows)
+		if (TopCell < Rows &&TopCell>=0)
 		{
-			if (LeftCell >= 0)
+			if (LeftCell < Columns &&LeftCell >= 0)
 			{
 				CellMatrix[TopCell][LeftCell].AddObject(obj);
 			}
 
-			if (LeftCell != RightCell && RightCell < Columns)
+			if (LeftCell != RightCell && RightCell < Columns && RightCell>=0)
 			{
 				CellMatrix[TopCell][RightCell].AddObject(obj);
 			}
 		}
 
-		if (BottomCell < Rows)
+		if (BottomCell < Rows &&BottomCell >= 0)
 		{
-			if (LeftCell >= 0)
+			if (LeftCell < Columns &&LeftCell >= 0)
 			{
 				CellMatrix[BottomCell][LeftCell].AddObject(obj);
 			}
 
-			if (LeftCell != RightCell && RightCell < Columns)
+			if (LeftCell != RightCell && RightCell < Columns && RightCell >= 0)
 			{
 				CellMatrix[BottomCell][RightCell].AddObject(obj);
 			}
 		}
 	}
+
+
 }

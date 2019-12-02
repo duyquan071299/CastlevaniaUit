@@ -8,7 +8,7 @@ private:
 	vector<LPGAMEOBJECT> listObject;
 public:
 	CCell() {};
-	~CCell() {};
+	~CCell() { listObject.clear(); };
 	void AddObject(LPGAMEOBJECT Object);
 	int GetID() {
 		return ID;

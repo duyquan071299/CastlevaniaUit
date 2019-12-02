@@ -25,6 +25,8 @@ CDoor::CDoor(float x, float y)
 	ani->Add(DOOR, 1);
 	animations[CLOSING] = ani;
 
+
+
 	currentstate = CLOSE;
 	curAnimation = animations[currentstate];
 

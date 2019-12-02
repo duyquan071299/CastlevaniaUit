@@ -192,6 +192,7 @@ enum HolderType
 	CHEST_2,
 	HOLYWATER,
 	CHICKEN,
+	DOUBLE_SHOT,
 };
 
 enum EffectType

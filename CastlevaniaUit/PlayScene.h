@@ -32,6 +32,7 @@ private:
 	int MapBoundRight;
 	int UnderGroundMapBoundLeft=3136;
 	int UnderGroundMapBoundRight=4160;
+	bool isThroughDoorOne;
 	DWORD TimeBetWeenGhostRespawn;
 	DWORD TimeBetWeenBatRespawn;
 	DWORD TimeBetWeenKappaRespawn;
@@ -52,6 +53,7 @@ public:
 	void OnKeyUp(int KeyCode);
 	void Render();
 	void Update(DWORD dt);
+	void DrawHiddenObject();
 	unordered_map<int, bool> keys;
 
 };

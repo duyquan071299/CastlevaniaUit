@@ -82,6 +82,9 @@ void CGameObject::CalcPotentialCollisions(
 			{
 				if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != 2 && dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != 1 && dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != 8 && dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != 10 && dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != 9)
 					continue;
+				if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() == 10 || dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() == 9)
+					if (!dynamic_cast<CSimon*>(this)->isOnStair)
+						continue;
 				if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() == 2 && !dynamic_cast<CSimon*>(this)->IsOnAnimation)
 					continue;
 			}

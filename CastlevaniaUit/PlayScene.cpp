@@ -21,28 +21,32 @@ void CPlayScene::Loadresources(int level) {
 		Simon->x = 0;
 		this->Level = level;
 		Simon->AtLevel = level;
-		Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight(), "Resources\\Maps\\Scene1_Object.txt");
+		//Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight(), "Resources\\Maps\\Scene1_Object.txt");
+		Grid = new CGrid();
+		Grid->AddObjectToGrid("Resources\\Maps\\Grid1.txt");
 		ScoreBoard = new CScoreBoard(0.0f, 0.0f);
 		break;
 	}
 	case 1:
 	{
+		delete Grid;
 		Simon->Respawn();
 		CCamera::GetInstance()->isWithSimon = true;
-		//Simon->isUnderGround = true;
 		CurrentMap = new CMap("Resources\\Maps\\Scene2.txt", "Resources\\Maps\\Scene_2.png");
 		Door = new CDoor(3056, 112);
-		Simon->x =3100;
+		Simon->x = 3000;
 		Simon->y = RESPAWN_POSITION_Y;
-		Simon->y = 200;
+		Simon->y = 0;
 		this->Level = level;
 		Simon->AtLevel = level;
 		Simon->isInCastle = true;
 		MapBoundLeft = 0;
 		MapBoundRight = 3072;
-		MapBoundRight = 5000;
+		//MapBoundRight = 6000;
 		TimeBetWeenGhostRespawn = GetTickCount();
 		Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight(), "Resources\\Maps\\Scene2_Object.txt");
+		/*Grid = new CGrid();
+		Grid->AddObjectToGrid("Resources\\Maps\\Grid2.txt");*/
 		AllowRespawnGhost = true;
 	}
 	}
@@ -68,7 +72,10 @@ void CPlayScene::OnKeyDown(int KeyCode)
 		if (KeyCode == DIK_B)
 		{
 			
-			Simon->isUnderGround == true;
+			Simon->x= 3800;
+			Simon->y= 200;
+
+			MapBoundRight = 5630;
 		}
 	
 
@@ -107,12 +114,9 @@ void CPlayScene::Render()
 		Door->Render();
 
 	Simon->Render();
-	if ((Simon->IsOnAnimation || Simon->IsRespawn) && Simon->vx > 0 && !this->Level)
+	if ((Simon->IsOnAnimation || Simon->IsRespawn) && Simon->vx > 0 && !Simon->isInCastle)
 	{
-		LPSPRITE TileSet = new CSprite(MAP, 0, 1);
-		TileSet->Settexture(CTextureDatabase::GetInstance()->GetTexture(HIDING_OBJECT));
-		TileSet->SetFrameWH(96, 128);
-		TileSet->Draw((float)1408, (float)240, default_color);
+		DrawHiddenObject();
 	}
 
 	
@@ -145,7 +149,7 @@ void CPlayScene::Update(DWORD dt)
 			else
 			{
 				CScoreBoard::GetInstance()->y = SCREEN_WIDTH;
-				CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 + 40, SCREEN_WIDTH);
+				CCamera::GetInstance()->SetPosition(Simon->x - SCREEN_WIDTH / 2 + 40, SCREEN_WIDTH-40);
 	
 				CCamera::GetInstance()->Update(UnderGroundMapBoundLeft, UnderGroundMapBoundRight);
 			}
@@ -154,16 +158,24 @@ void CPlayScene::Update(DWORD dt)
 		}
 		else
 		{
-	
 			if (CCamera::GetInstance()->x + SCREEN_WIDTH / 2 < Simon->x)
-				CCamera::GetInstance()->SetPosition((int)CCamera::GetInstance()->x + 0.1 *dt, 0);
+				CCamera::GetInstance()->SetPosition((int)CCamera::GetInstance()->x + 0.2 *dt, 0);
 			else  if (Simon->IsFreeze && Door->x > Simon->x && Door->GetCurrentState() != OPEN)
 			{
 				Door->ChangeState(OPENNING);
 			}
 			else if (Door->GetCurrentState() == OPEN)
 			{
-				MapBoundRight = 4096;
+				if (isThroughDoorOne == false)
+				{
+					MapBoundRight = 4096;
+				}
+				else
+				{
+					MapBoundRight = 5635;
+				}
+
+				
 				if (Simon->x > Door->x)
 				{
 					Door->ChangeState(CLOSING);
@@ -183,7 +195,12 @@ void CPlayScene::Update(DWORD dt)
 				{
 					Simon->IsFreeze = false;
 					MapBoundLeft = Door->x + 16;
-				
+					if (!isThroughDoorOne)
+					{
+						delete Door;
+						Door = new CDoor(4080, 112);
+					}
+					isThroughDoorOne = true;
 					CCamera::GetInstance()->isWithSimon = true;
 					AllowRespawnBat = true;
 					TimeBetWeenBatRespawn = GetTickCount();
@@ -321,7 +338,7 @@ void CPlayScene::Update(DWORD dt)
 						FirstRespawn = false;
 						TimeLimit = 2000;
 
-						if (Simon->x >= KAPPA_RESPAWN_X_1 - 90 && Simon->x <= KAPPA_RESPAWN_X_1 + 64)
+						if (Simon->x >= KAPPA_RESPAWN_ZONE_1&& Simon->x <= KAPPA_RESPAWN_ZONE_2)
 						{
 						
 							Grid->AddObject(new CKappa(KAPPA_RESPAWN_X_2, KAPPA_RESPAWN_Y, Simon->x > KAPPA_RESPAWN_X_2 ? 1 : -1));
@@ -329,19 +346,26 @@ void CPlayScene::Update(DWORD dt)
 							KappaCount = 2;
 							
 						}
-						else if (Simon->x >= KAPPA_RESPAWN_X_2 - 64 && Simon->x <= KAPPA_RESPAWN_X_2 + 51)
+						else if (Simon->x >= KAPPA_RESPAWN_ZONE_2 && Simon->x <= KAPPA_RESPAWN_ZONE_3)
 						{
 							Grid->AddObject(new CKappa(KAPPA_RESPAWN_X_1, KAPPA_RESPAWN_Y, Simon->x > KAPPA_RESPAWN_X_1 ? 1 : -1));
 							Grid->AddObject(new CKappa(KAPPA_RESPAWN_X_3, KAPPA_RESPAWN_Y, Simon->x > KAPPA_RESPAWN_X_3 ? 1 : -1));
 							KappaCount = 2;
 							
 						}
-						else if (Simon->x >= KAPPA_RESPAWN_X_3 - 51 && Simon->x <= KAPPA_RESPAWN_X_3 + 75)
+						else if (Simon->x >= KAPPA_RESPAWN_ZONE_3 && Simon->x <= KAPPA_RESPAWN_ZONE_4)
 						{
 							Grid->AddObject(new CKappa(KAPPA_RESPAWN_X_1, KAPPA_RESPAWN_Y, Simon->x > KAPPA_RESPAWN_X_1 ? 1 : -1));
 							Grid->AddObject(new CKappa(KAPPA_RESPAWN_X_2, KAPPA_RESPAWN_Y, Simon->x > KAPPA_RESPAWN_X_2 ? 1 : -1));
 							KappaCount = 2;
 							
+						}
+						else
+						{
+						
+							Grid->AddObject(new CKappa(KAPPA_RESPAWN_X_6, KAPPA_RESPAWN_Y, Simon->x > KAPPA_RESPAWN_X_1 ? 1 : -1));
+							Grid->AddObject(new CKappa(KAPPA_RESPAWN_X_7, KAPPA_RESPAWN_Y, Simon->x > KAPPA_RESPAWN_X_2 ? 1 : -1));
+							KappaCount = 2;
 						}
 						
 					}
@@ -360,7 +384,7 @@ void CPlayScene::Update(DWORD dt)
 							Grid->AddObject(new CKappa(random, KAPPA_RESPAWN_Y, Simon->x > random ? 1 : -1));
 							KappaCount++;
 						}
-						else if (Simon->x >= KAPPA_RESPAWN_ZONE_1 && Simon->x <= KAPPA_RESPAWN_ZONE_3)
+						else if (Simon->x >= KAPPA_RESPAWN_ZONE_2 && Simon->x <= KAPPA_RESPAWN_ZONE_3)
 						{
 							random = rand() % 3;
 							if (random == 0)
@@ -732,3 +756,10 @@ void CPlayScene::UpdateSimon()
 
 }
 
+void CPlayScene::DrawHiddenObject()
+{
+	LPSPRITE TileSet = new CSprite(MAP, 0, 1);
+	TileSet->Settexture(CTextureDatabase::GetInstance()->GetTexture(HIDING_OBJECT));
+	TileSet->SetFrameWH(96, 128);
+	TileSet->Draw((float)1408, (float)240, default_color);
+}
