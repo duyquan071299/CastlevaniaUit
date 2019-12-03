@@ -13,7 +13,7 @@ class CCandle:public CGameObject
 	
 public:
 	bool isBurning;
-	CCandle(int x,int y,HolderType type, int CandleType);
+	CCandle(float x,float y,HolderType type, int CandleType);
 	~CCandle(){}
 	HolderType  GetHolder() { return HDType; }
 	void ChangeAnimation();

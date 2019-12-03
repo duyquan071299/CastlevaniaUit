@@ -49,6 +49,9 @@
     <Filter Include="GameSpacePartioning">
       <UniqueIdentifier>{ad08e3a5-2670-4c0b-bc5b-6289d18b124f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Effects">
+      <UniqueIdentifier>{9ef827c9-7845-4f9f-8654-6e2128e62045}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -210,6 +213,18 @@
     <ClInclude Include="ScoreBoard.h">
       <Filter>FrameWork\Game Components</Filter>
     </ClInclude>
+    <ClInclude Include="BrokenBrickEffect.h">
+      <Filter>GameObjects\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>GameObjects\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectDatabase.h">
+      <Filter>GameObjects\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="BubbleEffect.h">
+      <Filter>GameObjects\Effects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CastlevaniaUit.rc">
@@ -362,6 +377,15 @@
     </ClCompile>
     <ClCompile Include="AnimationDatabase.cpp">
       <Filter>GameGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="BrokenBrickEffect.cpp">
+      <Filter>GameObjects\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectDatabase.cpp">
+      <Filter>GameObjects\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="BubbleEffect.cpp">
+      <Filter>GameObjects\Effects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

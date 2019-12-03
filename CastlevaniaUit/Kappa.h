@@ -28,7 +28,10 @@ public:
 	void ChangeAnimation();
 	void Render()
 	{
-		
+		if (isFrozen && !isBurning)
+		{
+			curAnimation->SetCurrentFrame(curAnimation->GetCurrentFrame() - 1);
+		}
 		curAnimation->Render(x, y, default_color);
 		RenderBoundingBox();
 	}

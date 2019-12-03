@@ -9,6 +9,8 @@ void CBrick::GetBoundingBox(float &x, float &y, float &framew, float &frameh)
 
 void CBrick::Render()
 {
+	if (this->Type > 2 && this->IsDead == false)
+		BrickSprite->Draw(x, y, default_color);
 	RenderBoundingBox();
 }
 

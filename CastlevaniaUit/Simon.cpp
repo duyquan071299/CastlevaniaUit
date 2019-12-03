@@ -159,7 +159,6 @@ void CSimon::Respawn()
 	Heal = 16;
 	LifeTime = 300;
 	Count_Time = GetTickCount();
-	//currentanimation= animations[STANDING_RIGHT];
 	ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 	nx = 1;
 }
@@ -346,7 +345,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if ((!this->IsJumping && !this->IsFalling && !this->IsAttacking &&!this->isCollect &&!this->isOnStair && vy > GAME_GRAVITY * dt+0.4 &&vy<1000)||isInjured&&vy==0&&!isOnStair  )
 	{
 
-		vy += 20 * GAME_GRAVITY * dt;
+		vy += 5000 * GAME_GRAVITY * dt;
 		isFreeFall = true;
 	}
 	else if(!isOnStair)
@@ -595,7 +594,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (dynamic_cast<CBat *>(e->obj))
 					dynamic_cast<CBat *>(e->obj)->ChangeAnimation();
 
-				if (isOnStair)
+				if (isOnStair || IsOnAnimation)
 				{
 					StartUntouchable();
 					isInjured = true;
@@ -851,26 +850,16 @@ CWeapon* CSimon::CreateSecondWeapond()
 		}
 		return Dagger;
 	}
-	case WATCH:
-		break;
-	case CROSS:
-		break;
 	case AXE:
-		break;
-	case POTION:
-		break;
-	case CHEST_1:
-		break;
-	case CHEST_2:
 		break;
 	case HOLYWATER:
 	{
 		CHolyWater * HolyWater = new CHolyWater();
 		HolyWater->Currentstate = 0;
-		HolyWater->SetPosition(x +8, y+32);
+		HolyWater->SetPosition(x + 8, y + 32);
 		if (isOnStair)
 		{
-			if (DirectionStair==1)
+			if (DirectionStair == 1)
 			{
 				if (isUP)
 				{
@@ -902,26 +891,20 @@ CWeapon* CSimon::CreateSecondWeapond()
 			if (nx > 0)
 			{
 				HolyWater->nx = 1;
-				
-			
+
+
 			}
 			else
 			{
 
 				HolyWater->nx = -1;
-			
+
 			}
 
 		}
 		HolyWater->SetAnimation();
 		return HolyWater;
 	}
-	case CHICKEN:
-		break;
-	default:
-		break;
 	}
-	
-
 		
 }

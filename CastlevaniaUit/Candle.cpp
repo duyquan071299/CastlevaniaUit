@@ -1,6 +1,6 @@
 #include"Candle.h"
 
-CCandle::CCandle(int x, int y,HolderType HolderType, int CandleType)
+CCandle::CCandle(float x, float y,HolderType HolderType, int CandleType)
 {
 	animation = new CAnimation(100);
 	switch (CandleType)
@@ -46,8 +46,8 @@ void CCandle::GetBoundingBox(float &x, float &y, float &framew, float &frameh)
 {
 	x = this->x;
 	y = this->y;
-	framew = Width;
-	frameh = Height;
+	framew = (float)Width;
+	frameh = (float)Height;
 
 }
 void CCandle::ChangeAnimation()

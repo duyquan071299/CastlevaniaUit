@@ -91,9 +91,9 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 	else
 	{
 		if (direction > 0)
-			vx = 0.4;
+			vx = 0.3;
 		else
-			vx = -0.4;
+			vx = -0.3;
 	}
 
 
@@ -110,9 +110,14 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 			
 	}
 	
+
 	
-	vy += GAME_GRAVITY * dt;
-	CGameObject::Update(dt);
+	if (!isFrozen)
+	{
+		vy += GAME_GRAVITY * dt;
+		CGameObject::Update(dt);
+	}
+		
 
 
 

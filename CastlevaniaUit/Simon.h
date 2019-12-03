@@ -38,7 +38,7 @@ public:
 	bool Landing;
 	bool CollectItem;
 	int DirectionStair;
-	int CheckPoint;
+	float CheckPoint;
 	int PreviousX, PreviousY;
 	bool IsKeyDownZ;
 	int count=0;

@@ -6,20 +6,20 @@
 #define WHIP_BBOX_POS_X_RIGHT 80
 #define WHIP_BBOX_POS_X_LEFT 30
 #define WHIP_3_BBOX_POS_X 0
-#define WHIP_BBOX_POS_Y 16
+#define WHIP_BBOX_POS_Y 20
 
 CWhip::CWhip()
 {
 	LPANIMATION ani = new CAnimation(100);
-	ani->Add(WEAPON, 3,10);
+	ani->Add(WEAPON, 3, 10);
 	ani->Add(WEAPON, 0);
 	ani->Add(WEAPON, 1);
 	ani->Add(WEAPON, 2);
 	animations[WHIP_1_LEFT] = ani;
 	ani = new CAnimation(100);
 	ani->Add(WEAPON, 3, 10);
-	ani->Add(WEAPON,10);
-	ani->Add(WEAPON,11);
+	ani->Add(WEAPON, 10);
+	ani->Add(WEAPON, 11);
 	ani->Add(WEAPON, 12);
 	animations[WHIP_1_RIGHT] = ani;
 
@@ -50,9 +50,9 @@ CWhip::CWhip()
 	animations[WHIP_3_RIGHT] = ani;
 
 	animation = animations[WHIP_1_RIGHT];
-	
+
 }
-void CWhip::Update(DWORD dt,vector<LPGAMEOBJECT>* coObjects)
+void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (animation->GetCurrentFrame() == 3)
 	{
@@ -72,6 +72,11 @@ void CWhip::Update(DWORD dt,vector<LPGAMEOBJECT>* coObjects)
 				else if (dynamic_cast<CEnemyBullet*>(coObjects->at(i)))
 				{
 					dynamic_cast<CEnemyBullet*>(coObjects->at(i))->ChangeAnimation();
+				}
+				else if (dynamic_cast<CBrick*>(coObjects->at(i)))
+				{
+					if (dynamic_cast<CBrick*>(coObjects->at(i))->GetType() > 2)
+						coObjects->at(i)->IsDead = true;
 				}
 			}
 		}

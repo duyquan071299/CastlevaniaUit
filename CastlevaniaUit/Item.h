@@ -7,7 +7,7 @@ class CItem : public CGameObject
 	int Width;
 	int Height;
 	bool isOnGround;
-	int MaxMov = y;
+	float MaxMov = y;
 	HolderType HDType;
 	DWORD lifetime;
 

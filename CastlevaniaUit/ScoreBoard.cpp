@@ -45,56 +45,56 @@ CScoreBoard::CScoreBoard(float x, float y)
 
 void CScoreBoard::Render()
 {
-	ClearBoard->Draw(x, y, default_color);
+	ClearBoard->DrawScoreBoard(x, y, default_color);
 	for (int i = 0; i < this->Heart.length(); i++)
 	{
 		
-		CSpriteDatabase::GetInstance()->GetSprite(FONT, (int)this->Heart.at(i) - 48)->Draw(this->x + POS_X_1 + i * SPACING, this->y + POS_Y_1, default_color);
+		CSpriteDatabase::GetInstance()->GetSprite(FONT, (int)this->Heart.at(i) - 48)->DrawScoreBoard(this->x + POS_X_1 + i * SPACING, this->y + POS_Y_1, default_color);
 		
 	}
 	for (int i = 0; i < this->Life.length(); i++)
 	{
-		CSpriteDatabase::GetInstance()->GetSprite(FONT, (int)this->Life.at(i) - 48)->Draw(this->x + POS_X_1 + i * SPACING, this->y+ POS_Y_2, default_color);
+		CSpriteDatabase::GetInstance()->GetSprite(FONT, (int)this->Life.at(i) - 48)->DrawScoreBoard(this->x + POS_X_1 + i * SPACING, this->y+ POS_Y_2, default_color);
 		
 	}
 	for (int i = 0; i < this->Stage.length(); i++)
 	{
-		CSpriteDatabase::GetInstance()->GetSprite(FONT, (int)this->Stage.at(i) - 48)->Draw(this->x + POS_X_2 + i* SPACING, this->y+ POS_Y_3, default_color);
+		CSpriteDatabase::GetInstance()->GetSprite(FONT, (int)this->Stage.at(i) - 48)->DrawScoreBoard(this->x + POS_X_2 + i* SPACING, this->y+ POS_Y_3, default_color);
 
 	}
 	for (int i = 0; i < this->Score.length(); i++)
 	{
-		CSpriteDatabase::GetInstance()->GetSprite(FONT, (int)this->Score.at(i) - 48)->Draw(this->x + POS_X_3 + i* SPACING, this->y + POS_Y_3, default_color);
+		CSpriteDatabase::GetInstance()->GetSprite(FONT, (int)this->Score.at(i) - 48)->DrawScoreBoard(this->x + POS_X_3 + i* SPACING, this->y + POS_Y_3, default_color);
 
 	}
 	for (int i = 0; i < this->Time.length(); i++)
 	{
-		CSpriteDatabase::GetInstance()->GetSprite(FONT, (int)this->Time.at(i) - 48)->Draw(this->x + POS_X_4 + i* SPACING, this->y + POS_Y_3, default_color);
+		CSpriteDatabase::GetInstance()->GetSprite(FONT, (int)this->Time.at(i) - 48)->DrawScoreBoard(this->x + POS_X_4 + i* SPACING, this->y + POS_Y_3, default_color);
 
 	}
 	for (int i = 0; i < this->Heart.length(); i++)
 	{
 
-		CSpriteDatabase::GetInstance()->GetSprite(FONT, (int)this->Heart.at(i) - 48)->Draw(this->x + POS_X_1 + i * SPACING, this->y + POS_Y_1, default_color);
+		CSpriteDatabase::GetInstance()->GetSprite(FONT, (int)this->Heart.at(i) - 48)->DrawScoreBoard(this->x + POS_X_1 + i * SPACING, this->y + POS_Y_1, default_color);
 
 	}
 	for (int i = 0; i < this->SimonHeal; i++)
 	{
-		CSpriteDatabase::GetInstance()->GetSprite(HEAL, 0)->Draw(this->x + POS_X_6+ i*SPACING_HEAL, this->y + POS_Y_4-1, default_color);
+		CSpriteDatabase::GetInstance()->GetSprite(HEAL, 0)->DrawScoreBoard(this->x + POS_X_6+ i*SPACING_HEAL, this->y + POS_Y_4-1, default_color);
 
 	}
 	for (int i = 0; i < this->BossHeal; i++)
 	{
-		CSpriteDatabase::GetInstance()->GetSprite(HEAL,2)->Draw(this->x + POS_X_6 + i * SPACING_HEAL, this->y + POS_Y_5, default_color);
+		CSpriteDatabase::GetInstance()->GetSprite(HEAL,2)->DrawScoreBoard(this->x + POS_X_6 + i * SPACING_HEAL, this->y + POS_Y_5, default_color);
 
 	}
 	if(CSimon::GetInstance()->WeaponType>0)
-		CSpriteDatabase::GetInstance()->GetSprite(ITEM, CSimon::GetInstance()->WeaponType)->Draw(this->x + POS_X_5, this->y + POS_Y_4, default_color);
+		CSpriteDatabase::GetInstance()->GetSprite(ITEM, CSimon::GetInstance()->WeaponType)->DrawScoreBoard(this->x + POS_X_5, this->y + POS_Y_4, default_color);
 }
 void CScoreBoard::Update()
 {
-	this->x = CCamera::GetInstance()->x;
-	this->y = CCamera::GetInstance()->y;
+	/*this->x = CCamera::GetInstance()->x;
+	this->y = CCamera::GetInstance()->y;*/
 	char buffer[256];
 	sprintf(buffer, "%02d", CSimon::GetInstance()->Heart);
 	this->Heart = buffer;

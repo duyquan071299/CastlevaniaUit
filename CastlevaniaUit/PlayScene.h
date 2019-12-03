@@ -11,6 +11,7 @@
 #include"Door.h"
 #include"Grid.h"
 #include"ScoreBoard.h"
+#include"Effect.h"
 class CPlayScene : public CScene
 {
 private:
@@ -44,7 +45,7 @@ private:
 	DWORD TimeLimit;
 	DWORD FrozenTime;
 	DWORD CrossTime;
-	//vector<LPGAMEOBJECT> WallObject;
+	
 public:
 	CPlayScene() { Loadresources(0); };
 	void Loadresources(int level);
@@ -55,5 +56,6 @@ public:
 	void Update(DWORD dt);
 	void DrawHiddenObject();
 	unordered_map<int, bool> keys;
+	
 
 };

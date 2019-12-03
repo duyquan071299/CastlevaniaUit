@@ -10,3 +10,4 @@
 12 Resources\\Textures\\Hiding_part.png
 13 Resources\\Textures\\ScoreBoard.png
 14 Resources\\Textures\\Heal.png
+15 Resources\\Textures\\Brick.png

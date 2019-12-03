@@ -95,10 +95,10 @@ public:
 		float x, y, framew, frameh;
 		this->GetBoundingBox(x, y, framew, frameh);
 		RECT objRECT;
-		objRECT.left = x;
-		objRECT.top = y;
-		objRECT.right = objRECT.left + framew;
-		objRECT.bottom = objRECT.top + frameh;
+		objRECT.left =(long)x;
+		objRECT.top = (long)y;
+		objRECT.right = objRECT.left + (long)framew;
+		objRECT.bottom = objRECT.top + (long)frameh;
 		RECT Camera = CCamera::GetInstance()->GetBound();
 		if (objRECT.left >Camera.right || objRECT.right < Camera.left|| objRECT.top >Camera.bottom|| objRECT.bottom < Camera.top)
 		{

@@ -6,6 +6,7 @@
 #include"Panther.h"
 #include"InvisibleObject.h"
 #include"Camera.h"
+#include"EffectDatabase.h"
 #define CELL_WIDTH 256
 #define CELL_HEIGHT 416
 
@@ -70,7 +71,7 @@ CGrid::CGrid(int MapWidth, int MapHeight, LPCSTR fileitem)
 			}
 			case 5:
 			{
-				CPanther * Panther = new CPanther(x,y,width);
+				CPanther * Panther = new CPanther(x,y,holder);
 				AddObject(Panther);
 				break;
 
@@ -145,7 +146,7 @@ void CGrid::AddObjectToGrid(LPCSTR fileitem)
 			}
 			case 5:
 			{
-				CPanther * Panther = new CPanther(x, y, width);
+				CPanther * Panther = new CPanther(x, y, holder);
 				Object = dynamic_cast<CPanther*>(Panther);
 				break;
 
@@ -223,7 +224,7 @@ vector<LPGAMEOBJECT> CGrid::GetListMapObject()
 	int startCol = camRect.left / CELL_WIDTH;
 	int endCol = (camRect.right-1) / CELL_WIDTH;
 	int startRow = camRect.top / CELL_HEIGHT;
-	int endRow = (camRect.bottom-1) / CELL_HEIGHT+1;
+	int endRow = (camRect.bottom-1) / CELL_HEIGHT;
 
 	
 
@@ -317,6 +318,29 @@ vector<LPGAMEOBJECT> CGrid::GetListMapObject()
 					i--;
 				}
 			}
+			else if (dynamic_cast<CBrick*>(returnList[i]))
+			{
+				if (returnList[i]->IsDead == true && dynamic_cast<CBrick*>(returnList[i])->GetType() > 2)
+				{
+
+					CEffectDatabase::GetInstance()->AddBrokenBrickEffect(returnList[i]->x, returnList[i]->y);
+					if (dynamic_cast<CBrick*>(returnList[i])->GetType() == 4)
+					{
+						CItem * Holder = new CItem(CHICKEN);
+						Holder->AppearOnMap();
+						Holder->SetPosition(returnList[i]->x, returnList[i]->y + 32);
+						AddObject(Holder);
+					}
+					RemoveAll(returnList[i]);
+					returnList.erase(returnList.begin() + i);
+					i--;
+
+
+				}
+
+			}
+
+			
 		}
 		else
 		{
@@ -550,10 +574,24 @@ vector<LPGAMEOBJECT>  CGrid::GetListEnemies()
 	vector<LPGAMEOBJECT > EnemyList;
 	for (int i = 0; i < returnList.size(); i++)
 	{
-		if (dynamic_cast<CEnemy *>(returnList[i]))
+		if (returnList[i]->IsInCamera())
 		{
-			EnemyList.push_back(returnList[i]);
+			if (dynamic_cast<CEnemy *>(returnList[i]))
+			{
+				EnemyList.push_back(returnList[i]);
+			}
 		}
+		else
+		{
+			if (dynamic_cast<CEnemy*>(returnList[i]))
+			{
+				if (dynamic_cast<CPanther*>(returnList[i]) && dynamic_cast<CPanther*>(returnList[i])->isSitting == true)
+					continue;
+				returnList[i]->isIncamera = false;
+				EnemyList.push_back(returnList[i]);
+			}
+		}
+		
 
 	}
 	return EnemyList;

@@ -29,7 +29,7 @@ public:
 	int GetHeight() {
 		return Height;
 	};
-	void Update(int MapBoundLeft,int MapBoundRight)
+	void Update(float MapBoundLeft,float MapBoundRight)
 	{
 		if (this->x < MapBoundLeft)
 		{

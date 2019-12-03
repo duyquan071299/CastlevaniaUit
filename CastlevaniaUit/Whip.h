@@ -3,6 +3,7 @@
 #include"Candle.h"
 #include"Ghost.h"
 #include"EnemyBullet.h"
+#include"Brick.h"
 class CWhip : public CWeapon
 {
 	unordered_map<ItemType, LPANIMATION> animations;

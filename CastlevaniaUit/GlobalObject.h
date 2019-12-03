@@ -109,6 +109,7 @@ enum GraphicType
 	HIDING_OBJECT,
 	SCORE_BOARD,
 	HEAL,
+	GROUND,
 	
 };	
 
@@ -199,6 +200,8 @@ enum EffectType
 {
 	FIRE,
 	DESTROYED,
+	BROKEN_BRICK,
+	STEAM,
 };
 enum EnemyType 
 {

@@ -20,6 +20,8 @@ public:
 
 	void Draw(float x, float y,D3DCOLOR color);
 
+	void DrawScoreBoard(float x, float y, D3DCOLOR color);
+
 
 	GraphicType getType()
 	{

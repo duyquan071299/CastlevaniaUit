@@ -1,6 +1,6 @@
 #include"PlayScene.h"
 #include"SimonStateWalking.h"
-
+#include"EffectDatabase.h"
 
 void CPlayScene::Loadresources(int level) {
 	CCamera::GetInstance()->SetWH(SCREEN_WIDTH, 400);
@@ -34,7 +34,6 @@ void CPlayScene::Loadresources(int level) {
 		CCamera::GetInstance()->isWithSimon = true;
 		CurrentMap = new CMap("Resources\\Maps\\Scene2.txt", "Resources\\Maps\\Scene_2.png");
 		Door = new CDoor(3056, 112);
-		Simon->x = 3000;
 		Simon->y = RESPAWN_POSITION_Y;
 		Simon->y = 0;
 		this->Level = level;
@@ -44,9 +43,9 @@ void CPlayScene::Loadresources(int level) {
 		MapBoundRight = 3072;
 		//MapBoundRight = 6000;
 		TimeBetWeenGhostRespawn = GetTickCount();
-		Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight(), "Resources\\Maps\\Scene2_Object.txt");
-		/*Grid = new CGrid();
-		Grid->AddObjectToGrid("Resources\\Maps\\Grid2.txt");*/
+		//Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight(), "Resources\\Maps\\Scene2_Object.txt");
+		Grid = new CGrid();
+		Grid->AddObjectToGrid("Resources\\Maps\\Grid2.txt");
 		AllowRespawnGhost = true;
 	}
 	}
@@ -66,17 +65,21 @@ void CPlayScene::OnKeyDown(int KeyCode)
 			Loadresources(1);
 			TimeLimit = 3000;
 			
-
-
 		}
 		if (KeyCode == DIK_B)
 		{
 			
-			Simon->x= 3800;
+			Simon->x= 3500;
 			Simon->y= 200;
-
 			MapBoundRight = 5630;
 		}
+		if (KeyCode == DIK_Q)
+		{
+			Simon->x = 3100;
+			Simon->y = 500;
+			Simon->isUnderGround = true;
+		}
+		
 	
 
 	}
@@ -118,20 +121,32 @@ void CPlayScene::Render()
 	{
 		DrawHiddenObject();
 	}
-
-	
+	for(int i=0;i<CEffectDatabase::GetInstance()->GetListEffect().size();i++)
+		CEffectDatabase::GetInstance()->GetListEffect()[i]->Render();
 
 }
 
 void CPlayScene::Update(DWORD dt)
 {
 
-	
+	for (int i = 0; i < CEffectDatabase::GetInstance()->GetListEffect().size(); i++)
+	{
+		CEffectDatabase::GetInstance()->GetListEffect()[i]->Update(dt);
+		if (CEffectDatabase::GetInstance()->GetListEffect()[i]->CheckIsDone())
+		{
+			CEffectDatabase::GetInstance()->RemoveForListEffect(i);
+			i--;
+		}
+			
+
+
+	}
 	vector<LPGAMEOBJECT> Objects = Grid->GetListMapObject();
 	for (int i = 0; i < Objects.size(); i++)
 	{
 		Objects.at(i)->Update(dt, &Grid->GetListObjectCanContactWithMapObject(Objects.at(i)));
 		Grid->MoveObject(Objects.at(i), Objects.at(i)->PrevX, Objects.at(i)->PrevY);
+	
 	}
 
 	//Walking through door mechanism
@@ -586,6 +601,8 @@ void CPlayScene::Update(DWORD dt)
 				}
 				else if (dynamic_cast<CKappa*>(listEnemy[i]))
 				{
+					if(listEnemy[i]->IsDead == true && listEnemy[i]->y >= KAPPA_RESPAWN_Y)
+						CEffectDatabase::GetInstance()->AddBubbleEffect(listEnemy[i]->x, listEnemy[i]->y);
 					Grid->RemoveAll(listEnemy[i]);
 					KappaCount--;
 					continue;
@@ -607,6 +624,10 @@ void CPlayScene::Update(DWORD dt)
 					dynamic_cast<CKappa *>(listEnemy[i])->isFire = true;
 					Grid->AddObject(new CEnemyBullet(listEnemy[i]->x, listEnemy[i]->y + 5, listEnemy[i]->nx));
 				}
+				if(dynamic_cast<CKappa *>(listEnemy[i])->y==KAPPA_RESPAWN_Y)
+					CEffectDatabase::GetInstance()->AddBubbleEffect(listEnemy[i]->x, listEnemy[i]->y);
+
+
 
 			}
 			else if (dynamic_cast<CPanther *>(listEnemy[i])&& dynamic_cast<CPanther *>(listEnemy[i])->isSitting)
@@ -698,9 +719,9 @@ void CPlayScene::UpdateSimon()
 	{
 		
 		if (Simon->vx < 0 && Simon->x < MapBoundLeft - 9)
-			Simon->x = MapBoundLeft - 10;
+			Simon->x = (float)(MapBoundLeft - 10);
 		else if(Simon->vx>=0 && Simon->x > MapBoundRight -48)
-			Simon->x = MapBoundRight - 48;
+			Simon->x = (float)(MapBoundRight - 48);
 		SetUpTime = true;
 		FirstRespawn = true;
 		KappaCount = 0;
@@ -717,9 +738,9 @@ void CPlayScene::UpdateSimon()
 			TimeLimit = 3000;
 		}
 		if (Simon->vx < 0 && Simon->x < UnderGroundMapBoundLeft - 9)
-			Simon->x = UnderGroundMapBoundLeft - 10;
+			Simon->x = (float)(UnderGroundMapBoundLeft - 10);
 		else if (Simon->vx >= 0 && Simon->x > UnderGroundMapBoundRight - 64)
-			Simon->x = UnderGroundMapBoundRight - 64;
+			Simon->x = (float)(UnderGroundMapBoundRight - 64);
 	}
 
 	
@@ -763,3 +784,4 @@ void CPlayScene::DrawHiddenObject()
 	TileSet->SetFrameWH(96, 128);
 	TileSet->Draw((float)1408, (float)240, default_color);
 }
+
