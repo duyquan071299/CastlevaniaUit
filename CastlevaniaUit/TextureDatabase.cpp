@@ -33,11 +33,12 @@ void  CTextureDatabase::LoadTextures() {
 LPDIRECT3DTEXTURE9 CTextureDatabase::GetTexture(GraphicType type) {
 	switch (type)
 	{
-	case HOLDER: case ITEM:
+	case ITEM:
 		return textures[ITEM];
 	default:
 		return textures[type];
 	}
+	
 }
 
 

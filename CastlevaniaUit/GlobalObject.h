@@ -7,6 +7,8 @@
 #include <fstream>
 #include<string>
 #include<cmath>
+#include<DirectXMath.h>
+#include<d3dx9math.h>
 #include <unordered_set>
 
 using namespace std;
@@ -38,6 +40,11 @@ using namespace std;
 #define CAM_Y 0.0f
 #define GAME_GRAVITY 0.002f
 #define RESPAWN_POSITION_Y 335
+#define GROUND_POSITION_Y 143
+#define CHECK_POINT_1 200.0f
+#define CHECK_POINT_2 35.0f
+#define CHECK_POINT_3 84.0f
+#define CHECK_POINT_4 96.0f
 #define GHOST_RESPAWN_REGION_1_LEFT -10.0f
 #define GHOST_RESPAWN_REGION_1_RIGHT 832.0f
 #define GHOST_RESPAWN_REGION_2_LEFT 2304.0f
@@ -79,7 +86,26 @@ using namespace std;
 #define PANTHER_RESPAWN_ZONE_X_RIGHT_1 1876.0f
 #define PANTHER_RESPAWN_ZONE_X_RIGHT_2 2256.0f
 #define PANTHER_RESPAWN_ZONE_X_RIGHT_3 2384.0f
-
+#define WALK_THROUGH_CASTLE_OBJECT 1
+#define IN_CASTLE_OBJECT 2
+#define PANTHER_JUMP_OBJECT 3
+#define UP_STAIR_OBJECT_TYPE_1 4
+#define DOWN_STAIR_OBJECT_TYPE_1 5
+#define UP_STAIR_OBJECT_TYPE_2 6
+#define DOWN_STAIR_OBJECT_TYPE_2 7
+#define WALK_THROUGH_DOOR_OBJECT 8
+#define WALK_OUT_UNDER_GROUND_OBJECT 9
+#define WALK_IN_UNDER_GROUND_OBJECT 10
+#define MAP_BOUND_RIGHT_STAGE_01 3072
+#define MAP_BOUND_RIGHT_STAGE_02 4096
+#define MAP_BOUND_RIGHT_STAGE_03 5635
+#define MAP_BOUND_LEFT_STAGE_01 0
+#define MAP_BOUND_LEFT_STAGE_02 0
+#define MAP_BOUND_LEFT_STAGE_03 
+#define DOOR_POS_X_1 3056.0f
+#define DOOR_POS_y_1 112.0f
+#define DOOR_POS_X_2 4080.0f
+#define DOOR_POS_y_2 112.0f
 
 //directx
 extern HINSTANCE hInstance;										// hInstance của windows hiện tại
@@ -110,6 +136,9 @@ enum GraphicType
 	SCORE_BOARD,
 	HEAL,
 	GROUND,
+	INTRO_ANIMATION,
+	INTRO_OBJECT,
+	MAIN_MENU,
 	
 };	
 
@@ -212,3 +241,13 @@ enum EnemyType
 	
 };
 
+enum AniType
+{
+	SIMON_ANI,
+	PANTHER_ANI,
+	GHOST_ANI,
+	BAT_ANI,
+	KAPPA_ANI,
+	INTRO_ANI,
+	INTRO_BAT_ANI,
+};

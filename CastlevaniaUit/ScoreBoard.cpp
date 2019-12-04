@@ -38,7 +38,12 @@ CScoreBoard::CScoreBoard(float x, float y)
 	this->ClearBoard = CSpriteDatabase::GetInstance()->GetSprite(SCORE_BOARD,0);
 	this->ClearBoard->Settexture(CTextureDatabase::GetInstance()->GetTexture(SCORE_BOARD));
 	this->Stage = "01";
-	this->BossHeal = 15;
+	this->Heart = "00";
+	this->Life = "00";
+	this->Score = "000000";
+	this->Time = "0300";
+	this->BossHeal = 16;
+	this->SimonHeal = 16;
 	
 }
 

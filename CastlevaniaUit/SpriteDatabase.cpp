@@ -37,6 +37,8 @@ void CSpriteDatabase::LoadResources()
 					sprites->AddSprite(new CSprite(static_cast<GraphicType>(type), frame, columns, framew, frameh));
 				else if(object=="br")
 					sprites->AddSprite(new CSprite(static_cast<GraphicType>(type), frame, columns, framew, frameh));
+				else if(object=="it")
+					sprites->AddSprite(new CSprite(static_cast<GraphicType>(type), frame, columns, framew, frameh));
 			}
 		}
 	}

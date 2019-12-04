@@ -491,18 +491,16 @@ vector<LPGAMEOBJECT> CGrid::GetListObjectCanContactWithMapObject(LPGAMEOBJECT ob
 				continue;
 			else if (dynamic_cast<CInvisibleObject *>(objects[i]))
 			{
-				if (dynamic_cast<CInvisibleObject *>(objects[i])->GetType() > 3)
+				if (dynamic_cast<CInvisibleObject *>(objects[i])->GetType() != PANTHER_JUMP_OBJECT)
 					continue;
 			}
 
-			if (dynamic_cast<CInvisibleObject *>(objects[i]) && dynamic_cast<CInvisibleObject *>(objects[i])->GetType() == 3 && dynamic_cast<CPanther *>(object))
+			if (dynamic_cast<CInvisibleObject *>(objects[i]) && dynamic_cast<CInvisibleObject *>(objects[i])->GetType() == PANTHER_JUMP_OBJECT && dynamic_cast<CPanther *>(object))
 			{
 				if(dynamic_cast<CPanther *>(object)->isJumping || dynamic_cast<CPanther *>(object)->isFalling)
 					continue;
 			}
 				
-
-
 		}
 		else if (dynamic_cast<CDagger *>(object))
 		{
@@ -516,8 +514,6 @@ vector<LPGAMEOBJECT> CGrid::GetListObjectCanContactWithMapObject(LPGAMEOBJECT ob
 		else if (dynamic_cast<CHolyWater *>(object))
 		{
 			if (dynamic_cast<CInvisibleObject *>(objects[i]) || dynamic_cast<CItem *>(objects[i]))
-				continue;
-			else if (dynamic_cast<CCandle *>(objects[i]) && dynamic_cast<CCandle *>(objects[i])->isBurning)
 				continue;
 			else if (dynamic_cast<CEnemy *>(objects[i]) && dynamic_cast<CEnemy *>(objects[i])->isBurning)
 				continue;

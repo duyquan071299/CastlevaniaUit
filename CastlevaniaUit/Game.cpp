@@ -93,8 +93,9 @@ void CGame::Init(HWND hWnd)
 void CGame::LoadResources() {
 	CTextureDatabase::GetInstance()->LoadTextures();
 	CSpriteDatabase::GetInstance()->LoadResources();
-	CSceneManager::GetInstance()->LoadScene(new CPlayScene);
-	//CSpriteDatabase::GetInstance()->GetSprite(PLAYER)->Draw(100, 100, 0);
+	CAnimationDatabase::GetInstance()->LoadAnimation();
+	CSceneManager::GetInstance()->LoadScene(new CIntroScene());
+	
 	
 }
 

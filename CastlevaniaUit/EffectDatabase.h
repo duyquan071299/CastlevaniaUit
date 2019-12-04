@@ -2,6 +2,7 @@
 #include"GameObject.h"
 #include"BrokenBrickEffect.h"
 #include"BubbleEffect.h"
+#include"DestroyEffect.h"
 
 class CEffectDatabase
 {
@@ -26,8 +27,14 @@ public:
 		listEffect.push_back(new CBubbleEffect(x, y,0.0f, -0.5f));
 		listEffect.push_back(new CBubbleEffect(x+8, y, 0.02f, -0.3f));
 	}
-
-
+	void AddHitEffect(float x, float y)
+	{
+		listEffect.push_back(new CDestroyEffect(x , y, 2));
+	}
+	void AddBurnEffect(float x, float y)
+	{
+		listEffect.push_back(new CDestroyEffect(x, y, 1));
+	}
 	vector<CEffect*> GetListEffect()
 	{
 		return listEffect;

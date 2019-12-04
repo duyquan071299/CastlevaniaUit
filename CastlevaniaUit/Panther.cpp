@@ -8,33 +8,14 @@ CPanther::CPanther()
 
 CPanther::CPanther(float x, float y, int Direction)
 {
-	LPANIMATION ani = new CAnimation(100);
-	ani->Add(ENEMY, 10);
-	animations[SITTING_LEFT] = ani;
+	
+	animations[SITTING_LEFT] = CAnimationDatabase::GetInstance()->Get(PANTHER_ANI, SITTING_LEFT);
+	animations[WALKING_LEFT] = CAnimationDatabase::GetInstance()->Get(PANTHER_ANI, WALKING_LEFT);
+	animations[JUMPING_LEFT] = CAnimationDatabase::GetInstance()->Get(PANTHER_ANI, JUMPING_LEFT);
+	animations[SITTING_RIGHT] = CAnimationDatabase::GetInstance()->Get(PANTHER_ANI, SITTING_RIGHT);
+	animations[WALKING_RIGHT] = CAnimationDatabase::GetInstance()->Get(PANTHER_ANI, WALKING_RIGHT);
+	animations[JUMPING_RIGHT] = CAnimationDatabase::GetInstance()->Get(PANTHER_ANI, JUMPING_RIGHT);
 
-	ani = new CAnimation(100);
-	ani->Add(ENEMY, 11);
-	ani->Add(ENEMY, 12);
-	ani->Add(ENEMY, 13);
-	animations[WALKING_LEFT] = ani;
-
-	ani = new CAnimation(100);
-	ani->Add(ENEMY, 13);
-	animations[JUMPING_LEFT] = ani;
-
-	ani = new CAnimation(100);
-	ani->Add(ENEMY, 14);
-	animations[SITTING_RIGHT] = ani;
-
-	ani = new CAnimation(180);
-	ani->Add(ENEMY, 15);
-	ani->Add(ENEMY, 16);
-	ani->Add(ENEMY, 17);
-	animations[WALKING_RIGHT] = ani;
-
-	ani = new CAnimation(100);
-	ani->Add(ENEMY, 17);
-	animations[JUMPING_RIGHT] = ani;
 
 	isSitting = true;
 	isRunning = false;
@@ -142,7 +123,7 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 	
 		if (dynamic_cast<CBrick *>(coEventsResult[0]->obj))
 		{
-			x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+			x += min_tx * dx + nx * 0.4f;		
 			y += min_ty * dy + ny * 0.4f;
 
 			if (isOnground&&!isSitting&&!isFalling)
@@ -164,7 +145,6 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 
 		if (dynamic_cast<CInvisibleObject*>(coEventsResult[0]->obj))
 		{
-			//this->IsOnAnimation = true;
 			CInvisibleObject*Object = dynamic_cast<CInvisibleObject *>(coEventsResult[0]->obj);
 			if (Object->GetType() == 3)
 			{
@@ -175,8 +155,6 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 				CountJump += 1;
 			}
 		
-
-
 
 		}
 

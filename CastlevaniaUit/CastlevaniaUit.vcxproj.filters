@@ -52,6 +52,9 @@
     <Filter Include="GameObjects\Effects">
       <UniqueIdentifier>{9ef827c9-7845-4f9f-8654-6e2128e62045}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\IntroObjects">
+      <UniqueIdentifier>{a773bcd7-c2ef-48a4-ae91-622eb51af7c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -225,6 +228,12 @@
     <ClInclude Include="BubbleEffect.h">
       <Filter>GameObjects\Effects</Filter>
     </ClInclude>
+    <ClInclude Include="DestroyEffect.h">
+      <Filter>GameObjects\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroObject.h">
+      <Filter>GameObjects\IntroObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CastlevaniaUit.rc">
@@ -385,6 +394,9 @@
       <Filter>GameObjects\Effects</Filter>
     </ClCompile>
     <ClCompile Include="BubbleEffect.cpp">
+      <Filter>GameObjects\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="DestroyEffect.cpp">
       <Filter>GameObjects\Effects</Filter>
     </ClCompile>
   </ItemGroup>

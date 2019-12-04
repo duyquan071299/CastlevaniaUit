@@ -19,6 +19,7 @@ void CSprite::Draw(float x, float y, D3DCOLOR color)
 {
 
 	D3DXVECTOR3 position(floor(x- CCamera::GetInstance()->x), floor(y- CCamera::GetInstance()->y), 0);
+	
 	RECT rect;
 	rect.left = (Framenum % Columns) * Framew;
 	rect.top = (Framenum / Columns) * Frameh;

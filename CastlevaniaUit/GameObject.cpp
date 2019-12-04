@@ -7,7 +7,7 @@ void CGameObject::RenderBoundingBox()
 {
 	
 	LPDIRECT3DTEXTURE9 bbox = CTextureDatabase::GetInstance()->GetTexture(BBOX);
-
+	
 	float x, y, framew, frameh;
 
 	GetBoundingBox(x, y, framew, frameh);
@@ -76,7 +76,7 @@ void CGameObject::CalcPotentialCollisions(
 	
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (dynamic_cast<CSimon*>(this))
+	/*	if (dynamic_cast<CSimon*>(this))
 		{
 			if (dynamic_cast<CInvisibleObject *>(coObjects->at(i)))
 			{
@@ -88,7 +88,7 @@ void CGameObject::CalcPotentialCollisions(
 				if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() == 2 && !dynamic_cast<CSimon*>(this)->IsOnAnimation)
 					continue;
 			}
-		}
+		}*/
 			
 		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
 

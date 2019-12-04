@@ -2,6 +2,8 @@
 #include"Weapon.h"
 #include"Candle.h"
 #include"Ghost.h"
+#include"Panther.h"
+#include"Kappa.h"
 #include"EnemyBullet.h"
 #include"Brick.h"
 class CWhip : public CWeapon

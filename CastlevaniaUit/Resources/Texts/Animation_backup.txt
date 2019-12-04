@@ -1,0 +1,219 @@
+SIMON 100 1 2
+PLayer 0 0
+SIMON 180 4 WALKING_LEFT
+PLayer 0 0
+PLayer 1 0
+PLayer 2 0
+PLayer 1 0
+SIMON 100 1 SITTING_LEFT
+PLayer 3 0
+SIMON 100 4 ATTACKING_STAND_LEFT
+PLayer 0 10
+PLayer 4 0
+PLayer 5 0
+PLayer 6 0
+SIMON 100 4 ATTACKING_SIT_LEFT
+PLayer 3 10
+PLayer 7 0
+PLayer 8 0
+PLayer 9 0
+SIMON 100 1 ONSTAIR_STANDING_DOWN_LEFT
+PLayer 20 0
+SIMON 100 2 ONSTAIR_WALKING_DOWN_LEFT
+PLayer 21 0
+PLayer 20 0
+SIMON 100 1 ONSTAIR_STANDING_UP_LEFT
+PLayer 22 0
+SIMON 100 2 ONSTAIR_WALKING_UP_LEFT
+PLayer 23 0
+PLayer 22 0
+SIMON 100 4 ONSTAIR_DOWN_ATTACK_LEFT
+PLayer 20 10
+PLayer 24 0
+PLayer 25 0
+PLayer 26 0
+SIMON 100 4 ONSTAIR_UP_ATTACK_LEFT
+PLayer 22 10
+PLayer 27 0
+PLayer 28 0
+PLayer 29 0
+
+
+SIMON 100 1 STANDING_RIGHT
+PLayer 10 0
+SIMON 180 4 WALKING_RIGHT
+PLayer 10 0
+PLayer 11 0
+PLayer 12 0
+PLayer 11 0
+SIMON 100 1 SITTING_RIGHT
+PLayer 13 0
+SIMON 100 4 ATTACKING_STAND_RIGHT
+PLayer 10 10
+PLayer 14 0
+PLayer 15 0
+PLayer 16 0
+SIMON 100 4 ATTACKING_SIT_RIGHT
+PLayer 13 10
+PLayer 17 0
+PLayer 18 0
+PLayer 19 0
+SIMON 100 1 ONSTAIR_STANDING_DOWN_RIGHT
+PLayer 30 0
+SIMON 100 2 ONSTAIR_WALKING_DOWN_RIGHT
+PLayer 31 0
+PLayer 30 0
+SIMON 100 1 ONSTAIR_STANDING_UP_RIGHT
+PLayer 32 0
+SIMON 100 2 ONSTAIR_WALKING_UP_RIGHT
+PLayer 33 0
+PLayer 32 0
+SIMON 100 4 ONSTAIR_DOWN_ATTACK_RIGHT
+PLayer 30 10
+PLayer 34 0
+PLayer 35 0
+PLayer 36 0
+SIMON 100 4 ONSTAIR_UP_ATTACK_RIGHT
+PLayer 32 10
+PLayer 37 0
+PLayer 38 0
+PLayer 39 0
+SIMON 100 1 INJURED_LEFT
+PLayer 40 0
+SIMON 100 1 INJURED_RIGHT
+PLayer 41 0
+
+
+	//ani = new CAnimation(180);
+	//ani->Add(PLAYER, 0);
+	//ani->Add(PLAYER, 1);
+	//ani->Add(PLAYER, 2);
+	//ani->Add(PLAYER, 1);
+	//animations[WALKING_LEFT] = ani;
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 3);
+	//animations[SITTING_LEFT] = ani;
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 0,10);
+	//ani->Add(PLAYER, 4);
+	//ani->Add(PLAYER, 5);
+	//ani->Add(PLAYER, 6);
+	//animations[ATTACKING_STAND_LEFT] = ani;
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 3, 10);
+	//ani->Add(PLAYER, 7);
+	//ani->Add(PLAYER, 8);
+	//ani->Add(PLAYER, 9);
+	//animations[ATTACKING_SIT_LEFT] = ani;
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 20);
+	//animations[ONSTAIR_STANDING_DOWN_LEFT] = ani;
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 21);
+	//ani->Add(PLAYER, 20);
+	//animations[ONSTAIR_WALKING_DOWN_LEFT] = ani;
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 22);
+	//animations[ONSTAIR_STANDING_UP_LEFT] = ani;
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 23);
+	//ani->Add(PLAYER, 22);
+	//animations[ONSTAIR_WALKING_UP_LEFT] = ani;
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 20,10);
+	//ani->Add(PLAYER, 24);
+	//ani->Add(PLAYER, 25);
+	//ani->Add(PLAYER, 26);
+	//animations[ONSTAIR_DOWN_ATTACK_LEFT] = ani;
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 22,10);
+	//ani->Add(PLAYER, 27);
+	//ani->Add(PLAYER, 28);
+	//ani->Add(PLAYER, 29);
+	//animations[ONSTAIR_UP_ATTACK_LEFT] = ani;
+	//
+
+	////RIGHT ANIMATION
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER,10);
+	//animations[STANDING_RIGHT] = ani;
+
+	//ani = new CAnimation(180);
+	//ani->Add(PLAYER, 10);
+	//ani->Add(PLAYER, 11);
+	//ani->Add(PLAYER, 12);
+	//ani->Add(PLAYER, 11);
+	//animations[WALKING_RIGHT] = ani;
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 13);
+	//animations[SITTING_RIGHT] = ani;
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 10,10);
+	//ani->Add(PLAYER, 14);
+	//ani->Add(PLAYER, 15);
+	//ani->Add(PLAYER, 16);
+	//animations[ATTACKING_STAND_RIGHT] = ani;
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 13, 10);
+	//ani->Add(PLAYER, 17);
+	//ani->Add(PLAYER, 18);
+	//ani->Add(PLAYER, 19);
+	//animations[ATTACKING_SIT_RIGHT] = ani;
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 30);
+	//animations[ONSTAIR_STANDING_DOWN_RIGHT] = ani;
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 31);
+	//ani->Add(PLAYER, 30);
+	//animations[ONSTAIR_WALKING_DOWN_RIGHT] = ani;
+
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 32);
+	//animations[ONSTAIR_STANDING_UP_RIGHT] = ani;
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 33);
+	//ani->Add(PLAYER, 32);
+	//animations[ONSTAIR_WALKING_UP_RIGHT] = ani;
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 30, 10);
+	//ani->Add(PLAYER, 34);
+	//ani->Add(PLAYER, 35);
+	//ani->Add(PLAYER, 36);
+	//animations[ONSTAIR_DOWN_ATTACK_RIGHT] = ani;
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 32,10);
+	//ani->Add(PLAYER, 37);
+	//ani->Add(PLAYER, 38);
+	//ani->Add(PLAYER, 39);
+	//animations[ONSTAIR_UP_ATTACK_RIGHT] = ani;
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 40);
+	//animations[INJURED_LEFT]=ani;
+
+	//ani = new CAnimation(100);
+	//ani->Add(PLAYER, 41);
+	//animations[INJURED_RIGHT]=ani;
+
+
+
+
+
+

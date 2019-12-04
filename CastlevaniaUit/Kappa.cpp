@@ -9,31 +9,16 @@ CKappa::CKappa()
 
 CKappa::CKappa(float x, float y, int direction)
 {
-	LPANIMATION ani = new CAnimation(500);
-	ani->Add(ENEMY, 5);
-	ani->Add(ENEMY, 6);
-	animations[WALKING_LEFT] = ani;
 
-	ani = new CAnimation(100);
-	ani->Add(ENEMY, 5);
-	animations[STANDING_LEFT] = ani;
 
-	ani = new CAnimation(500);
-	ani->Add(ENEMY, 8);
-	ani->Add(ENEMY, 9);
-	animations[WALKING_RIGHT] = ani;
 
-	ani = new CAnimation(100);
-	ani->Add(ENEMY, 8);
-	animations[STANDING_RIGHT] = ani;
+	animations[WALKING_LEFT] = CAnimationDatabase::GetInstance()->Get(KAPPA_ANI, WALKING_LEFT);
+	animations[STANDING_LEFT] = CAnimationDatabase::GetInstance()->Get(KAPPA_ANI, STANDING_LEFT);
+	animations[WALKING_RIGHT] = CAnimationDatabase::GetInstance()->Get(KAPPA_ANI, WALKING_RIGHT);
+	animations[STANDING_RIGHT] = CAnimationDatabase::GetInstance()->Get(KAPPA_ANI, STANDING_RIGHT);
+	animations[ATTACKING_STAND_LEFT] = CAnimationDatabase::GetInstance()->Get(KAPPA_ANI, ATTACKING_STAND_LEFT);
+	animations[ATTACKING_STAND_RIGHT] = CAnimationDatabase::GetInstance()->Get(KAPPA_ANI, ATTACKING_STAND_RIGHT);
 
-	ani = new CAnimation(500);
-	ani->Add(ENEMY, 4);
-	animations[ATTACKING_STAND_LEFT] = ani;
-
-	ani = new CAnimation(500);
-	ani->Add(ENEMY, 7);
-	animations[ATTACKING_STAND_RIGHT] = ani;
 
 	this->vy = -0.5;
 	this->isOnGround = false;

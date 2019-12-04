@@ -2,19 +2,32 @@
 #include"Scene.h"
 #include "GlobalObject.h"
 #include "Sprites.h"
+#include"ScoreBoard.h"
+#include"IntroObject.h"
 #include "SpriteDatabase.h"
-#include "Map.h"
+#define MAIN_MENU_POS_X -17.0f
+#define MAIN_MENU_POS_Y 0.0f
+#define ANI_POS_X 320.0f
+#define ANI_POS_Y 195.0f
+
 class CIntroScene: public CScene
 {
 private:
-	CSprite* SimonSprite;
-	CMap* CurrentMap;
+	bool IsInMainMenu;
+	CScoreBoard* Scoreboard;
+	LPANIMATION SimonSprite;
+	LPSPRITE BackGround;
+	LPANIMATION BackGroundCastle;
+	LPSPRITE BackGroundText;
+	vector<CIntroObject *> ListObject;
+
 public:
-	CIntroScene() {};
+	CIntroScene();
 	void Loadresources();
-	//int isKeyDown(int KeyCode) {};
-	int isKeyUp(int KeyCode) { return 0; };
-	void Render() {};
-	void Update(DWORD dt) {};
+	void OnKeyDown(int KeyCode);
+	void OnKeyUp(int KeyCode);
+	void Render();
+	void Update(DWORD dt);
+
 
 };

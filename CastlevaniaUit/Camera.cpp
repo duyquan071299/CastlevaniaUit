@@ -14,6 +14,8 @@ CCamera::CCamera()
 {
 	this->Width = SCREEN_WIDTH;
 	this->Height = SCREEN_HEIGHT;
+	this->x = 0;
+	this->y = 0;
 }
 
 

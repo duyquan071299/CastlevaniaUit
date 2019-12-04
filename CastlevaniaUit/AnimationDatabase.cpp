@@ -7,33 +7,42 @@ CAnimationDatabase * CAnimationDatabase::GetInstance()
 	return instance;
 }
 
-void CAnimationDatabase::Add(GraphicType type, LPANIMATION ani)
+void CAnimationDatabase::Add(AniType type,unordered_map<State, LPANIMATION> temp)
 {
-	animations[type] = ani;
+	
+	animations[type] = temp;
 }
 
-LPANIMATION CAnimationDatabase::Get(GraphicType type)
+LPANIMATION CAnimationDatabase::Get(AniType type, State ObjectState)
 {
-	return animations[type];
+	return (animations[type])[ObjectState];
 }
 void CAnimationDatabase::LoadAnimation()
 {
 	CSpriteDatabase* sprites = CSpriteDatabase::GetInstance();
 	string object;
-	int Animationtype, Defaulttime, NumberOfFrame,Type,Index,Time;
+	int AnType,Amount,Defaulttime, NumberOfFrame,GraphType,Index,Time,state;
 	LPANIMATION ani;
 	ifstream ifs("Resources\\Texts\\Animation.txt");
 	if (ifs.is_open()) {
 		while (ifs.good()) {
-			ifs >> Animationtype >> Defaulttime>> NumberOfFrame;
-			for (int i = 0; i < NumberOfFrame; i++)
+			ifs >> AnType >> Amount;
+			unordered_map<State, LPANIMATION> temp;
+			for (int i = 0; i < Amount; i++)
 			{
-				ifs >> Type >> Index >> Time;
+				ifs >> Defaulttime >> NumberOfFrame >> state;
 				ani = new CAnimation(Defaulttime);
-				ani->Add(static_cast<GraphicType>(Type), Index,Time);
-				animations[static_cast<GraphicType>(Type)] = ani;
+				for (int j = 0; j < NumberOfFrame; j++)
+				{
+					ifs >> GraphType >> Index >> Time;
+					ani->Add(static_cast<GraphicType>(GraphType), Index, Time);
+					temp[static_cast<State>(state)] = ani;
+					Add(static_cast<AniType>(AnType),temp);
 
+				}
 			}
+			
 		}
 	}
+
 }

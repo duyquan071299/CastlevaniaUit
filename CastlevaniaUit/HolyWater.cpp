@@ -1,5 +1,5 @@
 #include"HolyWater.h"
-
+#include"EffectDatabase.h"
 CHolyWater::CHolyWater()
 {
 	LPANIMATION ani = new CAnimation(100);
@@ -82,15 +82,12 @@ void CHolyWater::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 				{
 					if (dynamic_cast<CCandle *>(colliable_objects->at(i))&& !dynamic_cast<CCandle *>(colliable_objects->at(i))->isBurning)
 					{
+						CEffectDatabase::GetInstance()->AddHitEffect(colliable_objects->at(i)->x, colliable_objects->at(i)->y);
 						dynamic_cast<CCandle *>(colliable_objects->at(i))->ChangeAnimation();
 
 
 					}
-					/*else if (dynamic_cast<CCandle *>(colliable_objects->at(i)))
-					{
-						dynamic_cast<CCandle *>(colliable_objects->at(i))->ChangeAnimation();
-
-					}*/
+					
 				}
 
 			}
@@ -115,14 +112,24 @@ void CHolyWater::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 				if (dynamic_cast<CCandle *>(e->obj) && !dynamic_cast<CCandle *>(e->obj)->isBurning)
 				{
 					dynamic_cast<CCandle *>(e->obj)->ChangeAnimation();
+					CEffectDatabase::GetInstance()->AddHitEffect(e->obj->x, e->obj->y);
+
 
 
 				}
-				else if (dynamic_cast<CEnemy*>(e->obj))
+				else if (dynamic_cast<CEnemy*>(e->obj) && !dynamic_cast<CEnemy*>(e->obj)->isBurning)
 				{
 
-					//this->IsDead = true;
+					CEffectDatabase::GetInstance()->AddHitEffect(e->obj->x, e->obj->y);
+
 					dynamic_cast<CEnemy *>(e->obj)->ChangeAnimation();
+					if (dynamic_cast<CGhost*>(e->obj))
+						CSimon::GetInstance()->Score += 100;
+					else if (dynamic_cast<CBat*>(e->obj) || dynamic_cast<CPanther*>(e->obj))
+						CSimon::GetInstance()->Score += 200;
+					else if (dynamic_cast<CKappa*>(e->obj))
+						CSimon::GetInstance()->Score += 300;
+					dynamic_cast<CEnemy*>(e->obj)->ChangeAnimation();
 
 
 				}

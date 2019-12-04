@@ -2,6 +2,7 @@
 #include"GameObject.h"
 #include"SimonSprites.h"
 #include"SimonState.h"
+#include"AnimationDatabase.h"
 #include"Whip.h"
 #include"Item.h"
 #include"Dagger.h"
@@ -14,6 +15,18 @@
 #include"HolyWater.h"
 class CSimonState;
 class Whip;
+#define SIMON_START_POS_Y 217.0f
+#define SIMON_START_POS_X 0.0f
+#define WHIP_START_LEVEL 1
+#define HEART_START 5
+#define LIFE_START 3
+#define HEAL_START 16
+#define TIME_START 300
+#define SIMON_START_POS_X 0.0f
+#define INJURED_SPEED_X 0.1
+#define INJURED_SPEED_Y 0.5
+
+
 class CSimon :public CGameObject
 {
 private:
@@ -97,4 +110,24 @@ public:
 	virtual void GetBoundingBox(float &x, float &y, float &framew, float &frameh);
 
 	CWeapon * CreateSecondWeapond();
+
+	void MoveToLocation(float x, float y)
+	{
+		this->x += x;
+		this->PreviousX += x;
+		this->y += y;
+		this->PreviousY += y;
+	}
+	void CheckCollisionWithStair(vector<LPGAMEOBJECT> *coObjects=NULL);
+
+	void CheckCollisionWithBrick(vector<LPGAMEOBJECT> *coObjects = NULL);
+
+	void CheckCollisionWithInvisibleObject(vector<LPGAMEOBJECT> *coObjects = NULL);
+
+	void CheckCollisionWithItem(vector<LPGAMEOBJECT> *coObjects = NULL);
+
+
+	void CheckCollisionWithEnemy(vector<LPGAMEOBJECT> *coObjects = NULL);
+
+
 };

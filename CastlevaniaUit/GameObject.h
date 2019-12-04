@@ -56,8 +56,7 @@ public:
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 
-	//int GetState() { return this->state; }
-
+	
 	void RenderBoundingBox();
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
@@ -70,10 +69,7 @@ public:
 		float &nx,
 		float &ny);
 
-	//static void AddAnimation(int aniId);
-
-	//CGameObject();
-
+	
 
 	virtual void GetBoundingBox(float &x, float &y, float &framew, float &frameh) = 0;
 	RECT GetBBox()
@@ -89,7 +85,6 @@ public:
 	}
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects=NULL);
 	virtual void Render() = 0;
-	//virtual void SetState(int state) { this->state = state; }
 	bool IsInCamera()
 	{
 		float x, y, framew, frameh;

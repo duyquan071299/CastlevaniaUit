@@ -9,14 +9,9 @@ CGhost::CGhost()
 
 CGhost::CGhost(float fx, float fy, int direction)
 {
-	LPANIMATION ani = new CAnimation(100);
-	ani->Add(ENEMY, 0);
-	ani->Add(ENEMY, 1);
-	animations[WALKING_LEFT] = ani;
-	ani = new CAnimation(100);
-	ani->Add(ENEMY, 2);
-	ani->Add(ENEMY, 3);
-	animations[WALKING_RIGHT] = ani;
+
+	animations[WALKING_LEFT] = CAnimationDatabase::GetInstance()->Get(GHOST_ANI, WALKING_LEFT);
+	animations[WALKING_RIGHT] = CAnimationDatabase::GetInstance()->Get(GHOST_ANI, WALKING_RIGHT);
 	SetPosition(fx, fy);
 	Respawn(direction);
 	isIncamera = true;
@@ -61,10 +56,12 @@ void CGhost::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 		IsDead = true;
 		isColiable = false;
 	}
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-
 	coEvents.clear();
+
+
 
 	CalcPotentialCollisions(colliable_objects, coEvents);
 	if (coEvents.size() == 0)
@@ -79,14 +76,11 @@ void CGhost::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
-		// block 
 		if (dynamic_cast<CBrick *>(coEventsResult[0]->obj))
 		{
-			x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+			x += min_tx * dx + nx * 0.4f;		
 			y += min_ty * dy + ny * 0.4f;
 		}
-		
-		
 		
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;

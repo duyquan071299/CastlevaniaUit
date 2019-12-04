@@ -3,31 +3,15 @@
 
 CBat::CBat()
 {
-	LPANIMATION ani = new CAnimation(200);
-	ani->Add(ENEMY, 20);
-	ani->Add(ENEMY, 21);
-	ani->Add(ENEMY, 22);
-	animations[WALKING_LEFT] = ani;
-	ani = new CAnimation(200);
-	ani->Add(ENEMY, 23);
-	ani->Add(ENEMY, 24);
-	ani->Add(ENEMY, 25);
-	animations[WALKING_RIGHT] = ani;
-	this->curAnimation = animations[WALKING_LEFT];
+
 
 }
 CBat::CBat(float x, float y, int direction)
 {
-	LPANIMATION ani = new CAnimation(200);
-	ani->Add(ENEMY, 20);
-	ani->Add(ENEMY, 21);
-	ani->Add(ENEMY, 22);
-	animations[WALKING_LEFT] = ani;
-	ani = new CAnimation(200);
-	ani->Add(ENEMY, 23);
-	ani->Add(ENEMY, 24);
-	ani->Add(ENEMY, 25);
-	animations[WALKING_RIGHT] = ani;
+
+	animations[WALKING_LEFT] = CAnimationDatabase::GetInstance()->Get(BAT_ANI, WALKING_LEFT);
+	animations[WALKING_RIGHT] = CAnimationDatabase::GetInstance()->Get(BAT_ANI, WALKING_RIGHT);
+
 	SetPosition(x, y);
 	Respawn(direction);
 	isIncamera = true;

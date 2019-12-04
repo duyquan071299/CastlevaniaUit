@@ -29,7 +29,10 @@ public:
 	void Render(){
 		RenderBoundingBox();
 	}
-
+	int GetWidth()
+	{
+		return this->Width;
+	}
 	virtual void GetBoundingBox(float &x, float &y, float &framew, float &frameh){
 		x = this->x;
 		y = this->y;

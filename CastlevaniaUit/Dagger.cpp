@@ -1,5 +1,5 @@
 #include"Dagger.h"
-
+#include"EffectDatabase.h"
 CDagger::CDagger()
 {
 	animation = new CAnimation(100);
@@ -53,9 +53,17 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 				}
 				else if (dynamic_cast<CEnemy*>(e->obj))
 				{
-
+					CEffectDatabase::GetInstance()->AddHitEffect(e->obj->x, e->obj->y);
 					this->IsDead = true;
 					dynamic_cast<CEnemy *>(e->obj)->ChangeAnimation();
+					if (dynamic_cast<CGhost*>(e->obj))
+						CSimon::GetInstance()->Score += 100;
+					else if (dynamic_cast<CBat*>(e->obj) || dynamic_cast<CPanther*>(e->obj))
+						CSimon::GetInstance()->Score += 200;
+					else if (dynamic_cast<CKappa*>(e->obj))
+						CSimon::GetInstance()->Score += 300;
+					dynamic_cast<CEnemy*>(e->obj)->ChangeAnimation();
+
 
 
 				}

@@ -4,11 +4,14 @@ class CAnimationDatabase
 {
 	static CAnimationDatabase * instance;
 
-	unordered_map<GraphicType, LPANIMATION> animations;
+	unordered_map<AniType, unordered_map<State,LPANIMATION>> animations;
+	
+	
 
 public:
-	void Add(GraphicType type, LPANIMATION ani);
-	LPANIMATION Get(GraphicType type);
+
+	void Add(AniType type, unordered_map<State, LPANIMATION>);
+	LPANIMATION Get(AniType type, State ObjectState);
 	void LoadAnimation();
 	static CAnimationDatabase * GetInstance();
 };

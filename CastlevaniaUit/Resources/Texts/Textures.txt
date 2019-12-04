@@ -6,8 +6,12 @@
 6 Resources\\Textures\\Enemy.png
 7 Resources\\Textures\\bbox.png
 8 Resources\\Textures\\Candle.png
+9 Resources\\Textures\\Intro_Background.png
 10 Resources\\Textures\\Effect.png
 12 Resources\\Textures\\Hiding_part.png
 13 Resources\\Textures\\ScoreBoard.png
 14 Resources\\Textures\\Heal.png
 15 Resources\\Textures\\Brick.png
+16 Resources\\Textures\\IntroAni.png
+17 Resources\\Textures\\Intro_Objects.png
+18 Resources\\Textures\\MainMenu.png

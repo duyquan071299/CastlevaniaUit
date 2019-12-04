@@ -160,6 +160,7 @@
     <ClInclude Include="CandleSprite.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Dagger.h" />
+    <ClInclude Include="DestroyEffect.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="DoorSprite.h" />
     <ClInclude Include="Effect.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Grid.h" />
     <ClInclude Include="HolyWater.h" />
     <ClInclude Include="IntroScene.h" />
+    <ClInclude Include="IntroObject.h" />
     <ClInclude Include="InvisibleObject.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemSprite.h" />
@@ -225,6 +227,7 @@
     <ClCompile Include="BubbleEffect.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Dagger.cpp" />
+    <ClCompile Include="DestroyEffect.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="EffectDatabase.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />

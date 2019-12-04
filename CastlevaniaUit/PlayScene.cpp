@@ -17,7 +17,7 @@ void CPlayScene::Loadresources(int level) {
 		Simon->Respawn();
 		CurrentMap = new CMap("Resources\\Maps\\Scene1.txt", "Resources\\Maps\\Scene_1.png");
 		MapBoundRight= CurrentMap->GetMapWidth();
-		MapBoundLeft = 0;
+		MapBoundLeft = MAP_BOUND_LEFT_STAGE_01;
 		Simon->x = 0;
 		this->Level = level;
 		Simon->AtLevel = level;
@@ -33,15 +33,13 @@ void CPlayScene::Loadresources(int level) {
 		Simon->Respawn();
 		CCamera::GetInstance()->isWithSimon = true;
 		CurrentMap = new CMap("Resources\\Maps\\Scene2.txt", "Resources\\Maps\\Scene_2.png");
-		Door = new CDoor(3056, 112);
+		Door = new CDoor(DOOR_POS_X_1, DOOR_POS_y_1);
 		Simon->y = RESPAWN_POSITION_Y;
-		Simon->y = 0;
 		this->Level = level;
 		Simon->AtLevel = level;
 		Simon->isInCastle = true;
-		MapBoundLeft = 0;
-		MapBoundRight = 3072;
-		//MapBoundRight = 6000;
+		MapBoundLeft = MAP_BOUND_LEFT_STAGE_02;
+		MapBoundRight = MAP_BOUND_RIGHT_STAGE_01;
 		TimeBetWeenGhostRespawn = GetTickCount();
 		//Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight(), "Resources\\Maps\\Scene2_Object.txt");
 		Grid = new CGrid();
@@ -68,16 +66,21 @@ void CPlayScene::OnKeyDown(int KeyCode)
 		}
 		if (KeyCode == DIK_B)
 		{
-			
-			Simon->x= 3500;
-			Simon->y= 200;
-			MapBoundRight = 5630;
+			Simon->x= 3000;
+			Simon->y= 0;
 		}
 		if (KeyCode == DIK_Q)
 		{
-			Simon->x = 3100;
+			MapBoundRight = 4096;
+			Simon->x = 3200;
 			Simon->y = 500;
 			Simon->isUnderGround = true;
+			
+		}
+		if (KeyCode == DIK_T)
+		{
+			CEffectDatabase::GetInstance()->AddHitEffect(200,300);
+			CEffectDatabase::GetInstance()->AddBurnEffect(200, 300);
 		}
 		
 	
@@ -183,11 +186,11 @@ void CPlayScene::Update(DWORD dt)
 			{
 				if (isThroughDoorOne == false)
 				{
-					MapBoundRight = 4096;
+					MapBoundRight = MAP_BOUND_RIGHT_STAGE_02;
 				}
 				else
 				{
-					MapBoundRight = 5635;
+					MapBoundRight = MAP_BOUND_RIGHT_STAGE_03;
 				}
 
 				
@@ -213,7 +216,7 @@ void CPlayScene::Update(DWORD dt)
 					if (!isThroughDoorOne)
 					{
 						delete Door;
-						Door = new CDoor(4080, 112);
+						Door = new CDoor(DOOR_POS_X_2, DOOR_POS_y_2);
 					}
 					isThroughDoorOne = true;
 					CCamera::GetInstance()->isWithSimon = true;
@@ -668,7 +671,18 @@ void CPlayScene::Update(DWORD dt)
 			}
 			if (Simon->isUsingCross)
 			{
+				if (!dynamic_cast<CEnemy *>(listEnemy[i])->isBurning)
+				{
+					if (dynamic_cast<CGhost*>(listEnemy[i]))
+						CSimon::GetInstance()->Score += 100;
+					else if (dynamic_cast<CBat*>(listEnemy[i]) || dynamic_cast<CPanther*>(listEnemy[i]))
+						CSimon::GetInstance()->Score += 200;
+					else if (dynamic_cast<CKappa*>(listEnemy[i]))
+						CSimon::GetInstance()->Score += 300;
+					dynamic_cast<CEnemy*>(listEnemy[i])->ChangeAnimation();
+				}
 				dynamic_cast<CEnemy *>(listEnemy[i])->ChangeAnimation();
+
 			}
 		
 		}

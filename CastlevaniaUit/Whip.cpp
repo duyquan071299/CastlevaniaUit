@@ -1,4 +1,6 @@
 #include"Whip.h"
+#include"Simon.h"
+#include"EffectDatabase.h"
 #define WHIP_1_WIDTH 50
 #define WHIP_2_WIDTH 50
 #define WHIP_3_WIDTH 80
@@ -61,16 +63,26 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			if (isContain(GetBBox(), coObjects->at(i)->GetBBox()))
 			{
-				if (dynamic_cast<CCandle *>(coObjects->at(i)))
+				if (dynamic_cast<CCandle *>(coObjects->at(i)) && !dynamic_cast<CCandle*>(coObjects->at(i))->isBurning)
 				{
 					dynamic_cast<CCandle *>(coObjects->at(i))->ChangeAnimation();
+					
 				}
-				else if (dynamic_cast<CEnemy*>(coObjects->at(i)))
+				else if (dynamic_cast<CEnemy*>(coObjects->at(i)) && !dynamic_cast<CEnemy*>(coObjects->at(i))->isBurning)
 				{
+
+					if (dynamic_cast<CGhost*>(coObjects->at(i)))
+						CSimon::GetInstance()->Score += 100;
+					else if (dynamic_cast<CBat*>(coObjects->at(i)) || dynamic_cast<CPanther*>(coObjects->at(i)))
+						CSimon::GetInstance()->Score += 200;
+					else if (dynamic_cast<CKappa*>(coObjects->at(i)))
+						CSimon::GetInstance()->Score += 300;
 					dynamic_cast<CEnemy*>(coObjects->at(i))->ChangeAnimation();
+					CEffectDatabase::GetInstance()->AddHitEffect(coObjects->at(i)->x, coObjects->at(i)->y);
 				}
 				else if (dynamic_cast<CEnemyBullet*>(coObjects->at(i)))
 				{
+					CEffectDatabase::GetInstance()->AddHitEffect(coObjects->at(i)->x, coObjects->at(i)->y);
 					dynamic_cast<CEnemyBullet*>(coObjects->at(i))->ChangeAnimation();
 				}
 				else if (dynamic_cast<CBrick*>(coObjects->at(i)))

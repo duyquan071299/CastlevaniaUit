@@ -229,5 +229,7 @@ void CSimonStateStanding::Enter()
 	CSimon::GetInstance()->vy = 0;
 	CSimon::GetInstance()->IsStanding = true;
 	CSimon::GetInstance()->IsOnAir = false;
+	CSimon::GetInstance()->IsSitting = false;
+
 
 }
