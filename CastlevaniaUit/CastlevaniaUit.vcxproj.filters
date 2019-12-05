@@ -234,6 +234,12 @@
     <ClInclude Include="IntroObject.h">
       <Filter>GameObjects\IntroObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Axe.h">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="BatBoss.h">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CastlevaniaUit.rc">
@@ -398,6 +404,12 @@
     </ClCompile>
     <ClCompile Include="DestroyEffect.cpp">
       <Filter>GameObjects\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Axe.cpp">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="BatBoss.cpp">
+      <Filter>GameObjects\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

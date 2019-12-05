@@ -1,5 +1,5 @@
 #include"Dagger.h"
-#include"EffectDatabase.h"
+
 CDagger::CDagger()
 {
 	animation = new CAnimation(100);
@@ -17,65 +17,11 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 		CGameObject::Update(dt);
 		
 		vx = nx*DAGGER_SPEED;
-
-		vector<LPCOLLISIONEVENT> coEvents;
-		vector<LPCOLLISIONEVENT> coEventsResult;
-
-		coEvents.clear();
-
-		CalcPotentialCollisions(colliable_objects, coEvents);
-
-		if (coEvents.size() == 0)
-		{
-			
-			x += dx;
-
-		}
-		else
-		{
-			float min_tx, min_ty, nx = 0, ny;
-
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-			x += min_tx * dx + nx * 0.4f;		
-			y += min_ty * dy + ny * 0.4f;
-
+		vy = 0;
+		SetCollisonWithObject(colliable_objects);
+		if (isColiableWithObject==true)
+			this->IsDead = true;
 		
-			
-			for (UINT i = 0; i < coEventsResult.size(); i++)
-			{
-				LPCOLLISIONEVENT e = coEventsResult[i];
-				if (dynamic_cast<CCandle *>(e->obj))
-				{
-					this->IsDead = true;
-					dynamic_cast<CCandle *>(e->obj)->ChangeAnimation();
-				
-
-				}
-				else if (dynamic_cast<CEnemy*>(e->obj))
-				{
-					CEffectDatabase::GetInstance()->AddHitEffect(e->obj->x, e->obj->y);
-					this->IsDead = true;
-					dynamic_cast<CEnemy *>(e->obj)->ChangeAnimation();
-					if (dynamic_cast<CGhost*>(e->obj))
-						CSimon::GetInstance()->Score += 100;
-					else if (dynamic_cast<CBat*>(e->obj) || dynamic_cast<CPanther*>(e->obj))
-						CSimon::GetInstance()->Score += 200;
-					else if (dynamic_cast<CKappa*>(e->obj))
-						CSimon::GetInstance()->Score += 300;
-					dynamic_cast<CEnemy*>(e->obj)->ChangeAnimation();
-
-
-
-				}
-
-
-
-			}
-			
-		}
-
-		// clean up collision events
-		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
 	}
 }

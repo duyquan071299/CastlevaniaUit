@@ -29,7 +29,9 @@ void CSpriteDatabase::LoadResources()
 					sprites->AddSprite(new CEnemySprites(static_cast<EnemyType>(type), frame, columns, framew, frameh));
 				else if(object=="do")
 					sprites->AddSprite(new CDoorSprite(static_cast<GraphicType>(type), frame, columns, framew, frameh));
-				else if(object=="sc")
+				else 
+					sprites->AddSprite(new CSprite(static_cast<GraphicType>(type), frame, columns, framew, frameh));
+				/*else if(object=="sc")
 					sprites->AddSprite(new CSprite(static_cast<GraphicType>(type),frame,columns, framew, frameh));
 				else if (object == "fo")
 					sprites->AddSprite(new CSprite(static_cast<GraphicType>(type), frame, columns, framew, frameh));
@@ -38,7 +40,7 @@ void CSpriteDatabase::LoadResources()
 				else if(object=="br")
 					sprites->AddSprite(new CSprite(static_cast<GraphicType>(type), frame, columns, framew, frameh));
 				else if(object=="it")
-					sprites->AddSprite(new CSprite(static_cast<GraphicType>(type), frame, columns, framew, frameh));
+					sprites->AddSprite(new CSprite(static_cast<GraphicType>(type), frame, columns, framew, frameh));*/
 			}
 		}
 	}

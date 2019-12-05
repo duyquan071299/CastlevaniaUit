@@ -2,6 +2,7 @@
 1 Resources\\Textures\\Item.png
 2 Resources\\Textures\\Weapon.png
 3 Resources\\Textures\\Door.png
+4 Resources\\Textures\\Boss.png
 5 Resources\\Textures\\Font.png
 6 Resources\\Textures\\Enemy.png
 7 Resources\\Textures\\bbox.png

@@ -50,7 +50,7 @@ CScoreBoard::CScoreBoard(float x, float y)
 
 void CScoreBoard::Render()
 {
-	ClearBoard->DrawScoreBoard(x, y, default_color);
+	ClearBoard->DrawScoreBoard(x, y, default_color	);
 	for (int i = 0; i < this->Heart.length(); i++)
 	{
 		

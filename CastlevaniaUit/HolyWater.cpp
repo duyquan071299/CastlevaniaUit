@@ -1,5 +1,6 @@
 #include"HolyWater.h"
 #include"EffectDatabase.h"
+#include"Simon.h"
 CHolyWater::CHolyWater()
 {
 	LPANIMATION ani = new CAnimation(100);
@@ -36,7 +37,7 @@ void CHolyWater::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 		if (this->Currentstate == 0)
 		{
 			vx = nx * 0.3;
-			vy += 0.002 * dt;
+			vy += GAME_GRAVITY * dt;
 		}
 		else
 		{

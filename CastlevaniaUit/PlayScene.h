@@ -8,6 +8,7 @@
 #include"Panther.h"
 #include"Kappa.h"
 #include"Bat.h"
+#include"BatBoss.h"
 #include"Door.h"
 #include"Grid.h"
 #include"ScoreBoard.h"
@@ -18,7 +19,6 @@ private:
 	CSimon* Simon;
 	CScoreBoard * ScoreBoard;
 	CMap* CurrentMap;
-	CPanther *Panther;
 	CDoor *Door;
 	int GhostCount;
 	CGrid * Grid;
@@ -34,6 +34,7 @@ private:
 	int UnderGroundMapBoundLeft=3136;
 	int UnderGroundMapBoundRight=4160;
 	bool isThroughDoorOne;
+	bool isThroughDoorTwo;
 	DWORD TimeBetWeenGhostRespawn;
 	DWORD TimeBetWeenBatRespawn;
 	DWORD TimeBetWeenKappaRespawn;

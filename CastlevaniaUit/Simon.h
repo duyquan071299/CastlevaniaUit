@@ -13,6 +13,7 @@
 #include"EnemyBullet.h"
 #include"Bat.h"
 #include"HolyWater.h"
+#include"Axe.h"
 class CSimonState;
 class Whip;
 #define SIMON_START_POS_Y 217.0f
@@ -56,6 +57,7 @@ public:
 	bool IsKeyDownZ;
 	int count=0;
 	int WhipLevel = 1;
+	int WeaponShot;
 	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false,isThrowing=false,isHitting=false,isFreeFall=false,isCollect=false,isOnStair=false,isUP,isInjured;
 	bool IsOnAnimation;
 	bool isUsingStopWatch;

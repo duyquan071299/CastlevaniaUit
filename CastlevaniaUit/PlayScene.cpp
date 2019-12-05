@@ -66,23 +66,41 @@ void CPlayScene::OnKeyDown(int KeyCode)
 		}
 		if (KeyCode == DIK_B)
 		{
-			Simon->x= 3000;
-			Simon->y= 0;
+			Simon->x= 3000.0f;
+			Simon->y= 0.0f;
 		}
 		if (KeyCode == DIK_Q)
 		{
-			MapBoundRight = 4096;
-			Simon->x = 3200;
-			Simon->y = 500;
+			MapBoundRight = 4096.0f;
+			Simon->x = 3200.0f;
+			Simon->y = 500.0f;
 			Simon->isUnderGround = true;
 			
 		}
 		if (KeyCode == DIK_T)
 		{
-			CEffectDatabase::GetInstance()->AddHitEffect(200,300);
-			CEffectDatabase::GetInstance()->AddBurnEffect(200, 300);
+			isThroughDoorOne = true;
+			isThroughDoorTwo = true;
+			MapBoundRight = MAP_BOUND_RIGHT_STAGE_03;
+			MapBoundLeft = 4096;
+			Simon->x = 4300.0f;
+			Simon->y = 0.0f;
+
+		
+		}
+
+		if (KeyCode == DIK_1)
+		{
+			Simon->ChangeSecondWeapon(AXE);
+			Simon->WeaponShot = 2;
+			Simon->Heart = 99;
 		}
 		
+		if (KeyCode == DIK_R)
+		{
+			MapBoundLeft = 5139.0f;
+
+		}
 	
 
 	}
@@ -172,63 +190,78 @@ void CPlayScene::Update(DWORD dt)
 				CCamera::GetInstance()->Update(UnderGroundMapBoundLeft, UnderGroundMapBoundRight);
 			}
 
-
 		}
 		else
 		{
-			if (CCamera::GetInstance()->x + SCREEN_WIDTH / 2 < Simon->x)
-				CCamera::GetInstance()->SetPosition((int)CCamera::GetInstance()->x + 0.2 *dt, 0);
-			else  if (Simon->IsFreeze && Door->x > Simon->x && Door->GetCurrentState() != OPEN)
+			if (isThroughDoorTwo)
 			{
-				Door->ChangeState(OPENNING);
+				CCamera::GetInstance()->isWithSimon = true;
+				Simon->IsFreeze = false;
 			}
-			else if (Door->GetCurrentState() == OPEN)
+			else
 			{
-				if (isThroughDoorOne == false)
+				if (CCamera::GetInstance()->x + SCREEN_WIDTH / 2 < Simon->x)
+					CCamera::GetInstance()->SetPosition((int)CCamera::GetInstance()->x + 0.2 *dt, 0);
+				else  if (Simon->IsFreeze && Door->x > Simon->x && Door->GetCurrentState() != OPEN)
 				{
-					MapBoundRight = MAP_BOUND_RIGHT_STAGE_02;
+					Door->ChangeState(OPENNING);
 				}
-				else
+				else if (Door->GetCurrentState() == OPEN)
 				{
-					MapBoundRight = MAP_BOUND_RIGHT_STAGE_03;
-				}
-
-				
-				if (Simon->x > Door->x)
-				{
-					Door->ChangeState(CLOSING);
-				}
-				else
-				{
-					Simon->IsFreeze = false;
-					Simon->IsOnAnimation = true;
-					Simon->ChangeState(new CSimonStateWalking(WALKING_RIGHT));
-				}
-
-
-			}
-			else if (Door->GetCurrentState() == CLOSE)
-			{
-				if ((int)CCamera::GetInstance()->x >= Door->x + 16)
-				{
-					Simon->IsFreeze = false;
-					MapBoundLeft = Door->x + 16;
-					if (!isThroughDoorOne)
+					if (isThroughDoorOne == false)
 					{
-						delete Door;
-						Door = new CDoor(DOOR_POS_X_2, DOOR_POS_y_2);
+						MapBoundRight = MAP_BOUND_RIGHT_STAGE_02;
 					}
-					isThroughDoorOne = true;
-					CCamera::GetInstance()->isWithSimon = true;
-					AllowRespawnBat = true;
-					TimeBetWeenBatRespawn = GetTickCount();
-				}
-				else
-				{
-					CCamera::GetInstance()->SetPosition((int)CCamera::GetInstance()->x + 0.1 *dt, 0);
-				}
+					else
+					{
+						MapBoundRight = MAP_BOUND_RIGHT_STAGE_03;
+					}
 
+
+					if (Simon->x > Door->x)
+					{
+						Door->ChangeState(CLOSING);
+					}
+					else
+					{
+						Simon->IsFreeze = false;
+						Simon->IsOnAnimation = true;
+						Simon->ChangeState(new CSimonStateWalking(WALKING_RIGHT));
+					}
+
+
+				}
+				else if (Door->GetCurrentState() == CLOSE)
+				{
+					if ((int)CCamera::GetInstance()->x >= Door->x + 16)
+					{
+						Simon->IsFreeze = false;
+						MapBoundLeft = Door->x + 16;
+						if (!isThroughDoorOne)
+						{
+							delete Door;
+							Door = new CDoor(DOOR_POS_X_2, DOOR_POS_y_2);
+							isThroughDoorOne = true;
+						}
+						
+						if (isThroughDoorOne && !isThroughDoorTwo)
+						{
+							isThroughDoorTwo = true;
+						}
+						
+						CCamera::GetInstance()->isWithSimon = true;
+						AllowRespawnBat = true;
+						TimeBetWeenBatRespawn = GetTickCount();
+					}
+					else
+					{
+						CCamera::GetInstance()->SetPosition((int)CCamera::GetInstance()->x + 0.1 *dt, 0);
+					}
+
+				}
 			}
+				
+			
 
 
 		}
@@ -271,33 +304,33 @@ void CPlayScene::Update(DWORD dt)
 		{
 			if (Now - TimeBetWeenGhostRespawn >= GHOST_RESPAWN_TIME)
 			{
-				if ((Simon->x >= GHOST_RESPAWN_REGION_1_LEFT && Simon->x <= GHOST_RESPAWN_REGION_1_RIGHT)||(Simon->x >= GHOST_RESPAWN_REGION_2_LEFT && Simon->x <= GHOST_RESPAWN_REGION_2_RIGHT))
+				if ((Simon->x >= GHOST_RESPAWN_REGION_1_LEFT && Simon->x <= GHOST_RESPAWN_REGION_1_RIGHT)||(Simon->x >= GHOST_RESPAWN_REGION_2_LEFT && Simon->x <= GHOST_RESPAWN_REGION_2_RIGHT)|| (Simon->x >= GHOST_RESPAWN_REGION_3_LEFT && Simon->x <= GHOST_RESPAWN_REGION_3_RIGHT))
 				{
 					if (GhostCount < 3)
 					{
 						if (CCamera::GetInstance()->x == MapBoundLeft)
 						{
-							Grid->AddObject(new CGhost(CCamera::GetInstance()->x + SCREEN_WIDTH - 30, RESPAWN_POSITION_Y, -1));
+							Grid->AddObject(new CGhost(CCamera::GetInstance()->x + SCREEN_WIDTH - 30, GHOST_RESPAWN_POSITION_Y, -1));
 							GhostCount++;
 						}
 						else if (CCamera::GetInstance()->x  == (float)MapBoundRight - CCamera::GetInstance()->GetWidth() + 16)
 						{
-							Grid->AddObject(new CGhost(CCamera::GetInstance()->x +  30, RESPAWN_POSITION_Y, 1));
+							Grid->AddObject(new CGhost(CCamera::GetInstance()->x +  30, GHOST_RESPAWN_POSITION_Y, 1));
 							GhostCount++;
 						}
 						else if (Simon->vx > 0)
 						{
-							Grid->AddObject(new CGhost(CCamera::GetInstance()->x + 30, RESPAWN_POSITION_Y, 1));
+							Grid->AddObject(new CGhost(CCamera::GetInstance()->x + 30, GHOST_RESPAWN_POSITION_Y, 1));
 							GhostCount++;
 						}
 						else if (Simon->vx < 0)
 						{
-							Grid->AddObject(new CGhost(CCamera::GetInstance()->x + SCREEN_WIDTH -30, RESPAWN_POSITION_Y, -1));
+							Grid->AddObject(new CGhost(CCamera::GetInstance()->x + SCREEN_WIDTH -30, GHOST_RESPAWN_POSITION_Y, -1));
 							GhostCount++;
 						}
 						else if (Simon->vx == 0)
 						{
-							Grid->AddObject(new CGhost(CCamera::GetInstance()->x + SCREEN_WIDTH -30, RESPAWN_POSITION_Y, -1));
+							Grid->AddObject(new CGhost(CCamera::GetInstance()->x + SCREEN_WIDTH -30, GHOST_RESPAWN_POSITION_Y, -1));
 							GhostCount++;
 						}
 					
@@ -660,6 +693,14 @@ void CPlayScene::Update(DWORD dt)
 				}
 
 			}
+			else if (dynamic_cast<CBatBoss *>(listEnemy[i]))
+			{
+				if (keys[DIK_R] == true)
+				{
+					dynamic_cast<CBatBoss *>(listEnemy[i])->StartMoving();
+				}
+					
+			}
 
 			if (Simon->isUsingStopWatch)
 			{
@@ -765,16 +806,19 @@ void CPlayScene::UpdateSimon()
 		Simon->AllowThrow = true;
 		Simon->isThrowing = false;
 		auto listObject = Grid->GetListMapObject();
+		int WeaponCount=0;
 		for (int i = 0; i < listObject.size(); i++)
 		{
 			if (dynamic_cast<CWeapon *>(listObject[i]))
+				WeaponCount++;
+			if(Simon->WeaponShot== WeaponCount)
 				Simon->AllowThrow = false;
 			
 
 		}
 		if (Simon->AllowThrow)
 		{
-			if (Simon->WeaponType == DAGGER || Simon->WeaponType == HOLYWATER)
+			if (Simon->WeaponType == DAGGER || Simon->WeaponType == HOLYWATER||Simon->WeaponType==AXE)
 			{
 				if (Simon->Heart < 1)
 					return;

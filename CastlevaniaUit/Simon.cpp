@@ -35,6 +35,7 @@ CSimon::CSimon() {
 	animations[ONSTAIR_DOWN_ATTACK_RIGHT] = CAnimationDatabase::GetInstance()->Get(SIMON_ANI, ONSTAIR_DOWN_ATTACK_RIGHT);
 	animations[ONSTAIR_UP_ATTACK_RIGHT] = CAnimationDatabase::GetInstance()->Get(SIMON_ANI, ONSTAIR_UP_ATTACK_RIGHT);
 	animations[INJURED_RIGHT] = CAnimationDatabase::GetInstance()->Get(SIMON_ANI, INJURED_RIGHT);
+	animations[FACING_INSIDE] = CAnimationDatabase::GetInstance()->Get(SIMON_ANI, FACING_INSIDE);
 
 
 
@@ -59,6 +60,7 @@ void CSimon::Respawn()
 		ChangeState(new CSimonStateStanding(STANDING_RIGHT));
 		nx = 1;
 		IsDead = false;
+		WeaponShot = 1;
 	}
 	else
 	{
@@ -73,11 +75,7 @@ void CSimon::Respawn()
 
 CSimon::~CSimon()
 {
-	for (auto it = animations.begin(); it != animations.end(); ++it)
-	{
-		if (it->second) delete it->second;
-		animations.erase(it);
-	}
+	
 	if (currentstate != nullptr)
 		delete currentstate;
 	currentstate = nullptr;
@@ -274,376 +272,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CheckCollisionWithItem(coObjects);
 	CheckCollisionWithEnemy(coObjects);
 
-	/*
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-
-	coEvents.clear();
-	
-	
-
-	// turn off collision when die 
-	//if (currentstate->GetStateName() != MARIO_STATE_DIE)
-	CalcPotentialCollisions(coObjects, coEvents);
-
-	// No collision occured, proceed normally
-	if (coEvents.size() == 0)
-	{
- 		x += dx;
-		y += dy;
-	
-		isColiableWithStairBottom = isColiableWithStairTop = false;
-
-		for (UINT i = 0; i < coObjects->size(); i++)
-		{
-			if (isContain(this->GetBBox(), coObjects->at(i)->GetBBox()) && !dynamic_cast<CDagger*>(coObjects->at(i)))
-			{
-
-				if (dynamic_cast<CItem *>(coObjects->at(i)))
-				{
-				
-					CItem *Item = dynamic_cast<CItem *>(coObjects->at(i));
-					if (Item->GetHolderType() == LARGE_HEART)
-						this->Heart += 5;
-					else if (Item->GetHolderType() == HEART)
-						this->Heart += 1;
-					else if (Item->GetHolderType() == WHIP)
-					{
-						StartCollectItem();
-						this->WhipLevel += 1;
-					}
-					else if (Item->GetHolderType() == DAGGER)
-					{
-						
-							ChangeSecondWeapon(DAGGER);
-					}
-					else if (Item->GetHolderType() == WATCH)
-					{
-						ChangeSecondWeapon(WATCH);
-					}
-					else if (Item->GetHolderType() == CROSS)
-					{
-						isUsingCross = true;
-					}
-					else if (Item->GetHolderType() == HOLYWATER)
-					{
-						ChangeSecondWeapon(HOLYWATER);
-					}
-					else if (Item->GetHolderType() == MONEY_1)
-					{
-						this->Score += 100;
-					}
-					else if (Item->GetHolderType() == MONEY_2)
-					{
-						this->Score += 200;
-					}
-					else if (Item->GetHolderType() == MONEY_3)
-					{
-						this->Score += 300;
-					}
-					Item->IsDead = true;
-				}
-				else if (dynamic_cast<CInvisibleObject *>(coObjects->at(i)))
-				{
-					if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() == UP_STAIR_OBJECT_TYPE_1)
-					{
-						if (isColiableWithStairTop)
-							continue;
-						isColiableWithStairBottom = true;
-						DirectionStair = 1;
-						CheckPoint = dynamic_cast<CInvisibleObject *>(coObjects->at(i))->x + 5;
-					}
-					else if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() == DOWN_STAIR_OBJECT_TYPE_1)
-					{
-						if (isOnStair)
-						{
-							isOnStair = false;
-							isInjured = false;
-							if (DirectionStair)
-							{
-								nx = 1;
-								ChangeState(new CSimonStateStanding(STANDING_RIGHT));
-							}
-							y -= 2;
-							vy = 9999.0f;
-							vx = 0.0f;
-						}
-						else
-						{
-							isColiableWithStairTop = true;
-							DirectionStair = 1;
-							CheckPoint = dynamic_cast<CInvisibleObject *>(coObjects->at(i))->x;
-						}
-							
-					}
-					else if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() == UP_STAIR_OBJECT_TYPE_2)
-					{
-						isColiableWithStairBottom = true;
-						DirectionStair = -1;
-						CheckPoint = dynamic_cast<CInvisibleObject *>(coObjects->at(i))->x ;
-					}
-					else if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() == DOWN_STAIR_OBJECT_TYPE_2)
-					{
-						if (isOnStair)
-						{
-							isOnStair = false;
-							isInjured = false;
-							if (DirectionStair)
-							{
-								nx = -1;
-								ChangeState(new CSimonStateStanding(STANDING_LEFT));
-							}
-							y -= 2;
-							vy = 9999.0f;
-							vx = 0.0f;
-						}
-						else
-						{
-							isColiableWithStairTop = true;
-							DirectionStair = -1;
-							CheckPoint = dynamic_cast<CInvisibleObject *>(coObjects->at(i))->x;
-						}
-					}
-						
-				}
-			
-
-			}
-		}
-		
-	}
-	else
-	{
-	
-		float min_tx, min_ty, nx = 0, ny;
-
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-		// block 
-		if (dynamic_cast<CBrick *>(coEventsResult[0]->obj))
-		{
-			x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-			y += min_ty * dy + ny * 0.4f;
-			if (isOnStair && !isUP)
-			{
-				if (nx <= 0 && ny>=0)
-				{
-					x += dx;
-				}
-				else
-				{
-					isOnStair = false;
-					if (DirectionStair == 1)
-					{
-						nx = -1;
-						ChangeState(new CSimonStateStanding(STANDING_LEFT));
-						CSimon::GetInstance()->isInjured = false;
-
-					}
-					else if (DirectionStair == -1)
-					{
-						nx = 1;
-						ChangeState(new CSimonStateStanding(STANDING_RIGHT));
-						CSimon::GetInstance()->isInjured = false;
-					}
-				}
-				
-				
-
-			}
-			
-			if (ny == 1)
-			{
-				y += dy;
-			}
-			
-		}
-	
-				
-		if (!dynamic_cast<CInvisibleObject*>(coEventsResult[0]->obj)&& !dynamic_cast<CItem*>(coEventsResult[0]->obj))
-		{
-			if (nx != 0)
-			{
-				if(vy>0 &&!isOnStair)
-					vx = 0;
-			}
-			if (ny ==-1) vy = 0;
-		}
-
-
-	
-		
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CItem *>(e->obj))
-			{
-					CItem *Item = dynamic_cast<CItem *>(e->obj);
-					isCollect = true;
-					if (Item->IsDead == true)
-						continue;
-					if (Item->GetHolderType() == LARGE_HEART)
-						this->Heart += 5;
-					else if (Item->GetHolderType() == HEART)
-						this->Heart += 1;
-					else if (Item->GetHolderType() == WHIP)
-					{
-						StartCollectItem();
-						this->WhipLevel += 1;
-					}	
-					else if (Item->GetHolderType() == DAGGER)
-					{
-							ChangeSecondWeapon(DAGGER);
-					}
-					else if (Item->GetHolderType() == WATCH)
-					{
-						
-							ChangeSecondWeapon(WATCH);
-					}
-					else if (Item->GetHolderType() == CROSS)
-					{
-						isUsingCross = true;
-					}
-					else if (Item->GetHolderType() == HOLYWATER)
-					{
-						ChangeSecondWeapon(HOLYWATER);
-					}
-					else if (Item->GetHolderType() == MONEY_1)
-					{
-						this->Score += 100;
-					}
-					else if (Item->GetHolderType() == MONEY_2)
-					{
-						this->Score += 200;
-					}
-					else if (Item->GetHolderType() == MONEY_3)
-					{
-						this->Score += 300;
-					}
-					Item->IsDead = true;
-			
-			}
-			else if (dynamic_cast<CEnemy *>(e->obj) || dynamic_cast<CEnemyBullet *>(e->obj))
-			{
-				this->Heal -= 1;
-				if (dynamic_cast<CBat *>(e->obj))
-					dynamic_cast<CBat *>(e->obj)->ChangeAnimation();
-
-				if (isOnStair || IsOnAnimation)
-				{
-					StartUntouchable();
-					isInjured = true;
-					vx = 0;
-					vy = 0;
-				}
-				else
-				{
-					if (nx <= 0 && ny <= 0)
-					{
-						vx = -INJURED_SPEED_X;
-					}
-					else
-						vx = INJURED_SPEED_X;
-
-					vy = -INJURED_SPEED_Y;
-					
-					this->IsJumping=false;
-					if (vx <= 0)
-						CSimon::GetInstance()->ChangeState(new CSimonStateInjured(INJURED_LEFT));
-					else
-						CSimon::GetInstance()->ChangeState(new CSimonStateInjured(INJURED_RIGHT));
-
-				}
-			
-					
-		
-			}
-			else if (dynamic_cast<CInvisibleObject*>(e->obj))
-			{
-				//this->IsOnAnimation = true;
-				CInvisibleObject* object = dynamic_cast<CInvisibleObject *>(e->obj);
-				if (object->GetType() == WALK_THROUGH_DOOR_OBJECT)
-				{
-					CCamera::GetInstance()->isWithSimon = false;
-					CheckPoint = object->x + object->GetWidth();
-					this->y = GROUND_POSITION_Y;
-					object->IsDead = true;
-					ChangeState(new CSimonStateStanding(STANDING_RIGHT));
-					IsFreeze = true;
-
-				}
-				else if (object->GetType() == WALK_THROUGH_CASTLE_OBJECT)
-				{
-					CCamera::GetInstance()->isWithSimon = false;
-					IsOnAnimation = true;
-					if (vx > 0)
-						CheckPoint = x + CHECK_POINT_1;
-					else
-						CheckPoint = x - CHECK_POINT_2;
-					if (vy != 0)
-					{
-						vy = 99999.0f;
-						y -= 2;
-						if (vx > 0)
-							ChangeState(new CSimonStateWalking(WALKING_RIGHT));
-						else
-							ChangeState(new CSimonStateWalking(WALKING_LEFT));
-					}
-
-
-					object->IsDead = true;
-				}
-				else if (object->GetType() == IN_CASTLE_OBJECT)
-				{
-					this->IsOnAnimation = false;
-					this->IsRespawn = true;
-					object->IsDead = true;
-				}
-				else if (object->GetType() == WALK_IN_UNDER_GROUND_OBJECT)
-				{
-					if (!IsOnAnimation)
-					{
-						MoveToLocation(CHECK_POINT_4,0.0f);
-						CheckPoint = object->x - CHECK_POINT_3;
-						vx = -SIMON_ONSTAIR_SPEED * 4;
-						vy = -SIMON_ONSTAIR_SPEED * 4;
-						this->IsOnAnimation = true;
-						isWalkingInOutGround = true;
-					}
-					else
-						this->isUnderGround = true;
-				
-					x += dx;
-				}
-				else if (object->GetType() == WALK_OUT_UNDER_GROUND_OBJECT)
-				{
-					if (!IsOnAnimation)
-					{
-						MoveToLocation(-CHECK_POINT_4,0.0f);
-						CheckPoint = object->x+ CHECK_POINT_2;
-						vx = SIMON_ONSTAIR_SPEED * 4;
-						vy = SIMON_ONSTAIR_SPEED * 4;
-						this->IsOnAnimation = true;
-						isWalkingInOutGround = true;
-					}
-					else
-						this->isUnderGround = false;
-					x += dx;
-
-				}
-
-
-			}
-				this->isCollect = false;
-		}
-
-
-
-	}
-
-	// clean up collision events
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-	*/
 	
 
 	currentstate->Update(dt);
@@ -782,7 +410,50 @@ CWeapon* CSimon::CreateSecondWeapond()
 		return Dagger;
 	}
 	case AXE:
-		break;
+	{
+		CAxe* Axe = new CAxe();
+		Axe->SetPosition(x + 8, y);
+		if (isOnStair)
+		{
+			if (DirectionStair == 1)
+			{
+				if (isUP)
+				{
+					Axe->nx = 1;
+				}
+				else
+				{
+					Axe->nx = -1;
+				}
+
+			}
+			else
+			{
+
+				if (isUP)
+				{
+					Axe->nx = -1;
+				}
+				else
+				{
+					Axe->nx = 1;
+				}
+			}
+		}
+		else
+		{
+			if (nx > 0)
+			{
+				Axe->nx = 1;
+			}
+			else
+			{
+				Axe->nx = -1;
+			}
+
+		}
+		return Axe;
+	}
 	case HOLYWATER:
 	{
 		CHolyWater * HolyWater = new CHolyWater();
@@ -1182,6 +853,10 @@ void CSimon::CheckCollisionWithItem(vector<LPGAMEOBJECT> *coObjects)
 	{
 		ChangeSecondWeapon(WATCH);
 	}
+	else if (type == AXE)
+	{
+		ChangeSecondWeapon(AXE);
+	}
 	else if (type == CROSS)
 	{
 		isUsingCross = true;
@@ -1257,9 +932,6 @@ void CSimon::CheckCollisionWithEnemy(vector<LPGAMEOBJECT> *coObjects)
 	}
 
 
-
-
-	
 
 	if (isColideUsingAABB != true)
 	{

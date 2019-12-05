@@ -4,6 +4,7 @@
 #include"Simon.h"
 #include"Enemy.h"
 #include"Panther.h"
+#include"BatBoss.h"
 #include"InvisibleObject.h"
 #include"Camera.h"
 #include"EffectDatabase.h"
@@ -75,6 +76,12 @@ CGrid::CGrid(int MapWidth, int MapHeight, LPCSTR fileitem)
 				AddObject(Panther);
 				break;
 
+			}
+			case 6:
+			{
+				CBatBoss * Boss = new CBatBoss(x, y);
+				AddObject(Boss);
+				break;
 			}
 			}
 		}
@@ -150,6 +157,12 @@ void CGrid::AddObjectToGrid(LPCSTR fileitem)
 				Object = dynamic_cast<CPanther*>(Panther);
 				break;
 
+			}
+			case 6:
+			{
+				CBatBoss * Boss = new CBatBoss(x, y);
+				Object = dynamic_cast<CBatBoss*>(Boss);
+				break;
 			}
 			default:
 				Object = new CBrick(x,y);
