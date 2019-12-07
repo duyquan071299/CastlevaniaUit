@@ -1,5 +1,6 @@
 #include"Weapon.h"
 #include"Simon.h"
+#include"BatBoss.h"
 
 void CWeapon::SetCollisonWithObject(vector<LPGAMEOBJECT> *coObjects )
 {
@@ -41,6 +42,15 @@ void CWeapon::SetCollisonWithObject(vector<LPGAMEOBJECT> *coObjects )
 			{
 				CEffectDatabase::GetInstance()->AddHitEffect(e->obj->x, e->obj->y);
 				isColiableWithObject = true;
+				if (dynamic_cast<CBatBoss*>(e->obj))
+				{
+				
+					dynamic_cast<CBatBoss*>(e->obj)->SetHeal(dynamic_cast<CBatBoss*>(e->obj)->GetHeal() - 1);
+	
+
+					continue;
+				}
+			
 				dynamic_cast<CEnemy *>(e->obj)->ChangeAnimation();
 				if (dynamic_cast<CGhost*>(e->obj))
 					CSimon::GetInstance()->Score += 100;

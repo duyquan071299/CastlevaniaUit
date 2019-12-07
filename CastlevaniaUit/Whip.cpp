@@ -1,6 +1,7 @@
 #include"Whip.h"
 #include"Simon.h"
 #include"EffectDatabase.h"
+#include"BatBoss.h"
 #define WHIP_1_WIDTH 50
 #define WHIP_2_WIDTH 50
 #define WHIP_3_WIDTH 80
@@ -70,7 +71,14 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else if (dynamic_cast<CEnemy*>(coObjects->at(i)) && !dynamic_cast<CEnemy*>(coObjects->at(i))->isBurning)
 				{
-
+					CEffectDatabase::GetInstance()->AddHitEffect(coObjects->at(i)->x, coObjects->at(i)->y);
+					if (dynamic_cast<CBatBoss*>(coObjects->at(i)))
+					{
+						dynamic_cast<CBatBoss*>(coObjects->at(i))->SetHeal(dynamic_cast<CBatBoss*>(coObjects->at(i))->GetHeal() - 1);
+						CSimon::GetInstance()->whip = nullptr;
+						return;
+						continue;
+					}
 					if (dynamic_cast<CGhost*>(coObjects->at(i)))
 						CSimon::GetInstance()->Score += 100;
 					else if (dynamic_cast<CBat*>(coObjects->at(i)) || dynamic_cast<CPanther*>(coObjects->at(i)))
@@ -78,7 +86,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					else if (dynamic_cast<CKappa*>(coObjects->at(i)))
 						CSimon::GetInstance()->Score += 300;
 					dynamic_cast<CEnemy*>(coObjects->at(i))->ChangeAnimation();
-					CEffectDatabase::GetInstance()->AddHitEffect(coObjects->at(i)->x, coObjects->at(i)->y);
+					
 				}
 				else if (dynamic_cast<CEnemyBullet*>(coObjects->at(i)))
 				{
@@ -90,6 +98,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (dynamic_cast<CBrick*>(coObjects->at(i))->GetType() > 2)
 						coObjects->at(i)->IsDead = true;
 				}
+			
 			}
 		}
 	}

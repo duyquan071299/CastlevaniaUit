@@ -528,6 +528,8 @@ vector<LPGAMEOBJECT> CGrid::GetListObjectCanContactWithMapObject(LPGAMEOBJECT ob
 		{
 			if (dynamic_cast<CInvisibleObject *>(objects[i]) || dynamic_cast<CItem *>(objects[i]))
 				continue;
+			else if (dynamic_cast<CCandle *>(objects[i]) && dynamic_cast<CCandle *>(objects[i])->isBurning)
+				continue;
 			else if (dynamic_cast<CEnemy *>(objects[i]) && dynamic_cast<CEnemy *>(objects[i])->isBurning)
 				continue;
 			else if (dynamic_cast<CWeapon *>(objects[i]))

@@ -12,7 +12,6 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 {
 	if (this->IsDead==false)
 	{
-	
 
 		CGameObject::Update(dt);
 		

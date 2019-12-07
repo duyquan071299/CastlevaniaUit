@@ -83,7 +83,7 @@ void CPlayScene::OnKeyDown(int KeyCode)
 			isThroughDoorTwo = true;
 			MapBoundRight = MAP_BOUND_RIGHT_STAGE_03;
 			MapBoundLeft = 4096;
-			Simon->x = 4300.0f;
+			Simon->x = 5140.0f;
 			Simon->y = 0.0f;
 
 		
@@ -95,10 +95,24 @@ void CPlayScene::OnKeyDown(int KeyCode)
 			Simon->WeaponShot = 2;
 			Simon->Heart = 99;
 		}
+
+		if (KeyCode == DIK_2)
+		{
+			Simon->ChangeSecondWeapon(DAGGER);
+			Simon->WeaponShot = 2;
+			Simon->Heart = 99;
+		}
+
+		if (KeyCode == DIK_3)
+		{
+			Simon->ChangeSecondWeapon(WATCH);
+			Simon->WeaponShot = 2;
+			Simon->Heart = 99;
+		}
 		
 		if (KeyCode == DIK_R)
 		{
-			MapBoundLeft = 5139.0f;
+			MapBoundLeft = 5121.0f;
 
 		}
 	
@@ -598,7 +612,7 @@ void CPlayScene::Update(DWORD dt)
 
 		}
 	}
-
+	
 	
 
 	vector<LPGAMEOBJECT> listEnemy = Grid->GetListEnemies();
@@ -695,6 +709,7 @@ void CPlayScene::Update(DWORD dt)
 			}
 			else if (dynamic_cast<CBatBoss *>(listEnemy[i]))
 			{
+				ScoreBoard->SetBossHeal(dynamic_cast<CBatBoss *>(listEnemy[i])->GetHeal());
 				if (keys[DIK_R] == true)
 				{
 					dynamic_cast<CBatBoss *>(listEnemy[i])->StartMoving();

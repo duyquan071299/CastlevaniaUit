@@ -33,6 +33,9 @@ CPanther::CPanther(float x, float y, int Direction)
 
 void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 {
+	if (isFrozen && !isBurning)
+		return;
+
 	if (isBurning == true)
 	{
 		if (curAnimation->IsLastFrame())
@@ -43,8 +46,7 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 		return;
 	}
 	
-	CGameObject::Update(dt);
-	if (isBurning || isSitting)
+	if (isBurning || isSitting )
 		vx = 0;
 	else if (isJumping)
 	{
@@ -93,11 +95,9 @@ void CPanther::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 	
 
 	
-	if (!isFrozen)
-	{
 		vy += GAME_GRAVITY * dt;
 		CGameObject::Update(dt);
-	}
+	
 		
 
 

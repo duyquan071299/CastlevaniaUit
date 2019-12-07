@@ -42,12 +42,9 @@ CScoreBoard::CScoreBoard(float x, float y)
 	this->Life = "00";
 	this->Score = "000000";
 	this->Time = "0300";
-	this->BossHeal = 16;
 	this->SimonHeal = 16;
 	
 }
-
-
 void CScoreBoard::Render()
 {
 	ClearBoard->DrawScoreBoard(x, y, default_color	);
@@ -98,8 +95,6 @@ void CScoreBoard::Render()
 }
 void CScoreBoard::Update()
 {
-	/*this->x = CCamera::GetInstance()->x;
-	this->y = CCamera::GetInstance()->y;*/
 	char buffer[256];
 	sprintf(buffer, "%02d", CSimon::GetInstance()->Heart);
 	this->Heart = buffer;

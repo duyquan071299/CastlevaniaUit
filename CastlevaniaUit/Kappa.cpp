@@ -31,6 +31,8 @@ CKappa::CKappa(float x, float y, int direction)
 
 void CKappa::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 {
+	if (isFrozen && !isBurning)
+		return;
 
 	if (isBurning)
 	{
@@ -116,12 +118,10 @@ void CKappa::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 		this->IsDead = true;
 	}
 
-	if (!isFrozen)
-	{
+	
 		CGameObject::Update(dt);
 		vy += 0.01;
 		
-	}
 
 
 

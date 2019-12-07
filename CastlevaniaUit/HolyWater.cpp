@@ -81,7 +81,7 @@ void CHolyWater::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 			{
 				if (isContain(this->GetBBox(), colliable_objects->at(i)->GetBBox()))
 				{
-					if (dynamic_cast<CCandle *>(colliable_objects->at(i))&& !dynamic_cast<CCandle *>(colliable_objects->at(i))->isBurning)
+					if (dynamic_cast<CCandle *>(colliable_objects->at(i)))
 					{
 						CEffectDatabase::GetInstance()->AddHitEffect(colliable_objects->at(i)->x, colliable_objects->at(i)->y);
 						dynamic_cast<CCandle *>(colliable_objects->at(i))->ChangeAnimation();
@@ -110,7 +110,7 @@ void CHolyWater::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
 				LPCOLLISIONEVENT e = coEventsResult[i];
-				if (dynamic_cast<CCandle *>(e->obj) && !dynamic_cast<CCandle *>(e->obj)->isBurning)
+				if (dynamic_cast<CCandle *>(e->obj) )
 				{
 					dynamic_cast<CCandle *>(e->obj)->ChangeAnimation();
 					CEffectDatabase::GetInstance()->AddHitEffect(e->obj->x, e->obj->y);
@@ -123,7 +123,6 @@ void CHolyWater::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 
 					CEffectDatabase::GetInstance()->AddHitEffect(e->obj->x, e->obj->y);
 
-					dynamic_cast<CEnemy *>(e->obj)->ChangeAnimation();
 					if (dynamic_cast<CGhost*>(e->obj))
 						CSimon::GetInstance()->Score += 100;
 					else if (dynamic_cast<CBat*>(e->obj) || dynamic_cast<CPanther*>(e->obj))

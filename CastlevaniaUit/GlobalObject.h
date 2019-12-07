@@ -15,7 +15,7 @@ using namespace std;
 // Program values
 #define WINDOW_CLASS_NAME "CastleVaniaUIT"
 #define MAIN_WINDOW_TITLE "CastleVaniaUIT"
-#define SCREEN_WIDTH 512
+#define SCREEN_WIDTH 530
 #define SCREEN_HEIGHT 475 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0,0 )
 #define BACKGROUND_COLOR_2 D3DCOLOR_XRGB(255, 255,255 )

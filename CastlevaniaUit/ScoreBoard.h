@@ -14,9 +14,14 @@ private:
 	string Heart;
 	int SimonHeal;
 	int BossHeal;
+	
 public:
 	float x, y;
 	static CScoreBoard* GetInstance();
+	void SetBossHeal(int heal)
+	{
+		this->BossHeal = heal;
+	}
 	CScoreBoard();
 	CScoreBoard(float x, float y);
 	void Render();
