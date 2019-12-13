@@ -21,7 +21,7 @@ CScoreBoard * CScoreBoard::instance = NULL;
 
 CScoreBoard* CScoreBoard::GetInstance()
 {
-	if (instance == NULL)
+	if (!instance)
 		instance = new CScoreBoard();
 	return instance;
 }
@@ -31,7 +31,7 @@ CScoreBoard::CScoreBoard()
 	
 }
 
-CScoreBoard::CScoreBoard(float x, float y)
+void CScoreBoard::SetUp(float x, float y)
 {
 	this->x = x;
 	this->y = y;
@@ -43,6 +43,7 @@ CScoreBoard::CScoreBoard(float x, float y)
 	this->Score = "000000";
 	this->Time = "0300";
 	this->SimonHeal = 16;
+	this->BossHeal = 16;
 	
 }
 void CScoreBoard::Render()

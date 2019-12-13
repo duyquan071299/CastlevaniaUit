@@ -686,7 +686,12 @@ void CSimon::CheckCollisionWithInvisibleObject(vector<LPGAMEOBJECT> *coObjects)
 		{
 			if (dynamic_cast<CInvisibleObject *>(coObjects->at(i)))
 			{
-				if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != WALK_THROUGH_CASTLE_OBJECT && dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != IN_CASTLE_OBJECT && dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != WALK_THROUGH_DOOR_OBJECT && dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != WALK_OUT_UNDER_GROUND_OBJECT && dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != WALK_IN_UNDER_GROUND_OBJECT)
+				if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != WALK_THROUGH_CASTLE_OBJECT 
+					&& dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != IN_CASTLE_OBJECT 
+					&& dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != WALK_THROUGH_DOOR_OBJECT
+					&& dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != WALK_OUT_UNDER_GROUND_OBJECT 
+					&& dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != WALK_IN_UNDER_GROUND_OBJECT
+					&& dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() != BOSS_ACTIVE_OBJECT)
 					continue;
 				if (dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() == WALK_OUT_UNDER_GROUND_OBJECT || dynamic_cast<CInvisibleObject *>(coObjects->at(i))->GetType() == WALK_IN_UNDER_GROUND_OBJECT)
 					if (!isOnStair)
@@ -778,6 +783,11 @@ void CSimon::CheckCollisionWithInvisibleObject(vector<LPGAMEOBJECT> *coObjects)
 				this->isUnderGround = false;
 			x += dx;
 
+		}
+		else if (object->GetType() == BOSS_ACTIVE_OBJECT)
+		{
+			object->IsDead = true;
+			this->isActiveBoss = true;
 		}
 	}
 

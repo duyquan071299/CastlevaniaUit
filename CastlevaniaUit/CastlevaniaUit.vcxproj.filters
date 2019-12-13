@@ -55,6 +55,9 @@
     <Filter Include="GameObjects\IntroObjects">
       <UniqueIdentifier>{a773bcd7-c2ef-48a4-ae91-622eb51af7c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameScene\GameStage">
+      <UniqueIdentifier>{77d97e83-8735-41ed-971d-cb01b0f012ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -240,6 +243,27 @@
     <ClInclude Include="BatBoss.h">
       <Filter>GameObjects\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>GameScene\GameStage</Filter>
+    </ClInclude>
+    <ClInclude Include="StageManager.h">
+      <Filter>GameScene\GameStage</Filter>
+    </ClInclude>
+    <ClInclude Include="OutDoorStage.h">
+      <Filter>GameScene\GameStage</Filter>
+    </ClInclude>
+    <ClInclude Include="BatStage.h">
+      <Filter>GameScene\GameStage</Filter>
+    </ClInclude>
+    <ClInclude Include="IndoorStage.h">
+      <Filter>GameScene\GameStage</Filter>
+    </ClInclude>
+    <ClInclude Include="UnderGroundStage.h">
+      <Filter>GameScene\GameStage</Filter>
+    </ClInclude>
+    <ClInclude Include="BossStage.h">
+      <Filter>GameScene\GameStage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CastlevaniaUit.rc">
@@ -263,9 +287,6 @@
     </ClCompile>
     <ClCompile Include="GlobalObject.cpp">
       <Filter>FrameWork\Game Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>GameScene</Filter>
     </ClCompile>
     <ClCompile Include="IntroScene.cpp">
       <Filter>GameScene</Filter>
@@ -410,6 +431,24 @@
     </ClCompile>
     <ClCompile Include="BatBoss.cpp">
       <Filter>GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="StageManager.cpp">
+      <Filter>GameScene\GameStage</Filter>
+    </ClCompile>
+    <ClCompile Include="OutDoorStage.cpp">
+      <Filter>GameScene\GameStage</Filter>
+    </ClCompile>
+    <ClCompile Include="IndoorStage.cpp">
+      <Filter>GameScene\GameStage</Filter>
+    </ClCompile>
+    <ClCompile Include="BatStage.cpp">
+      <Filter>GameScene\GameStage</Filter>
+    </ClCompile>
+    <ClCompile Include="UnderGroundStage.cpp">
+      <Filter>GameScene\GameStage</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage.cpp">
+      <Filter>GameScene\GameStage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

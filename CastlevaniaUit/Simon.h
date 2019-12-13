@@ -61,7 +61,6 @@ public:
 	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false,isThrowing=false,isHitting=false,isFreeFall=false,isCollect=false,isOnStair=false,isUP,isInjured;
 	bool IsOnAnimation;
 	bool isUsingStopWatch;
-	bool isInCastle;
 	bool isUsingCross;
 	bool AllowThrow=true;
 	bool IsFreeze=false;
@@ -69,6 +68,7 @@ public:
 	bool isColiableWithStairTop;
 	bool isUnderGround;
 	bool isWalkingInOutGround;
+	bool isActiveBoss;
 	int AtLevel;
 	int Heart, Life,Score,LifeTime,Heal;
 	bool IsRespawn;

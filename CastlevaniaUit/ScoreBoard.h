@@ -23,7 +23,7 @@ public:
 		this->BossHeal = heal;
 	}
 	CScoreBoard();
-	CScoreBoard(float x, float y);
+	void SetUp(float x, float y);
 	void Render();
 	void Update();
 

@@ -12,7 +12,8 @@ CIntroScene::CIntroScene()
 
 	BackGround = CSpriteDatabase::GetInstance()->GetSprite(MAIN_MENU, 0);
 	BackGroundCastle = CAnimationDatabase::GetInstance()->Get(INTRO_ANI, ACTIVE);
-	Scoreboard = new CScoreBoard(0.0f,0.0f);
+	Scoreboard = CScoreBoard::GetInstance();
+	Scoreboard->SetUp(0.0f, 0.0f);
 	IsInMainMenu = true;
 	BackGroundText = "PUSH START KEY";
 	isDrawText = true;
