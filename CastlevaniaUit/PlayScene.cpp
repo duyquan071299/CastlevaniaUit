@@ -36,7 +36,6 @@ void CPlayScene::Loadresources(int level) {
 		Simon->Respawn(CStageManager::GetInstance()->GetCurrentStage()->GetStageType());
 		CCamera::GetInstance()->isWithSimon = true;
 		CurrentMap = new CMap("Resources\\Maps\\Scene2.txt", "Resources\\Maps\\Scene_2.png");
-		Simon->y = 0;
 		Simon->AtLevel = level;
 		Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight(), "Resources\\Maps\\Scene2_Object.txt");
 		//Grid = new CGrid();
@@ -299,8 +298,17 @@ void CPlayScene::Reset()
 	delete Grid;
 	Simon->Respawn(CStageManager::GetInstance()->GetCurrentStage()->GetStageType());
 	CCamera::GetInstance()->isWithSimon = true;
-	Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight(), "Resources\\Maps\\Scene2_Object.txt");
-	//Grid = new CGrid();
-	//Grid->AddObjectToGrid("Resources\\Maps\\Grid2.txt");
+	if (Simon->AtLevel == INDOOR_STAGE)
+	{
+		Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight(), "Resources\\Maps\\Scene2_Object.txt");
+		//Grid = new CGrid();
+		//Grid->AddObjectToGrid("Resources\\Maps\\Grid2.txt");
+	}
+	else
+	{
+		Grid = new CGrid();
+		Grid->AddObjectToGrid("Resources\\Maps\\Grid1.txt");
+	}
+		
 }
 

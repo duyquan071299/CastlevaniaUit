@@ -14,7 +14,7 @@ void CGameObject::RenderBoundingBox()
 	LPSPRITE boundingbox = new CSprite(BBOX, 0,1 );
 	boundingbox->Settexture(bbox);
 	boundingbox->SetFrameWH((int)framew, (int)frameh);
-	boundingbox->Draw(x, y,D3DCOLOR_ARGB(200,255,255,255));
+	//boundingbox->Draw(x, y,D3DCOLOR_ARGB(200,255,255,255));
 	
 }
 

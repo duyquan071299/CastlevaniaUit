@@ -215,7 +215,7 @@ void CSimon::OnKeyUp(int keyCode)
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 
-	if (Heal == 0 && !IsDead &&IsStanding)
+	if ((Heal == 0 || LifeTime==0)&& !IsDead &&IsStanding)
 	{
 		Untouchable = false;
 		if (nx > 0)
@@ -241,7 +241,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		
 
-	if (GetTickCount() - Count_Time > 1000)
+	if (GetTickCount() - Count_Time > 1000 && LifeTime>0)
 	{
 		LifeTime--;
 		Count_Time = GetTickCount();
@@ -272,7 +272,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if ((!this->IsJumping && !this->IsFalling && !this->IsAttacking &&!this->isCollect &&!this->isOnStair && vy > GAME_GRAVITY * dt+0.4 &&vy<1000)||isInjured&&vy==0&&!isOnStair  )
 	{
 
-		vy += 5000 * GAME_GRAVITY * dt;
+		vy += FREE_FALL_SPEED * GAME_GRAVITY * dt;
 		isFreeFall = true;
 	}
 	else if(!isOnStair)
@@ -878,9 +878,9 @@ void CSimon::CheckCollisionWithItem(vector<LPGAMEOBJECT> *coObjects)
 
 
 	if (type == LARGE_HEART)
-		this->Heart += 5;
+		this->Heart += LARGE_HEART_ITEM;
 	else if (type == HEART)
-		this->Heart += 1;
+		this->Heart += SMALL_HEART_ITEM;
 	else if (type == WHIP)
 	{
 		StartCollectItem();
@@ -913,19 +913,23 @@ void CSimon::CheckCollisionWithItem(vector<LPGAMEOBJECT> *coObjects)
 	}
 	else if (type == MONEY_1)
 	{
-		this->Score += 100;
+		this->Score += MONEY_1_SCORE;
 	}
 	else if (type == MONEY_2)
 	{
-		this->Score += 200;
+		this->Score += MONEY_2_SCORE;
 	}
 	else if (type == MONEY_3)
 	{
-		this->Score += 300;
+		this->Score += MONEY_3_SCORE;
 	}
 	else if (type == POTION)
 	{
 		StartUntouchable();
+	}
+	else if (type == CHICKEN)
+	{
+		Heal += HEAL_REGAIN;
 	}
 }
 

@@ -265,9 +265,9 @@ void CIndoorStage::Update(DWORD dt, CGrid * CurrentGrid)
 				if (!dynamic_cast<CEnemy *>(listEnemy[i])->isBurning)
 				{
 					if (dynamic_cast<CGhost*>(listEnemy[i]))
-						CSimon::GetInstance()->Score += 100;
+						CSimon::GetInstance()->Score += KILL_GHOST_SCORE;
 					else if (dynamic_cast<CPanther*>(listEnemy[i]))
-						CSimon::GetInstance()->Score += 200;
+						CSimon::GetInstance()->Score += KILL_PANTHER_SCORE;
 					dynamic_cast<CEnemy*>(listEnemy[i])->ChangeAnimation();
 				}
 				dynamic_cast<CEnemy *>(listEnemy[i])->ChangeAnimation();

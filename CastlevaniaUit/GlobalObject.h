@@ -120,6 +120,10 @@ using namespace std;
 #define BAT_STAGE 3
 #define UNDERGROUND_STAGE 4
 #define BOSS_STAGE 5
+#define KILL_GHOST_SCORE 100
+#define KILL_BAT_SCORE 200
+#define KILL_KAPPA_SCORE 300
+#define KILL_PANTHER_SCORE 200
 //directx
 extern HINSTANCE hInstance;										// hInstance của windows hiện tại
 extern HWND hWnd;												// hWnd hiện tại

@@ -53,11 +53,11 @@ void CWeapon::SetCollisonWithObject(vector<LPGAMEOBJECT> *coObjects )
 			
 				dynamic_cast<CEnemy *>(e->obj)->ChangeAnimation();
 				if (dynamic_cast<CGhost*>(e->obj))
-					CSimon::GetInstance()->Score += 100;
+					CSimon::GetInstance()->Score += KILL_GHOST_SCORE;
 				else if (dynamic_cast<CBat*>(e->obj) || dynamic_cast<CPanther*>(e->obj))
-					CSimon::GetInstance()->Score += 200;
+					CSimon::GetInstance()->Score += KILL_BAT_SCORE;
 				else if (dynamic_cast<CKappa*>(e->obj))
-					CSimon::GetInstance()->Score += 300;
+					CSimon::GetInstance()->Score += KILL_KAPPA_SCORE;
 				dynamic_cast<CEnemy*>(e->obj)->ChangeAnimation();
 
 

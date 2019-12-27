@@ -80,11 +80,11 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						continue;
 					}
 					if (dynamic_cast<CGhost*>(coObjects->at(i)))
-						CSimon::GetInstance()->Score += 100;
+						CSimon::GetInstance()->Score += KILL_GHOST_SCORE;
 					else if (dynamic_cast<CBat*>(coObjects->at(i)) || dynamic_cast<CPanther*>(coObjects->at(i)))
-						CSimon::GetInstance()->Score += 200;
+						CSimon::GetInstance()->Score += KILL_BAT_SCORE;
 					else if (dynamic_cast<CKappa*>(coObjects->at(i)))
-						CSimon::GetInstance()->Score += 300;
+						CSimon::GetInstance()->Score += KILL_KAPPA_SCORE;
 					dynamic_cast<CEnemy*>(coObjects->at(i))->ChangeAnimation();
 					
 				}

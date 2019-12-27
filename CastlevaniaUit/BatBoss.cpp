@@ -22,7 +22,7 @@ CBatBoss::CBatBoss(float x, float y)
 	this->SetPosition(x, y);
 	this->CurrentState = SLEEP;
 	curAnimation = animations[SLEEP];
-	Heal = 1;
+	Heal = 5;
 	IsDead = false;
 
 }
@@ -55,24 +55,27 @@ void CBatBoss::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 					PreviousY = y;
 
 					AttackMovement();
+					
 
-					vx = 0;
-					vy = 0;
+					
 
 				}
 			}
 			else if (MovingState == ATTACK_MOVE)
 			{
-				if (perc < 1)
+				if (abs(x-x1)<abs(x3-x1) || (abs(y - y1) < abs(y3 - y1)))
 				{
 					perc += 0.01;
 					int xa = getPt(x1, x2, perc);
 					int ya = getPt(y1, y2, perc);
 					int xb = getPt(x2, x3, perc);
 					int yb = getPt(y2, y3, perc);
-
-					x = getPt(xa, xb, perc);
-					y = getPt(ya, yb, perc);
+					int xc = getPt(xa, xb, perc);
+					int yc = getPt(ya, yb, perc);
+					vx = (xc - x) / (TIME_TO_NEXT_POINT);
+					vy = (yc - y) / (TIME_TO_NEXT_POINT);
+			
+				
 				}
 				else
 					AfterAttackMovement();
@@ -98,8 +101,6 @@ void CBatBoss::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 
 					PreviousX = x;
 					PreviousY = y;
-
-
 					vx = 0;
 					vy = 0;
 
@@ -107,7 +108,7 @@ void CBatBoss::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 				
 
 				}
-				if (GetTickCount() - TimeTilNextMove >= 2000 && TimeTilNextMove != 0)
+				if (GetTickCount() - TimeTilNextMove >= TIME_TILL_NEXT_MOVE && TimeTilNextMove != 0)
 				{
 					AttackMovement();
 					TimeTilNextMove = 0;
@@ -124,7 +125,7 @@ void CBatBoss::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 		
 
 
-		if (x < CCamera::GetInstance()->GetBound().left || x + BOSS_WIDTH + 32 > CCamera::GetInstance()->GetBound().right || y < CCamera::GetInstance()->GetBound().top - 80 || y > CCamera::GetInstance()->GetBound().bottom)
+		if (x < CCamera::GetInstance()->GetBound().left || x + BOSS_WIDTH + 32 > CCamera::GetInstance()->GetBound().right || y < CCamera::GetInstance()->GetBound().top + 80 || y > CCamera::GetInstance()->GetBound().bottom)
 			AfterAttackMovement();
 
 
@@ -216,8 +217,8 @@ void CBatBoss::AfterAttackMovement()
 	PreviousY = y;
 	LandingX = Random(AFTER_ATTACK_ZONE_X_LEFT, AFTER_ATTACK_ZONE_X_RIGHT);
 	LandingY = Random(AFTER_ATTACK_ZONE_Y_TOP, AFTER_ATTACK_ZONE_Y_BOTTOM);
-	vx = (LandingX - PreviousX) / (1500);
-	vy = (LandingY - PreviousY) / (1500);
+	vx = (LandingX - PreviousX) / (TIME_TOLCHECK_POINT);
+	vy = (LandingY - PreviousY) / (TIME_TOLCHECK_POINT);
 	
 }
 
@@ -235,8 +236,8 @@ void CBatBoss::ReadyAttack()
 	else
 		LandingY = Random(ATTACK_ZONE_Y_3_TOP, ATTACK_ZONE_Y_3_BOTTOM);
 
-	vx = (LandingX - PreviousX) / (1500);
-	vy = (LandingY - PreviousY) / (1500);
+	vx = (LandingX - PreviousX) / (TIME_TOLCHECK_POINT);
+	vy = (LandingY - PreviousY) / (TIME_TOLCHECK_POINT);
 }
 
 int CBatBoss::Random(int a, int b)

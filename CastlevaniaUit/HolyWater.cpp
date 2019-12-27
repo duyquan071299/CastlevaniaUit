@@ -85,8 +85,6 @@ void CHolyWater::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 					{
 						CEffectDatabase::GetInstance()->AddHitEffect(colliable_objects->at(i)->x, colliable_objects->at(i)->y);
 						dynamic_cast<CCandle *>(colliable_objects->at(i))->ChangeAnimation();
-
-
 					}
 					
 				}
@@ -114,9 +112,6 @@ void CHolyWater::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 				{
 					dynamic_cast<CCandle *>(e->obj)->ChangeAnimation();
 					CEffectDatabase::GetInstance()->AddHitEffect(e->obj->x, e->obj->y);
-
-
-
 				}
 				else if (dynamic_cast<CEnemy*>(e->obj) && !dynamic_cast<CEnemy*>(e->obj)->isBurning)
 				{
@@ -124,11 +119,11 @@ void CHolyWater::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 					CEffectDatabase::GetInstance()->AddHitEffect(e->obj->x, e->obj->y);
 
 					if (dynamic_cast<CGhost*>(e->obj))
-						CSimon::GetInstance()->Score += 100;
+						CSimon::GetInstance()->Score += KILL_GHOST_SCORE;
 					else if (dynamic_cast<CBat*>(e->obj) || dynamic_cast<CPanther*>(e->obj))
-						CSimon::GetInstance()->Score += 200;
+						CSimon::GetInstance()->Score += KILL_BAT_SCORE;
 					else if (dynamic_cast<CKappa*>(e->obj))
-						CSimon::GetInstance()->Score += 300;
+						CSimon::GetInstance()->Score += KILL_KAPPA_SCORE;
 					dynamic_cast<CEnemy*>(e->obj)->ChangeAnimation();
 
 

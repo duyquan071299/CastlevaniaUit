@@ -137,7 +137,7 @@ void CBatStage::Update(DWORD dt, CGrid * CurrentGrid)
 			{
 				if (dynamic_cast<CBat*>(listEnemy[i]))
 				{
-					CSimon::GetInstance()->Score += 200;
+					CSimon::GetInstance()->Score += KILL_BAT_SCORE;
 					dynamic_cast<CEnemy *>(listEnemy[i])->ChangeAnimation();
 				}
 			}

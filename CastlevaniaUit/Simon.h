@@ -21,7 +21,7 @@ class Whip;
 #define WHIP_START_LEVEL 1
 #define HEART_START 5
 #define LIFE_START 3
-#define HEAL_START 1
+#define HEAL_START 16
 #define TIME_START 300
 #define SIMON_START_POS_X 0.0f
 #define INJURED_SPEED_X 0.1
@@ -29,6 +29,14 @@ class Whip;
 #define RESPAWN_POS_INDOOR_X 0
 #define RESPAWN_BAT_X 3200
 #define RESPAWN_BOSS_X 4200
+#define SMALL_HEART_ITEM 1
+#define HEAL_REGAIN 5
+#define LARGE_HEART_ITEM 5
+#define MONEY_1_SCORE 100
+#define MONEY_2_SCORE 200
+#define FREE_FALL_SPEED 5000
+#define MONEY_3_SCORE 300
+
 
 class CSimon :public CGameObject
 {
