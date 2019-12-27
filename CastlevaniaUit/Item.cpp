@@ -6,8 +6,19 @@ CItem::CItem()
 }
 CItem::CItem(HolderType type)
 {
-	LPANIMATION ani = new CAnimation(100);
-	ani->Add(ITEM, type);
+	LPANIMATION ani;
+	if (type == ORB)
+	{
+		ani = new CAnimation(30);
+		ani->Add(ITEM, type);
+		ani->Add(ITEM, type+1);
+		
+	}
+	else
+	{
+		ani = new CAnimation(100);
+		ani->Add(ITEM, type);
+	}
 	this->HDType = type;
 	animation= ani;
 	isAppearOnMap = false;
@@ -31,14 +42,14 @@ void CItem::GetBoundingBox(float &x, float &y, float &framew, float &frameh)
 		framew = 24;
 		frameh = 20;
 		break;
-	case MONEY_1:case MONEY_2:case MONEY_3:case AXE:
+	case MONEY_1:case MONEY_2:case MONEY_3:case AXE:case DOUBLE_SHOT:
 		framew = frameh = 30;
 		break;
 	case DAGGER:
 		framew = 32;
 		frameh = 18;
 		break;
-	case POTION:
+	case POTION:case ORB:
 		framew = 26;
 		frameh = 32;
 		break;
@@ -68,7 +79,7 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 	}
 		
 
-	if (GetTickCount() - lifetime > ITEM_LIFE_TIME)
+	if (GetTickCount() - lifetime > ITEM_LIFE_TIME && this->HDType!=ORB)
 	{
 		this->IsDead = true;
 		return;

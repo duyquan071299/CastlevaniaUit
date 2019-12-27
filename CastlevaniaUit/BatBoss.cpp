@@ -22,14 +22,21 @@ CBatBoss::CBatBoss(float x, float y)
 	this->SetPosition(x, y);
 	this->CurrentState = SLEEP;
 	curAnimation = animations[SLEEP];
-	Heal = 16;
+	Heal = 1;
+	IsDead = false;
 
 }
 
 void CBatBoss::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 {
-	if (isFrozen )
+	if (Heal == 0)
+	{
+		this->IsDead = true;
+	}
+		
+	if (isFrozen || IsDead )
 		return;
+	
 
 		if (CurrentState == SLEEP)
 		{
@@ -38,7 +45,7 @@ void CBatBoss::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 		}
 		else if (CurrentState == ACTIVE)
 		{
-			if (MovingState == 1)
+			if (MovingState == BEGIN_MOVE)
 			{
 				if (y >= LandingY)
 				{
@@ -54,7 +61,7 @@ void CBatBoss::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 
 				}
 			}
-			else if (MovingState == 2)
+			else if (MovingState == ATTACK_MOVE)
 			{
 				if (perc < 1)
 				{
@@ -71,7 +78,7 @@ void CBatBoss::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 					AfterAttackMovement();
 
 			}
-			else if (MovingState == 3)
+			else if (MovingState == AFTER_ATTACK_MOVE)
 			{
 				if (y <= LandingY)
 				{
@@ -84,7 +91,7 @@ void CBatBoss::Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects)
 					ReadyAttack();
 				}
 			}
-			else if(MovingState == 4)
+			else if(MovingState == READY_ATTACK_MOVE)
 			{
 				if (y >= LandingY && !IsWaitTilNextMove)
 				{
@@ -146,33 +153,33 @@ void CBatBoss::StartMoving()
 {
 	int random = rand() % 2;
 	SetCurrentState(ACTIVE);
-	MovingState = 1;
+	MovingState = BEGIN_MOVE;
 	if (random == 0)
 	{
 		LandingY = y + rand() % (40 + 80);
 		vx = 0.0f;
-		vy = 0.05f;
+		vy = BOSS_BASE_SPEED;
 		PreviousY = y;
 	}
 	else
 	{
 		if (CSimon::GetInstance()->x >= this->x)
 		{
-			LandingY = y + rand() % (100 + 100);
-			LandingX = x - rand() % (100 + 100);
-			vx = -0.05f;
+			LandingY = y + rand() % (RANDOM_DISTANCE_TO_SIMON + RANDOM_DISTANCE_TO_SIMON);
+			LandingX = x - rand() % (RANDOM_DISTANCE_TO_SIMON + RANDOM_DISTANCE_TO_SIMON);
+			vx = -BOSS_BASE_SPEED;
 			
 		}
 		else
 		{
-			LandingY = y + rand() % (100 + 100);
-			LandingX = x + rand() % (100 + 100);
-			vx = 0.05f;
+			LandingY = y + rand() % (RANDOM_DISTANCE_TO_SIMON + RANDOM_DISTANCE_TO_SIMON);
+			LandingX = x + rand() % (RANDOM_DISTANCE_TO_SIMON + RANDOM_DISTANCE_TO_SIMON);
+			vx = BOSS_BASE_SPEED;
 			
 		}
 		
 	
-		vy = 0.05f;
+		vy = BOSS_BASE_SPEED;
 		PreviousY = y;
 		PreviousY = x;
 	}
@@ -189,22 +196,22 @@ void CBatBoss::AttackMovement()
 
 	if (CSimon::GetInstance()->x >= this->x)
 	{
-		x3 = Random((int)(CSimon::GetInstance()->x + 100), (int)(CCamera::GetInstance()->GetBound().right));
+		x3 = Random((int)(CSimon::GetInstance()->x + RANDOM_DISTANCE_TO_SIMON), (int)(CCamera::GetInstance()->GetBound().right));
 	}
 	else
 	{
 
-		x3 = Random((int)(CCamera::GetInstance()->GetBound().left), (int)(CSimon::GetInstance()->x - 100));
+		x3 = Random((int)(CCamera::GetInstance()->GetBound().left), (int)(CSimon::GetInstance()->x - RANDOM_DISTANCE_TO_SIMON));
 	}
-	y3 = CSimon::GetInstance()->y - 100;
+	y3 = CSimon::GetInstance()->y - RANDOM_DISTANCE_TO_SIMON;
 	perc = 0;
-	MovingState = 2;
+	MovingState = ATTACK_MOVE;
 		
 }
 
 void CBatBoss::AfterAttackMovement()
 {
-	MovingState = 3;
+	MovingState = AFTER_ATTACK_MOVE;
 	PreviousX = x;
 	PreviousY = y;
 	LandingX = Random(AFTER_ATTACK_ZONE_X_LEFT, AFTER_ATTACK_ZONE_X_RIGHT);
@@ -217,13 +224,13 @@ void CBatBoss::AfterAttackMovement()
 
 void CBatBoss::ReadyAttack()
 {
-	MovingState = 4;
+	MovingState = READY_ATTACK_MOVE;
 	PreviousX = x;
 	PreviousY = y;
 	LandingX = Random(ATTACK_ZONE_X_LEFT, ATTACK_ZONE_X_RIGHT);
-	if (CSimon::GetInstance()->GetBBox().bottom < 340)
+	if (CSimon::GetInstance()->GetBBox().bottom < ATTACK_RANGE_1)
 		LandingY = Random(ATTACK_ZONE_Y_1_TOP, ATTACK_ZONE_Y_1_BOTTOM);
-	else if (CSimon::GetInstance()->GetBBox().bottom < 265)
+	else if (CSimon::GetInstance()->GetBBox().bottom < ATTACK_RANGE_2)
 		LandingY = Random(ATTACK_ZONE_Y_2_TOP, ATTACK_ZONE_Y_2_BOTTOM);
 	else
 		LandingY = Random(ATTACK_ZONE_Y_3_TOP, ATTACK_ZONE_Y_3_BOTTOM);

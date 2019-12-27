@@ -2,7 +2,7 @@
 #include"SimonStateWalking.h"
 #include"SceneManager.h"
 #include"PlayScene.h"
-void CIntroScene::Loadresources() {
+void CIntroScene::Loadresources(int level) {
 	
 		
 };
@@ -22,7 +22,7 @@ CIntroScene::CIntroScene()
 void CIntroScene::Render()
 {
 	
-	BackGround->DrawScoreBoard(MAIN_MENU_POS_X, MAIN_MENU_POS_Y, default_color);
+	BackGround->DrawScoreBoard(0, 0, default_color);
 	if (IsInMainMenu == true)
 	{
 		if (isDrawText == true)
@@ -105,6 +105,7 @@ void CIntroScene::Update(DWORD dt)
 		if (GetTickCount() - TimeToGame >= 2500 && TimeToGame != 0)
 		{
 			CSceneManager::GetInstance()->LoadScene(new CPlayScene());
+			CSceneManager::GetInstance()->GetCurrentScene()->Loadresources(0);
 			TimeToGame = 0;
 			return;
 		}

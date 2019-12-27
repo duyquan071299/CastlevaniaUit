@@ -197,6 +197,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ScoreBoard.h" />
     <ClInclude Include="Simon.h" />
+    <ClInclude Include="SimonDead.h" />
     <ClInclude Include="SimonSprites.h" />
     <ClInclude Include="SimonState.h" />
     <ClInclude Include="SimonStateAttacking.h" />
@@ -264,6 +265,7 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />
     <ClCompile Include="Simon.cpp" />
+    <ClCompile Include="SimonDead.cpp" />
     <ClCompile Include="SimonSprites.cpp" />
     <ClCompile Include="SimonState.cpp" />
     <ClCompile Include="SimonStateAttacking.cpp" />

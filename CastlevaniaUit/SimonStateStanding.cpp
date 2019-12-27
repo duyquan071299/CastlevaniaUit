@@ -1,5 +1,6 @@
 #include"SimonStateStanding.h"
 #include"SimonStateSitting.h"
+#include"SimonStateInjured.h"
 #include"SimonStateWalkingOnStair.h"
 
 void CSimonStateStanding::Update(DWORD dt)
@@ -62,6 +63,7 @@ void CSimonStateStanding::Update(DWORD dt)
 
 		}
 	}
+
 		
 }
 void CSimonStateStanding::HandleKeyboard(unordered_map<int, bool> keyCode)

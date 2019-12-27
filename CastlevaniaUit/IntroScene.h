@@ -6,13 +6,11 @@
 #include"IntroObject.h"
 #include "SpriteDatabase.h"
 #include"Simon.h"
-#define MAIN_MENU_POS_X -17.0f
-#define MAIN_MENU_POS_Y 0.0f
 #define ANI_POS_X 330.0f
 #define ANI_POS_Y 195.0f
 #define SIMON_START_POS_X 480.0f
 #define SIMON_START_POS_Y 338.0f
-#define SIMON_END_POS 210.0f
+#define SIMON_END_POS 227.0f
 #define SIMON_START_SPEED - 0.08f
 
 
@@ -37,7 +35,7 @@ private:
 public:
 	CIntroScene();
 	~CIntroScene();
-	void Loadresources();
+	void Loadresources(int level);
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
 	void Render();

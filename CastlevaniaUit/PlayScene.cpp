@@ -18,26 +18,25 @@ void CPlayScene::Loadresources(int level) {
 
 	switch (level)
 	{
-	case 0:
+	case OUTDOOR:
 	{
-		Simon->Respawn();
+		
 		CurrentMap = new CMap("Resources\\Maps\\Scene1.txt", "Resources\\Maps\\Scene_1.png");
-		Simon->x = 0;
 		Simon->AtLevel = level;
 		//Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight(), "Resources\\Maps\\Scene1_Object.txt");
 		Grid = new CGrid();
 		Grid->AddObjectToGrid("Resources\\Maps\\Grid1.txt");
 		CStageManager::GetInstance()->LoadStage(new COutDoorStage());
-		ScoreBoard->SetUp(0.0f, 0.0f);
+		Simon->Respawn(CStageManager::GetInstance()->GetCurrentStage()->GetStageType());
 		break;
 	}
-	case 1:
+	case INDOOR:
 	{
 		delete Grid;
-		Simon->Respawn();
+		Simon->Respawn(CStageManager::GetInstance()->GetCurrentStage()->GetStageType());
 		CCamera::GetInstance()->isWithSimon = true;
 		CurrentMap = new CMap("Resources\\Maps\\Scene2.txt", "Resources\\Maps\\Scene_2.png");
-		Simon->y = RESPAWN_POSITION_Y;
+		Simon->y = 0;
 		Simon->AtLevel = level;
 		Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight(), "Resources\\Maps\\Scene2_Object.txt");
 		//Grid = new CGrid();
@@ -50,7 +49,7 @@ void CPlayScene::Loadresources(int level) {
 
 void CPlayScene::OnKeyDown(int KeyCode)
 {
-	if (!Simon->IsFreeze && !Simon->IsOnAnimation &&!Simon->CollectItem)
+	if (!Simon->IsFreeze && !Simon->IsOnAnimation &&!Simon->CollectItem && !Simon->IsDead)
 	{
 		keys[KeyCode] = true;
 		Simon->OnKeyDown(KeyCode);
@@ -58,7 +57,7 @@ void CPlayScene::OnKeyDown(int KeyCode)
 		if (KeyCode == DIK_Q)
 		{
 			Simon->x = 0;
-			Loadresources(1);
+			Loadresources(INDOOR);
 			CStageManager::GetInstance()->LoadStage(new CIndoorStage());
 		}
 
@@ -70,8 +69,9 @@ void CPlayScene::OnKeyDown(int KeyCode)
 
 		if (KeyCode == DIK_E)
 		{
-			Simon->x = 5140;
+			Simon->x = 4200;
 			CStageManager::GetInstance()->LoadStage(new CBossStage());
+			Simon->y = 0;
 		}
 
 
@@ -83,7 +83,6 @@ void CPlayScene::OnKeyDown(int KeyCode)
 		if (KeyCode == DIK_1)
 		{
 			Simon->ChangeSecondWeapon(AXE);
-			Simon->WeaponShot = 2;
 			Simon->Heart = 99;
 		}
 
@@ -101,6 +100,10 @@ void CPlayScene::OnKeyDown(int KeyCode)
 			Simon->Heart = 99;
 		}
 		
+		if (KeyCode == DIK_G)
+		{
+			CEffectDatabase::GetInstance()->BossDieEffect(100.0f, 100.0f);
+		}
 	}
 
 	
@@ -114,7 +117,7 @@ void  CPlayScene::OnKeyUp(int KeyCode)
 
 void CPlayScene::Render()
 {
-	if (Simon->isWalkingInOutGround)
+	if (Simon->isWalkingInOutGround ||Simon->IsLoading )
 	{
 		return;
 	}
@@ -184,12 +187,38 @@ void CPlayScene::Update(DWORD dt)
 		Simon->isUsingCross = false;
 		CrossTime = 0;
 	}
+	if (Now - RespawnTime >= LOADING_TIME && RespawnTime!=0)
+	{
+		RespawnTime = 0;
+		Simon->LoadVariable();
+		Reset();
+		switch (CStageManager::GetInstance()->GetCurrentStage()->GetStageType())
+		{
+		case INDOOR_STAGE:
+			CStageManager::GetInstance()->LoadStage(new CIndoorStage());
+			break;
+		case BAT_STAGE: case UNDERGROUND_STAGE:
+			CStageManager::GetInstance()->LoadStage(new CBatStage());
+			break;
+		case BOSS_STAGE:
+			CStageManager::GetInstance()->LoadStage(new CBossStage());
+			break;
+		}
+		return;
+	}
 
 
+	if (Simon->IsRespawn)
+	{
+		RespawnTime = GetTickCount();
+		Simon->IsRespawn = false;
+	}
+
+	
 	UpdateSimon();
 
 
-	if (!Simon->IsFreeze)
+	if (!Simon->IsFreeze )
 	{
 		if(!Simon->IsOnAnimation)
 			Simon->HandleKeyboard(keys);
@@ -207,11 +236,11 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::UpdateSimon()
 {
-	if (Simon->IsRespawn)
+	if (Simon->IsWalkToCastle)
 	{
-		Simon->IsRespawn = false;
+		Simon->IsWalkToCastle = false;
 		delete CurrentMap;
-		Loadresources(1);
+		Loadresources(INDOOR);
 		CStageManager::GetInstance()->LoadStage(new CIndoorStage());
 		return;
 	}
@@ -265,3 +294,13 @@ void CPlayScene::UpdateSimon()
 
 
 }
+void CPlayScene::Reset()
+{
+	delete Grid;
+	Simon->Respawn(CStageManager::GetInstance()->GetCurrentStage()->GetStageType());
+	CCamera::GetInstance()->isWithSimon = true;
+	Grid = new CGrid(CurrentMap->GetMapWidth(), CurrentMap->GetMapHeight(), "Resources\\Maps\\Scene2_Object.txt");
+	//Grid = new CGrid();
+	//Grid->AddObjectToGrid("Resources\\Maps\\Grid2.txt");
+}
+

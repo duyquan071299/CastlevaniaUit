@@ -4,6 +4,7 @@
 #include"SimonStateAttacking.h"
 #include"SimonStateSitting.h"
 #include"SimonStateInjured.h"
+#include"SimonDead.h"
 
 CSimon * CSimon::instance = NULL;
 
@@ -22,6 +23,7 @@ CSimon::CSimon() {
 	animations[ONSTAIR_DOWN_ATTACK_LEFT] = CAnimationDatabase::GetInstance()->Get(SIMON_ANI, ONSTAIR_DOWN_ATTACK_LEFT);
 	animations[ONSTAIR_UP_ATTACK_LEFT] = CAnimationDatabase::GetInstance()->Get(SIMON_ANI, ONSTAIR_UP_ATTACK_LEFT);
 	animations[INJURED_LEFT] = CAnimationDatabase::GetInstance()->Get(SIMON_ANI, INJURED_LEFT);
+	animations[DEAD_LEFT] = CAnimationDatabase::GetInstance()->Get(SIMON_ANI, DEAD_LEFT);
 	//RIGHT ANIMATION
 	animations[STANDING_RIGHT] = CAnimationDatabase::GetInstance()->Get(SIMON_ANI, STANDING_RIGHT);
 	animations[WALKING_RIGHT] = CAnimationDatabase::GetInstance()->Get(SIMON_ANI, WALKING_RIGHT);
@@ -36,20 +38,23 @@ CSimon::CSimon() {
 	animations[ONSTAIR_UP_ATTACK_RIGHT] = CAnimationDatabase::GetInstance()->Get(SIMON_ANI, ONSTAIR_UP_ATTACK_RIGHT);
 	animations[INJURED_RIGHT] = CAnimationDatabase::GetInstance()->Get(SIMON_ANI, INJURED_RIGHT);
 	animations[FACING_INSIDE] = CAnimationDatabase::GetInstance()->Get(SIMON_ANI, FACING_INSIDE);
-
-
-
-	this->IsDead = true;
-
+	animations[DEAD_RIGHT] = CAnimationDatabase::GetInstance()->Get(SIMON_ANI, DEAD_RIGHT);
 	
+	LoadVariable();
 }
 
 
-void CSimon::Respawn()
+void CSimon::Respawn(int Stage)
 {
 	if (IsDead == true)
 	{
-		
+		if (Stage == INDOOR_STAGE || Stage== OUTDOOR_STAGE)
+			this->x = RESPAWN_POS_INDOOR_X;
+		else if (Stage == BAT_STAGE || Stage==UNDERGROUND_STAGE)
+			this->x = RESPAWN_BAT_X;
+		else if (Stage == BOSS_STAGE)
+			this->x = RESPAWN_BOSS_X;
+		this->y = 0;
 		WhipLevel = WHIP_START_LEVEL;
 		Heart = HEART_START;
 		Life = LIFE_START;
@@ -75,10 +80,11 @@ void CSimon::Respawn()
 
 CSimon::~CSimon()
 {
-	
 	if (currentstate != nullptr)
 		delete currentstate;
 	currentstate = nullptr;
+	instance = NULL;
+	
 }
 
 CSimon* CSimon:: GetInstance()
@@ -209,6 +215,20 @@ void CSimon::OnKeyUp(int keyCode)
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 
+	if (Heal == 0 && !IsDead &&IsStanding)
+	{
+		Untouchable = false;
+		if (nx > 0)
+		{
+			ChangeState(new CSimonStateDead(DEAD_RIGHT));
+		}
+		else
+		{
+			ChangeState(new CSimonStateDead(DEAD_LEFT));
+
+		}
+	}
+
 	// reset untouchable timer if untouchable time has passed
 	DWORD now = GetTickCount();
 	if (GetTickCount() - CollectItem_Time > COLLECT_ITEM_TIME && CollectItem_Time!=0)
@@ -218,6 +238,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		CollectItem_Time = 0;
 
 	}
+
+		
 
 	if (GetTickCount() - Count_Time > 1000)
 	{
@@ -270,7 +292,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CheckCollisionWithInvisibleObject(coObjects);
 	CheckCollisionWithStair(coObjects);
 	CheckCollisionWithItem(coObjects);
-	CheckCollisionWithEnemy(coObjects);
+	if(!IsDead)
+	{
+		CheckCollisionWithEnemy(coObjects);
+	}
+		
 
 	
 
@@ -717,6 +743,12 @@ void CSimon::CheckCollisionWithInvisibleObject(vector<LPGAMEOBJECT> *coObjects)
 		CInvisibleObject* object = dynamic_cast<CInvisibleObject *>(e->obj);
 		if (object->GetType() == WALK_THROUGH_DOOR_OBJECT)
 		{
+			if ((isThroughDoorOne == true ||isThroughDoorTwo==true) && vx < 0)
+			{
+				object->IsDead = true;
+				return;
+
+			}
 			CCamera::GetInstance()->isWithSimon = false;
 			CheckPoint = object->x + object->GetWidth();
 			this->y = GROUND_POSITION_Y;
@@ -749,7 +781,7 @@ void CSimon::CheckCollisionWithInvisibleObject(vector<LPGAMEOBJECT> *coObjects)
 		else if (object->GetType() == IN_CASTLE_OBJECT)
 		{
 			this->IsOnAnimation = false;
-			this->IsRespawn = true;
+			this->IsWalkToCastle = true;
 			object->IsDead = true;
 		}
 		else if (object->GetType() == WALK_IN_UNDER_GROUND_OBJECT)
@@ -871,6 +903,10 @@ void CSimon::CheckCollisionWithItem(vector<LPGAMEOBJECT> *coObjects)
 	{
 		isUsingCross = true;
 	}
+	else if (type == DOUBLE_SHOT)
+	{
+		WeaponShot = 2;
+	}
 	else if (type == HOLYWATER)
 	{
 		ChangeSecondWeapon(HOLYWATER);
@@ -887,8 +923,17 @@ void CSimon::CheckCollisionWithItem(vector<LPGAMEOBJECT> *coObjects)
 	{
 		this->Score += 300;
 	}
+	else if (type == POTION)
+	{
+		StartUntouchable();
+	}
 }
 
+void CSimon::LoadVariable()
+{
+	IsLoading=IsFreeze = IsSitting = IsMoving = IsAttacking = IsJumping = IsFalling = IsOnAir = isThrowing = isHitting = isFreeFall = isCollect = isOnStair = false;
+	IsStanding=AllowThrow = IsDead= true;
+}
 
 void CSimon::CheckCollisionWithEnemy(vector<LPGAMEOBJECT> *coObjects)
 {

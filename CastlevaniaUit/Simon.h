@@ -21,12 +21,14 @@ class Whip;
 #define WHIP_START_LEVEL 1
 #define HEART_START 5
 #define LIFE_START 3
-#define HEAL_START 16
+#define HEAL_START 1
 #define TIME_START 300
 #define SIMON_START_POS_X 0.0f
 #define INJURED_SPEED_X 0.1
 #define INJURED_SPEED_Y 0.5
-
+#define RESPAWN_POS_INDOOR_X 0
+#define RESPAWN_BAT_X 3200
+#define RESPAWN_BOSS_X 4200
 
 class CSimon :public CGameObject
 {
@@ -36,7 +38,7 @@ private:
 	LPANIMATION currentanimation;
 	CSimonState* currentstate;
 	State StateName;
-	bool Untouchable;
+	
 	DWORD Untouchable_Time;
 	DWORD Landing_Time;
 	DWORD CollectItem_Time;
@@ -58,20 +60,25 @@ public:
 	int count=0;
 	int WhipLevel = 1;
 	int WeaponShot;
-	bool IsStanding = true, IsSitting = false, IsMoving = false, IsAttacking = false, IsJumping = false, IsFalling = false, IsOnAir = false,isThrowing=false,isHitting=false,isFreeFall=false,isCollect=false,isOnStair=false,isUP,isInjured;
+	bool IsStanding,IsSitting,IsMoving, IsAttacking,IsJumping,IsFalling , IsOnAir,isThrowing,isHitting,isFreeFall,isCollect,isOnStair,isUP,isInjured;
 	bool IsOnAnimation;
 	bool isUsingStopWatch;
 	bool isUsingCross;
-	bool AllowThrow=true;
-	bool IsFreeze=false;
+	bool AllowThrow;
+	bool IsFreeze;
 	bool isColiableWithStairBottom;
 	bool isColiableWithStairTop;
 	bool isUnderGround;
 	bool isWalkingInOutGround;
+	bool isThroughDoorOne;
+	bool isThroughDoorTwo;
 	bool isActiveBoss;
+	bool Untouchable;
 	int AtLevel;
 	int Heart, Life,Score,LifeTime,Heal;
 	bool IsRespawn;
+	bool IsWalkToCastle;
+	bool IsLoading;
 	void ChangeState(CSimonState* State);
 	void SetStateName(State Name)
 	{
@@ -88,7 +95,7 @@ public:
 		currentanimation = animations[Name];
 	}
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
-	void Respawn();
+	void Respawn(int Stage);
 	void HandleKeyboard(unordered_map<int, bool> keys);
 	void OnKeyDown(int keyCode);
 	void OnKeyUp(int keyCode);
@@ -130,6 +137,6 @@ public:
 
 
 	void CheckCollisionWithEnemy(vector<LPGAMEOBJECT> *coObjects = NULL);
-
+	void LoadVariable();
 
 };

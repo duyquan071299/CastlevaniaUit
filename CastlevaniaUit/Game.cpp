@@ -95,6 +95,7 @@ void CGame::LoadResources() {
 	CSpriteDatabase::GetInstance()->LoadResources();
 	CAnimationDatabase::GetInstance()->LoadAnimation();
 	CSceneManager::GetInstance()->LoadScene(new CPlayScene());
+	CSceneManager::GetInstance()->GetCurrentScene()->Loadresources(0);
 	
 	
 }

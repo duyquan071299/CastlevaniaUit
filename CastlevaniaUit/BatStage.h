@@ -1,7 +1,7 @@
 #pragma once
 #include"Stage.h"
 #include"Door.h"
-#include"ScoreBoard.h"
+
 
 class CBatStage :public CStage
 {

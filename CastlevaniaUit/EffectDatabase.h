@@ -35,6 +35,17 @@ public:
 	{
 		listEffect.push_back(new CDestroyEffect(x, y, 1));
 	}
+
+	void BossDieEffect(float x, float y)
+	{
+		listEffect.push_back(new CDestroyEffect(x, y, 1));
+		listEffect.push_back(new CDestroyEffect(x+16, y, 1));
+		listEffect.push_back(new CDestroyEffect(x + 32, y, 1));
+		listEffect.push_back(new CDestroyEffect(x, y+36, 1));
+		listEffect.push_back(new CDestroyEffect(x + 16, y+36, 1));
+		listEffect.push_back(new CDestroyEffect(x + 32, y+36, 1));
+
+	}
 	vector<CEffect*> GetListEffect()
 	{
 		return listEffect;

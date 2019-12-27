@@ -5,10 +5,11 @@
 void CUnderGroundStage::Loadresources()
 {
 	TimeBetWeenKappaRespawn = GetTickCount();
+	this->CurrentStageType = UNDERGROUND_STAGE;
 	FirstRespawn = true;
 	TimeLimit = 3000;
 	SetMapBound(UNDER_GROUND_BOUND_LEFT, UNDER_GROUND_BOUND_RIGHT);
-	//CScoreBoard::GetInstance()->y = SCREEN_WIDTH;
+	CScoreBoard::GetInstance()->SetStage("02");
 	AllowRespawnKappa = true;
 	KappaCount = 0;
 }

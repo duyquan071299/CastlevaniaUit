@@ -9,6 +9,10 @@ void CBatStage::Loadresources()
 	SetMapBound(MAP_BOUND_LEFT_STAGE_02, MAP_BOUND_RIGHT_STAGE_02);
 	AllowRespawnBat = true;
 	TimeBetWeenBatRespawn = GetTickCount();
+	CScoreBoard::GetInstance()->SetStage("02");
+	this->CurrentStageType = BAT_STAGE;
+	CSimon::GetInstance()->isThroughDoorOne = true;
+	CSimon::GetInstance()->isUnderGround = false;
 }
 void CBatStage::Render()
 {

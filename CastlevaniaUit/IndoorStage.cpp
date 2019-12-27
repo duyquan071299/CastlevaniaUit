@@ -9,7 +9,9 @@ void CIndoorStage::Loadresources()
 	AllowRespawnGhost = true;
 	GhostCount = 0;
 	PantherCount = 3;
+	CScoreBoard::GetInstance()->SetStage("01");
 	PantherAtX1 = PantherAtX2 = PantherAtX3 = 1;
+	this->CurrentStageType = INDOOR_STAGE;
 }
 void CIndoorStage::Render()
 {

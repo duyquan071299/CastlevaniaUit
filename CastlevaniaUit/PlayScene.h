@@ -7,6 +7,10 @@
 #include"ScoreBoard.h"
 #include"Effect.h"
 #include"StageManager.h"
+#define INDOOR 1
+#define OUTDOOR 0
+#define LOADING_TIME 2000
+
 class CPlayScene : public CScene
 {
 private:
@@ -16,14 +20,15 @@ private:
 	CGrid * Grid;
 	DWORD FrozenTime;
 	DWORD CrossTime;
-	
+	DWORD RespawnTime;
 public:
-	CPlayScene() { Loadresources(0); };
+	CPlayScene() { };
 	void Loadresources(int level);
 	void UpdateSimon();
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);
 	void Render();
+	void Reset();
 	void Update(DWORD dt);
 	unordered_map<int, bool> keys;
 	

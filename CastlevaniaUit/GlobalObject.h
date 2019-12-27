@@ -113,7 +113,13 @@ using namespace std;
 #define DOOR_POS_y_1 112.0f
 #define DOOR_POS_X_2 4080.0f
 #define DOOR_POS_y_2 112.0f
-
+#define CHICKEN_BRICK_TYPE 4
+#define DOUBLE_SHOT_BRICK_TYPE 7
+#define OUTDOOR_STAGE 1
+#define INDOOR_STAGE 2
+#define BAT_STAGE 3
+#define UNDERGROUND_STAGE 4
+#define BOSS_STAGE 5
 //directx
 extern HINSTANCE hInstance;										// hInstance của windows hiện tại
 extern HWND hWnd;												// hWnd hiện tại
@@ -179,7 +185,7 @@ enum State
 	INJURED_LEFT,
 	INJURED_RIGHT,
 	ACTIVE,
-	DEAD,
+	DEAD_LEFT,
 	OPEN,
 	CLOSE,
 	OPENNING,
@@ -190,6 +196,7 @@ enum State
 	BURN_RIGHT,
 	FACING_INSIDE,
 	SLEEP,
+	DEAD_RIGHT,
 };
 
 enum ItemType
@@ -232,6 +239,7 @@ enum HolderType
 	HOLYWATER,
 	CHICKEN,
 	DOUBLE_SHOT,
+	ORB,
 };
 
 enum EffectType

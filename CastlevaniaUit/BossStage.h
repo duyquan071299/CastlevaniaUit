@@ -9,8 +9,15 @@ private:
 	DWORD TimeBetWeenGhostRespawn;
 	int GhostCount;
 	bool AllowRespawnGhost;
+	DWORD TimeOrbAppear;
+	bool IsBossDie;
 public:
 	CBossStage() { Loadresources(); };
+	void BossDieTime()
+	{
+		IsBossDie = true;
+		TimeOrbAppear = GetTickCount();
+	}
 	void Loadresources();
 	void DoorRender();
 	void Render();

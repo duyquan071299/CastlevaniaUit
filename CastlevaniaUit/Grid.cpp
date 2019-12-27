@@ -199,7 +199,6 @@ CGrid::~CGrid()
 {
 	if (CellMatrix)
 	{
-	
 		CellMatrix = nullptr;
 	}
 }
@@ -337,11 +336,18 @@ vector<LPGAMEOBJECT> CGrid::GetListMapObject()
 				{
 
 					CEffectDatabase::GetInstance()->AddBrokenBrickEffect(returnList[i]->x, returnList[i]->y);
-					if (dynamic_cast<CBrick*>(returnList[i])->GetType() == 4)
+					if (dynamic_cast<CBrick*>(returnList[i])->GetType() == CHICKEN_BRICK_TYPE)
 					{
 						CItem * Holder = new CItem(CHICKEN);
 						Holder->AppearOnMap();
 						Holder->SetPosition(returnList[i]->x, returnList[i]->y + 32);
+						AddObject(Holder);
+					}
+					else if (dynamic_cast<CBrick*>(returnList[i])->GetType() == DOUBLE_SHOT_BRICK_TYPE)
+					{
+						CItem * Holder = new CItem(DOUBLE_SHOT);
+						Holder->AppearOnMap();
+						Holder->SetPosition(returnList[i]->x, returnList[i]->y);
 						AddObject(Holder);
 					}
 					RemoveAll(returnList[i]);

@@ -1,6 +1,7 @@
 #include"ScoreBoard.h"
 #include"Camera.h"
 #include"Simon.h"
+#include"StageManager.h"
 
 CScoreBoard * CScoreBoard::instance = NULL;
 #define SPACING 15.0f
@@ -28,9 +29,12 @@ CScoreBoard* CScoreBoard::GetInstance()
 
 CScoreBoard::CScoreBoard()
 {
-	
+	SetUp(0.0f,0.0f);
 }
-
+CScoreBoard::~CScoreBoard()
+{
+	instance = NULL;
+}
 void CScoreBoard::SetUp(float x, float y)
 {
 	this->x = x;
@@ -93,6 +97,11 @@ void CScoreBoard::Render()
 	}
 	if(CSimon::GetInstance()->WeaponType>0)
 		CSpriteDatabase::GetInstance()->GetSprite(ITEM, CSimon::GetInstance()->WeaponType)->DrawScoreBoard(this->x + POS_X_5, this->y + POS_Y_4, default_color);
+
+	if(CSimon::GetInstance()->WeaponShot==2)
+		CSpriteDatabase::GetInstance()->GetSprite(ITEM, DOUBLE_SHOT)->DrawScoreBoard(this->x + 450.0f , this->y + POS_Y_1, default_color);
+
+		
 }
 void CScoreBoard::Update()
 {

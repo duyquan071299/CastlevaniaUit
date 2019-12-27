@@ -6,6 +6,9 @@ void CBossStage::Loadresources()
 	SetMapBound(MAP_BOUND_LEFT_STAGE_03, MAP_BOUND_RIGHT_STAGE_03);
 	AllowRespawnGhost = true;
 	GhostCount = 0;
+	CScoreBoard::GetInstance()->SetStage("03");
+	this->CurrentStageType = BOSS_STAGE;
+	CSimon::GetInstance()->isThroughDoorTwo = true;
 	
 }
 void CBossStage::Render()
@@ -19,6 +22,15 @@ void CBossStage::DoorRender()
 }
 void CBossStage::Update(DWORD dt, CGrid * CurrentGrid)
 {
+	if (GetTickCount() - TimeOrbAppear >= 3000 && IsBossDie==true)
+	{
+		CItem * Holder = new CItem(ORB);
+		Holder->AppearOnMap();
+		Holder->SetPosition(5392.0f, 200.0f);
+		CurrentGrid->AddObject(Holder);
+		TimeOrbAppear = 0;
+		IsBossDie = false;
+	}
 
 	CCamera::GetInstance()->SetPosition(CSimon::GetInstance()->x - SCREEN_WIDTH / 2 + 40, 0);
 	CCamera::GetInstance()->Update(MapBoundLeft, MapBoundRight);
@@ -91,6 +103,15 @@ void CBossStage::Update(DWORD dt, CGrid * CurrentGrid)
 				}
 				continue;
 			}
+
+			if (dynamic_cast<CBatBoss *>(listEnemy[i])&& listEnemy[i]->IsDead == true)
+			{
+				CEffectDatabase::GetInstance()->BossDieEffect(listEnemy[i]->x, listEnemy[i]->y);
+				CurrentGrid->RemoveAll(listEnemy[i]);
+				BossDieTime();
+	
+			}
+
 
 		}
 

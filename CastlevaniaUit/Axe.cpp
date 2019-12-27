@@ -2,7 +2,7 @@
 #include"EffectDatabase.h"
 CAxe::CAxe()
 {
-	animation = new CAnimation(200);
+	animation = new CAnimation(100);
 	animation->Add(WEAPON, 27);
 	animation->Add(WEAPON, 28);
 	animation->Add(WEAPON, 29);

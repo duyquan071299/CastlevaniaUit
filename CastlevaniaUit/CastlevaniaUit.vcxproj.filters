@@ -264,6 +264,9 @@
     <ClInclude Include="BossStage.h">
       <Filter>GameScene\GameStage</Filter>
     </ClInclude>
+    <ClInclude Include="SimonDead.h">
+      <Filter>GameObjects\Simon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CastlevaniaUit.rc">
@@ -449,6 +452,9 @@
     </ClCompile>
     <ClCompile Include="BossStage.cpp">
       <Filter>GameScene\GameStage</Filter>
+    </ClCompile>
+    <ClCompile Include="SimonDead.cpp">
+      <Filter>GameObjects\Simon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

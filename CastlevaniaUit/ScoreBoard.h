@@ -20,9 +20,15 @@ public:
 	static CScoreBoard* GetInstance();
 	void SetBossHeal(int heal)
 	{
-		this->BossHeal = heal;
+	
+	this->BossHeal = heal;
+	}
+	void SetStage(string stage)
+	{
+		this->Stage = stage;
 	}
 	CScoreBoard();
+	~CScoreBoard();
 	void SetUp(float x, float y);
 	void Render();
 	void Update();

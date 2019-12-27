@@ -4,10 +4,12 @@
 void COutDoorStage::Loadresources()
 {
 	SetMapBound(0, 1536);
+	CScoreBoard::GetInstance()->SetStage("01");
+	this->CurrentStageType = OUTDOOR_STAGE;
 }
 void COutDoorStage::Render()
 {
-	if ((CSimon::GetInstance()->IsOnAnimation || CSimon::GetInstance()->IsRespawn) && CSimon::GetInstance()->vx > 0)
+	if ((CSimon::GetInstance()->IsOnAnimation || CSimon::GetInstance()->IsWalkToCastle) && CSimon::GetInstance()->vx > 0)
 	{
 		DrawHiddenDoor();
 	}
